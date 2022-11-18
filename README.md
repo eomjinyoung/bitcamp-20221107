@@ -47,10 +47,18 @@
 
 
 ## 10일차(2022-11-18,금)
+
 - 프로그래밍 기초
     - Application 아키텍처
     - 가상화와 하이퍼바이저(검색)
+    - git 사용법
 - 리눅스 기초
+    - VirtualBox 설치
+    - Vagrant 설치
+    - centos 리눅스 머신 생성 및 설정, 실행하는 방법
+    - centos 에서 git, nano 에디터 설치
+    - github 개인 페이지의 파일을 변경하고 commit & push
+
 
 
 - 구글 미트
