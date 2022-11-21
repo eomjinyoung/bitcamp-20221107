@@ -41,7 +41,7 @@
 3. VSCode 설치 및 환경 설정
 4. D2Coding 폰트 설치
 
-### 과제: github 개인 홈페이지 만들기
+### 과제1: github 개인 홈페이지 만들기
 1. 개인 홈페이지로 사용할 Repo. 생성
 2. 설정 파일 생성 및 예제 페이지 작성
 
@@ -59,7 +59,17 @@
     - centos 에서 git, nano 에디터 설치
     - github 개인 페이지의 파일을 변경하고 commit & push
 
+## 11일차(2022-11-21,월)
 
+### 과제2: 
+1. 로컬에 리눅스 가상 머신 3개 만들기
+2.  각 가상 머신에 'https://github.com/eomjinyoung/bitcamp-study' 저장소 복제
+
+- git 사용법
+    - 
+
+
+    
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
