@@ -66,10 +66,22 @@
 2.  각 가상 머신에 'https://github.com/eomjinyoung/bitcamp-study' 저장소 복제
 
 - git 사용법
-    - 
+    - CVS, SVN, Git 소개 및 비교
+    - Hash 알고리즘과 Hash 값의 활용 예 
+    - 깃 파일 상태와 깃 명령
+    - git init: 로컬 깃 저장소 만들기
+    - git config: 사용자 이름 및 이메일 설정
+    - git help: 도움말 사용법
+    - .gitignore 파일: 용도와 자동 생성하는 방법
+    - git add/commit 사용법
+    - git status: 파일 변경 및 상태 조회
+    - git log: 커밋 기록 조회
+    - git remote: 원격 저장소와 연결하기
+    - git pull: 원격 저장소의 변경 내용을 로컬 저장소로 가져오는 방법
+    - git push: 로컬 저장소를 원격 저장소에 업로드 하는 방법
+    - git branch 사용법
 
 
-    
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
