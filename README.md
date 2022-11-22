@@ -81,7 +81,11 @@
     - git push: 로컬 저장소를 원격 저장소에 업로드 하는 방법
     - git branch 사용법
 
+## 12일차(2022-11-22,화)
 
+- git 사용법(계속)
+    - .gitignore 파일의 역할 테스트
+    - git 명령어 활용 실습
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
