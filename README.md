@@ -86,6 +86,10 @@
 - git 사용법(계속)
     - .gitignore 파일의 역할 테스트
     - git 명령어 활용 실습
+    - git 충돌 해결하기
+    - git 브랜치 다루기
+    - 팀 멤버들이 git 저장소 공유하기
+    
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
