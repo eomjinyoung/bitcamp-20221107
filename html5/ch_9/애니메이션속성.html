@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>CSS3 Transition Basic</title>
+    <style>
+        * { margin: 0; padding: 0; }
+        body { position: relative; }
+        #box {
+            position: absolute;
+            width: 200px; height: 200px;
+            border-radius: 100px;
+            text-align: center;
+            background: linear-gradient(to bottom, #cb60b3, #db36a4);
+
+            animation-name: rint;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+            animation-timing-function: linear;
+        }
+
+        #box > h1 {
+            line-height: 200px;
+        }
+        @keyframes rint {
+            from {
+                left: 0;
+                transform: rotate(0deg);
+            }
+            50% {
+                left: 500px;
+            }
+            to { 
+                left: 500px;
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <h1>Rotation</h1>
+    </div>
+</body>
+</html>

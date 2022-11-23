@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bootstrap Basic Page</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!-- 책에서 보기 쉽게 일부 속성을 생략했습니다. -->
+    <!-- 실제로 직접 입력할 때는 부트스트랩 사이트에서 복사해서 사용해주세요. -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" />
+    <style>
+        body {
+            padding-top: 70px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+</head>
+<body>
+    <div class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">Bootstrap</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-content">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar-content">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">HTML</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Geolocation</a>
+                            <a class="dropdown-item" href="#">Drag and Drop</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Motion</a>
+                        </div>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#">CSS3</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">ECMAScript5</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Node.js</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">API</a></li>
+                </ul>
+                <form class="form-inline">
+                    <input type="text" class="form-control" placeholder="Search" />
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item"><a class="nav-link" href="#">Node.js</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">API</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+      <div class="row">
+          <div class="col-md-3">
+              <ul class="list-group">
+                  <li class="list-group-item"><a href="#">HTML5</a></li>
+                  <li class="list-group-item"><a href="#">CSS3</a></li>
+                  <li class="list-group-item"><a href="#">ECMAScript5</a></li>
+              </ul>
+              <br />
+              <ul class="list-group">
+                  <li class="list-group-item"><a href="#">jQuery</a></li>
+                  <li class="list-group-item"><a href="#">HTML5 API</a></li>
+              </ul>
+              <br />
+              <ul class="list-group">
+                  <li class="list-group-item"><a href="#">About</a></li>
+                  <li class="list-group-item"><a href="#">Help</a></li>
+              </ul>
+              <br />
+          </div>
+          <div class="col-md-9">
+              <h1>Lorem ipsum</h1>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam venenatis sed nisi vel tincidunt. Aenean nisl augue, tincidunt sed consequat vel, bibendum non mi. Integer ullamcorper vestibulum ullamcorper. Ut vehicula cursus pellentesque. Ut eleifend arcu sit amet neque consequat interdum. Phasellus tempor libero neque, ac interdum augue dapibus at. Nulla porttitor porta nisi non imperdiet. Nullam posuere pretium nulla ultricies tincidunt.</p>
+              <p>Ut ultrices massa ac sem semper, vel venenatis lorem dignissim. Donec malesuada dignissim magna, at condimentum mi dictum quis. Proin quis elementum nulla, id blandit ante. Aliquam erat volutpat. Fusce vitae aliquam quam. Maecenas non maximus justo, eu maximus est. Phasellus luctus mi eget cursus auctor. Nam in erat justo. Vivamus orci libero, aliquam sit amet nunc sit amet, vulputate vehicula sapien. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus viverra fringilla venenatis. Nulla et pulvinar libero, sit amet semper tellus.</p>
+              <p>Donec id augue eget ante pellentesque posuere. Aenean leo felis, porta vel efficitur in, molestie ac urna. Ut viverra tempus euismod. Duis efficitur tincidunt odio vitae scelerisque. Phasellus sollicitudin nunc et diam porta, vitae fringilla sapien pharetra. Praesent faucibus ligula et odio condimentum, sed fringilla mi egestas. Proin dui est, tincidunt eget tortor at, pulvinar tincidunt augue. Quisque molestie magna et est scelerisque, vel varius quam mollis. Fusce cursus gravida neque, et suscipit quam tempus et. Fusce quis lacus ut metus pharetra molestie.</p>
+              <p>Curabitur suscipit quis orci et tempor. Suspendisse quis lectus sit amet diam eleifend porttitor nec quis risus. In hac habitasse platea dictumst. In hac habitasse platea dictumst. Suspendisse neque sapien, feugiat eu ullamcorper vitae, interdum eget velit. Curabitur tellus ligula, vehicula in condimentum quis, vulputate et est. Aliquam a commodo lorem. Mauris luctus lectus eget elit dignissim ullamcorper. Etiam efficitur purus ullamcorper erat tempus consectetur. Suspendisse tincidunt enim nec finibus maximus. Donec eget blandit augue. Donec vel sem eros. Sed auctor blandit cursus. Pellentesque vel magna est. Etiam a nulla eleifend, semper quam quis, sollicitudin risus.</p>
+              <p>Mauris placerat, ipsum ut pellentesque cursus, orci nisl gravida felis, eu convallis orci turpis a risus. Sed vel ligula tortor. Suspendisse in quam quis nisi porta pulvinar. Vivamus eget venenatis quam, a facilisis turpis. Donec suscipit, neque ac pellentesque luctus, erat libero tristique lacus, eget egestas magna turpis quis velit. Mauris vel ligula faucibus, iaculis quam nec, sagittis nunc. Suspendisse a iaculis arcu. Duis dui purus, elementum vel mi nec, consequat condimentum justo. Quisque quis urna accumsan urna finibus bibendum eget a tellus. Nulla eget nisi eget diam ultricies accumsan cursus ut ex. Vivamus sit amet eros in diam sagittis dignissim ut et odio. Proin ornare ornare dolor sed consectetur. Vivamus efficitur, mi non pellentesque mattis, enim odio aliquam ex, id viverra diam neque nec mauris. Fusce pharetra diam id lorem consectetur, eu dictum metus tincidunt.</p>
+          </div>
+      </div>
+    </div>
+</body>
+</html>
