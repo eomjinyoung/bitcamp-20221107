@@ -111,5 +111,12 @@
 - Web 기술
     - HTML 태그 사용법
 
+## 15일차(2022-11-25,금)
+- HTTP 프로토콜
+    - 요청과 응답 규칙 
+    - GET 요청과 POST 요청 비교
+    - Text 데이터와 Binary 데이터 비교
+
+
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
