@@ -116,6 +116,9 @@
     - 요청과 응답 규칙 
     - GET 요청과 POST 요청 비교
     - Text 데이터와 Binary 데이터 비교
+    - multipart/form-data 형식으로 파일을 업로드 하는 방법
+- 과제
+    - github.com 개인 홈페이지를 HTML과 CSS를 적용하여 꾸미기
 
 
 - 구글 미트
