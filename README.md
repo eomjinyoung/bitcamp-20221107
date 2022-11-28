@@ -117,8 +117,22 @@
     - GET 요청과 POST 요청 비교
     - Text 데이터와 Binary 데이터 비교
     - multipart/form-data 형식으로 파일을 업로드 하는 방법
+- Web 기술
+    - HTML 태그 사용법(계속)
 - 과제
     - github.com 개인 홈페이지를 HTML과 CSS를 적용하여 꾸미기
+
+## 16일차(2022-11-28,월)
+
+- Web 기술
+    - CSS 사용법
+        - selector 사용법
+        - specificity 계산법
+        - 
+    - HTML 폼 항목 태그 사용법
+        - input: checkbox, radio
+        - select, option
+
 
 
 - 구글 미트
