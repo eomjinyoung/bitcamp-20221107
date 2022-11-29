@@ -128,12 +128,15 @@
     - CSS 사용법
         - selector 사용법
         - specificity 계산법
-        - 
     - HTML 폼 항목 태그 사용법
         - input: checkbox, radio
         - select, option
 
+## 17일차(2022-11-29,화)
 
+- Web 기술
+    - CSS 사용법(계속)
+    
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
