@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    .student {
+        width: 100px;
+        height: 30px;
+        box-sizing: border-box;
+        border: 1px solid black;
+        float: left;
+        margin: 5px;
+        text-align: center;
+        padding-top: 3px;
+        background-color: antiquewhite;
+    }
+
+    .selected {
+        background-color: gray;
+    }
+
+    #students {
+        border: 2px solid red;
+        min-height: 400px;
+    }
+    </style>
+</head>
+<body>
+<button id="start-btn">팀 구성 시작!</button>
+<ol id="team-list"></ol>
+<div id="students"></div>
+
+
+<script>
+var names = [
+    "김다예레",    "김종현",    "김현우",    "박경한",    "서길원",    "서영훈",
+    "신지윤",    "심우준",    "안진수",    "양창덕",    "오병현",    "윤솔",
+    "윤종광",    "이건형",    "이명준",    "이성민",    "이예찬",    "이재섭",
+    "이준영(평택)",    "이준영(수원)",    "전서린",    "전태산",    "조승현",
+    "조준호",    "조희성",    "차민주",    "한대호",
+];
+
+var studentsDiv = document.getElementById("students");
+var teamList = document.getElementById("team-list");
+let count = 0;
+
+prepareStudentDivs();
+
+function prepareStudentDivs() {
+    for (var name of names) {
+        var d = document.createElement("div");
+        d.classList.add("student");
+        d.innerHTML = name;
+        studentsDiv.appendChild(d);
+    }
+}
+
+document.getElementById("start-btn").onclick = function() {
+    var timerId = setInterval(() => {
+        if (count >= names.length) {
+            clearInterval(timerId);
+            return;
+        }
+
+        var s1 = selectedStudent();
+        var s2 = selectedStudent();
+        var s3 = selectedStudent();
+        
+        var li = document.createElement("li");
+        li.innerHTML = s1 + "," + s2 + "," + s3;
+        teamList.appendChild(li);
+
+    }, 1000);
+};
+
+function selectedStudent() {
+    while (count < names.length) {
+        var selectedNo = parseInt(Math.random() * names.length);
+        var selectedDiv = studentsDiv.children[selectedNo];
+
+        if (!selectedDiv.classList.contains("selected")) {
+            selectedDiv.classList.add("selected");
+            count++;
+            return selectedDiv.innerHTML;
+        } 
+    }
+}
+
+</script>
+
+</body>
+</html>

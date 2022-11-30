@@ -136,7 +136,18 @@
 
 - Web 기술
     - CSS 사용법(계속)
-    
+        - Raster 폰트와 Vector 폰트
+        - Bitcamp 이미지와 Vector 이미지
+        - 제목을 이미지로 다루는 방법: 네이버 vs 트위터
+
+
+## 18일차(2022-11-30,수)
+
+- Web 기술
+    - CSS 사용법(계속)
+- 과제
+    - naver.com의 메인 페이지를 똑같이 복제하라.
+    - 팀구성
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
