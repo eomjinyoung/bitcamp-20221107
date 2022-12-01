@@ -153,7 +153,18 @@
 ## 19일차(2022-12-01,목)
 
 - 자바스크립트
-    - 기본 문법
+    - 프로그램 실행 과정: App., OS, CPU, RAM의 역할
+    - CPU, Instructions Set, 기계어의 관계
+    - Assembly 언어와 컴파일러, CPU
+    - C 언어와 컴파일러
+    - 기계어와 OS, CPU의 관계
+    - C 컴파일러 설치와 컴파일 실습
+    - 프로젝트와 프로그래밍 언어의 관계
+    - 컴파일 방식과 인터프리터 방식의 비교
+    - NodeJS를 통해 인터프리터 방식 이해
+    - JIT 컴파일과 AOT 컴파일의 구동 원리
+    - Android App과 AOT 컴파일(초벌구이, 재벌구이)
+    - 웹브라우저와 자바스크립트
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
