@@ -178,5 +178,15 @@
     - AJAX 다루기 개요
     - 과제: TicTacToe 게임 만들기
 
+## 21일차(2022-12-05,월)
+
+- 시험
+    - git 사용법
+- 자바스크립트(계속)
+    - script 태그 사용법
+    - nodejs + express = 웹애플리케이션 만들기
+    - 리터럴과 변수 사용법
+    - 과제: TicTacToe 게임 구현 발표
+
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
