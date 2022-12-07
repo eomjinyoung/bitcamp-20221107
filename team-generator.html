@@ -23,12 +23,13 @@
     }
 
     #students {
-        border: 2px solid red;
-        min-height: 400px;
+        /* border: 2px solid red; */
+        /* min-height: 400px; */
     }
     </style>
 </head>
 <body>
+팀 인원수: <input type="number" id="team-size" placeholder="예) 3">
 <button id="start-btn">팀 구성 시작!</button>
 <ol id="team-list"></ol>
 <div id="students"></div>
@@ -36,15 +37,16 @@
 
 <script>
 var names = [
-    "김다예레",    "김종현",    "김현우",    "박경한",    "서길원",    "서영훈",
-    "신지윤",    "심우준",    "안진수",    "양창덕",    "오병현",    "윤솔",
-    "윤종광",    "이건형",    "이명준",    "이성민",    "이예찬",    "이재섭",
-    "이준영(평택)",    "이준영(수원)",    "전서린",    "전태산",    "조승현",
-    "조준호",    "조희성",    "차민주",    "한대호",
+    "김다예레", "김종현", "김현우", "박경한", "서길원", 
+    "서영훈","신지윤", "심우준", "안진수", "양창덕", 
+    "오병현", "윤솔", "윤종광", "이건형", "이명준", 
+    "이성민", "이예찬", "이준영", "전서린", "전태산", 
+    "조승현", "조준호", "조희성", "차민주", "한대호"
 ];
 
 var studentsDiv = document.getElementById("students");
 var teamList = document.getElementById("team-list");
+var teamSize = document.getElementById("team-size");
 let count = 0;
 
 prepareStudentDivs();
@@ -59,22 +61,33 @@ function prepareStudentDivs() {
 }
 
 document.getElementById("start-btn").onclick = function() {
+    try {
+        buildTeam(parseInt(teamSize.value));
+    } catch (err) {
+        alert("팀 인원수가 옳지 않습니다!");
+    }
+};
+
+function buildTeam(size) {
     var timerId = setInterval(() => {
         if (count >= names.length) {
             clearInterval(timerId);
             return;
         }
 
-        var s1 = selectedStudent();
-        var s2 = selectedStudent();
-        var s3 = selectedStudent();
-        
         var li = document.createElement("li");
-        li.innerHTML = s1 + "," + s2 + "," + s3;
+
+        for (var i = 0; i < size && count < names.length; i++) {
+            var student = selectedStudent();
+            if (li.innerHTML != "") {
+                li.innerHTML += ",";
+            }
+            li.innerHTML += student;
+        }
         teamList.appendChild(li);
 
     }, 1000);
-};
+}
 
 function selectedStudent() {
     while (count < names.length) {
