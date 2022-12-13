@@ -243,6 +243,8 @@
 
 - 자바스크립트(계속)
     - 객체 사용법(계속)
+    - DOM API 사용법
+    
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
