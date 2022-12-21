@@ -317,6 +317,12 @@
     - jQuery 만들기(계속)
     - JavaScript 파일 압축하는 방법
 
+## 33일차(2022-12-21,수)        
+
+- 자바스크립트(계속)
+    - UI 컴포넌트를 제어하는 방식 : CSS 설정 vs 자바스크립트 설정
+    - jQuery 사용법
+    - Bootstrap 사용법
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
