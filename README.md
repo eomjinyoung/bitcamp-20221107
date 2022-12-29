@@ -364,7 +364,7 @@
 
 - 자바(계속)
     - 문법 예제 프로젝트 준비(eomcs-java-lang)
-    - 문법 응용 실정 프로젝트 준비(myapp)
+    - 문법 응용 실전 프로젝트 준비(myapp): v01
     - 백엔드 프로젝트 준비(backend-app)
     - 프론트엔드 프로젝트 준비(frontend-app)
     - Eclipse IDE 사용 준비
@@ -383,6 +383,12 @@
 
 - 자바(계속)
     - 변수 사용법
+    - 배열 사용법
+    - 레퍼런스와 인스턴스를 다루는 방법
+    - 가비지, 레퍼런스 카운트, 가비지 컬렉터의 이해
+    - 문법 응용 실전 프로젝트(myapp): v02
+    - 백엔드 프로젝트(backend-app): step01
+    - 프론트엔드 프로젝트(frontend-app): step01
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
