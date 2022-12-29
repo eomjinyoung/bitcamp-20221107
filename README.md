@@ -387,8 +387,15 @@
     - 레퍼런스와 인스턴스를 다루는 방법
     - 가비지, 레퍼런스 카운트, 가비지 컬렉터의 이해
     - 문법 응용 실전 프로젝트(myapp): v02
+- 저녁 학습
+    - com.eomcs.lang.ex05 (연산자 편)
+    - com.eomcs.lang.ex06 (흐름제어문 편)
+
+
+
     - 백엔드 프로젝트(backend-app): step01
     - 프론트엔드 프로젝트(frontend-app): step01
+
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
