@@ -1,5 +1,6 @@
 package bitcamp.myapp;
 
+import java.sql.Date;
 import java.util.Scanner;
 
 public class App {
@@ -42,7 +43,7 @@ public class App {
     System.out.print("전공? ");
     byte level = Byte.parseByte(keyScanner.nextLine()); // 0(비전공자), 1(준전공자), 2(전공자)
 
-    java.sql.Date today = new java.sql.Date(System.currentTimeMillis());
+    Date today = new Date(System.currentTimeMillis());
     String createdDate = today.toString();
 
     System.out.printf("번호: %d\n", no);
