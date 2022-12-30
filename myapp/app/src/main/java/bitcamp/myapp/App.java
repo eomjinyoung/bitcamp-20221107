@@ -26,11 +26,15 @@ public class App {
     System.out.print("주소2? ");
     String detailAddress = keyScanner.nextLine();
 
-    System.out.print("재직자?(true/false) ");
-    boolean working = Boolean.parseBoolean(keyScanner.nextLine());
+    System.out.println("0. 미취업");
+    System.out.println("1. 재직중");
+    System.out.print("재직자? ");
+    boolean working = Integer.parseInt(keyScanner.nextLine()) == 1;
 
-    System.out.print("성별?(남자: M, 여자: W) ");
-    char gender = keyScanner.nextLine().charAt(0); // M(남자), W(여자)
+    System.out.println("0. 남자");
+    System.out.println("1. 여자");
+    System.out.print("성별? ");
+    char gender = Integer.parseInt(keyScanner.nextLine()) == 0 ? 'M' : 'W';
 
     System.out.println("0. 비전공자");
     System.out.println("1. 준전공자");
@@ -38,8 +42,8 @@ public class App {
     System.out.print("전공? ");
     byte level = Byte.parseByte(keyScanner.nextLine()); // 0(비전공자), 1(준전공자), 2(전공자)
 
-    System.out.print("가입일?(예: 2022-12-25) ");
-    String createdDate = keyScanner.nextLine();
+    java.sql.Date today = new java.sql.Date(System.currentTimeMillis());
+    String createdDate = today.toString();
 
     System.out.printf("번호: %d\n", no);
     System.out.printf("이름: %s\n", name);

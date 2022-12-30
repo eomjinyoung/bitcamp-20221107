@@ -391,7 +391,7 @@
     - com.eomcs.lang.ex05 (연산자 편)
     - com.eomcs.lang.ex06 (흐름제어문 편)
 
-
+## 40일차(2022-12-30,금)
 
     - 백엔드 프로젝트(backend-app): step01
     - 프론트엔드 프로젝트(frontend-app): step01
