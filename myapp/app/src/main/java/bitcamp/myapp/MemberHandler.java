@@ -41,13 +41,7 @@ public class MemberHandler {
   static void printMember() {
     int memberNo = Prompt.inputInt("회원번호? ");
 
-    Member m = null;
-    for (int i = 0; i < count; i++) {
-      if (members[i].no == memberNo) {
-        m = members[i];
-        break;
-      }
-    }
+    Member m = findByNo(memberNo);
 
     if (m == null) {
       System.out.println("해당 번호의 회원이 없습니다.");
@@ -76,13 +70,7 @@ public class MemberHandler {
   static void modifyMember() {
     int memberNo = Prompt.inputInt("회원번호? ");
 
-    Member old = null;
-    for (int i = 0; i < count; i++) {
-      if (members[i].no == memberNo) {
-        old = members[i];
-        break;
-      }
-    }
+    Member old = findByNo(memberNo);
 
     if (old == null) {
       System.out.println("해당 번호의 회원이 없습니다.");
@@ -91,6 +79,8 @@ public class MemberHandler {
 
     // 변경할 데이터를 저장할 인스턴스 준비
     Member m = new Member();
+    m.no = old.no;
+    m.createdDate = old.createdDate;
     m.name = Prompt.inputString(String.format("이름(%s)? ", old.name));
     m.tel = Prompt.inputString(String.format("전화(%s)? ", old.tel));
     m.postNo = Prompt.inputString(String.format("우편번호(%s)? ", old.postNo));
@@ -108,11 +98,55 @@ public class MemberHandler {
 
     String str = Prompt.inputString("정말 변경하시겠습니까?(y/N) ");
     if (str.equalsIgnoreCase("Y")) {
+      members[indexOf(old)] = m;
       System.out.println("변경했습니다.");
     } else {
       System.out.println("변경 취소했습니다.");
     }
 
+  }
+
+  static void deleteMember() {
+    int memberNo = Prompt.inputInt("회원번호? ");
+
+    Member m = findByNo(memberNo);
+
+    if (m == null) {
+      System.out.println("해당 번호의 회원이 없습니다.");
+      return;
+    }
+
+    String str = Prompt.inputString("정말 삭제하시겠습니까?(y/N) ");
+    if (!str.equalsIgnoreCase("Y")) {
+      System.out.println("삭제 취소했습니다.");
+      return;
+    }
+
+    for (int i = indexOf(m) + 1; i < count; i++) {
+      members[i - 1] = members[i];
+    }
+    members[--count] = null; // 레퍼런스 카운트를 줄인다.
+
+    System.out.println("삭제했습니다.");
+
+  }
+
+  static Member findByNo(int no) {
+    for (int i = 0; i < count; i++) {
+      if (members[i].no == no) {
+        return members[i];
+      }
+    }
+    return null;
+  }
+
+  static int indexOf(Member m) {
+    for (int i = 0; i < count; i++) {
+      if (members[i].no == m.no) {
+        return i;
+      }
+    }
+    return -1;
   }
 
   static void service() {
@@ -126,20 +160,15 @@ public class MemberHandler {
       System.out.println("0. 이전");
       int menuNo = Prompt.inputInt("회원관리> ");
 
-      if (menuNo == 0) {
-        break;
-      } else if (menuNo == 1) {
-        inputMember();
-      } else if (menuNo == 2) {
-        printMembers();
-      } else if (menuNo == 3) {
-        printMember();
-      } else if (menuNo == 4) {
-        modifyMember();
-      } else if (menuNo >= 4 && menuNo <= 5) {
-        System.out.println("작업실행!");
-      } else {
-        System.out.println("잘못된 메뉴 번호 입니다.");
+      switch (menuNo) {
+        case 0: return;
+        case 1: inputMember(); break;
+        case 2: printMembers(); break;
+        case 3: printMember(); break;
+        case 4: modifyMember(); break;
+        case 5: deleteMember(); break;
+        default:
+          System.out.println("잘못된 메뉴 번호 입니다.");
       }
     }
   }
