@@ -73,6 +73,48 @@ public class MemberHandler {
     }
   }
 
+  static void modifyMember() {
+    int memberNo = Prompt.inputInt("회원번호? ");
+
+    Member old = null;
+    for (int i = 0; i < count; i++) {
+      if (members[i].no == memberNo) {
+        old = members[i];
+        break;
+      }
+    }
+
+    if (old == null) {
+      System.out.println("해당 번호의 회원이 없습니다.");
+      return;
+    }
+
+    // 변경할 데이터를 저장할 인스턴스 준비
+    Member m = new Member();
+    m.name = Prompt.inputString(String.format("이름(%s)? ", old.name));
+    m.tel = Prompt.inputString(String.format("전화(%s)? ", old.tel));
+    m.postNo = Prompt.inputString(String.format("우편번호(%s)? ", old.postNo));
+    m.basicAddress = Prompt.inputString(String.format("기본주소(%s)? ", old.basicAddress));
+    m.detailAddress = Prompt.inputString(String.format("상세주소(%s)? ", old.detailAddress));
+    m.working = Prompt.inputInt(String.format(
+        "0. 미취업\n1. 재직중\n재직여부(%s)? ",
+        old.working ? "재직중" : "미취업")) == 1;
+    m.gender = Prompt.inputInt(String.format(
+        "0. 남자\n1. 여자\n성별(%s)? ",
+        old.gender == 'M' ? "남자" : "여자")) == 0 ? 'M' : 'W';
+    m.level = (byte) Prompt.inputInt(String.format(
+        "0. 비전공자\n1. 준전공자\n2. 전공자\n전공(%s)? ",
+        getLevelText(old.level)));
+
+    String str = Prompt.inputString("정말 변경하시겠습니까?(y/N) ");
+    if (str.equalsIgnoreCase("Y")) {
+      System.out.println("변경했습니다.");
+    } else {
+      System.out.println("변경 취소했습니다.");
+    }
+
+  }
+
   static void service() {
     while (true) {
       System.out.println("[회원 관리]");
@@ -92,6 +134,8 @@ public class MemberHandler {
         printMembers();
       } else if (menuNo == 3) {
         printMember();
+      } else if (menuNo == 4) {
+        modifyMember();
       } else if (menuNo >= 4 && menuNo <= 5) {
         System.out.println("작업실행!");
       } else {
