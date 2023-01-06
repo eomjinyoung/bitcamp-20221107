@@ -429,6 +429,13 @@
     - 백엔드 프로젝트(backend-app): step01
     - 프론트엔드 프로젝트(frontend-app): step01
 
+## 45일차(2023-01-06,금)
+
+- 자바(계속)
+    - 클래스 정의 및 사용법
+    - 문법 응용 실전 프로젝트(myapp)
+        - 08.메뉴 구성 및 CRUD 구현(계속)
+
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr

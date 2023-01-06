@@ -31,16 +31,45 @@ public class MemberHandler {
 
     for (int i = 0; i < count; i++) {
       Member m = members[i];
-      String levelTitle;
-      switch (m.level) {
-        case 0: levelTitle = "비전공자"; break;
-        case 1: levelTitle = "준전공자"; break;
-        default: levelTitle = "전공자";
-      }
       System.out.printf("%d\t%s\t%s\t%s\t%s\n",
           m.no, m.name, m.tel,
           m.working ? "예" : "아니오",
-              levelTitle);
+              getLevelText(m.level));
+    }
+  }
+
+  static void printMember() {
+    int memberNo = Prompt.inputInt("회원번호? ");
+
+    Member m = null;
+    for (int i = 0; i < count; i++) {
+      if (members[i].no == memberNo) {
+        m = members[i];
+        break;
+      }
+    }
+
+    if (m == null) {
+      System.out.println("해당 번호의 회원이 없습니다.");
+      return;
+    }
+
+    System.out.printf("    이름: %s\n", m.name);
+    System.out.printf("    전화: %s\n", m.tel);
+    System.out.printf("우편번호: %s\n", m.postNo);
+    System.out.printf("기본주소: %s\n", m.basicAddress);
+    System.out.printf("상세주소: %s\n", m.detailAddress);
+    System.out.printf("재직여부: %s\n", m.working ? "예" : "아니오");
+    System.out.printf("    성별: %s\n", m.gender == 'M' ? "남자" : "여자");
+    System.out.printf("    전공: %s\n", getLevelText(m.level));
+    System.out.printf("  등록일: %s\n", m.createdDate);
+  }
+
+  static String getLevelText(int level) {
+    switch (level) {
+      case 0: return "비전공자";
+      case 1: return "준전공자";
+      default: return "전공자";
     }
   }
 
@@ -54,14 +83,16 @@ public class MemberHandler {
       System.out.println("5. 삭제");
       System.out.println("0. 이전");
       int menuNo = Prompt.inputInt("회원관리> ");
-  
+
       if (menuNo == 0) {
         break;
       } else if (menuNo == 1) {
         inputMember();
       } else if (menuNo == 2) {
         printMembers();
-      } else if (menuNo >= 3 && menuNo <= 5) {
+      } else if (menuNo == 3) {
+        printMember();
+      } else if (menuNo >= 4 && menuNo <= 5) {
         System.out.println("작업실행!");
       } else {
         System.out.println("잘못된 메뉴 번호 입니다.");
