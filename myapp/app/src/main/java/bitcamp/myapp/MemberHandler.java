@@ -4,15 +4,9 @@ import java.sql.Date;
 
 public class MemberHandler {
 
-  // 모든 인스턴스가 공유하는 데이터를 스태틱 필드로 만든다.
-  // 특히 데이터를 조회하는 용으로 사용하는 final 변수는 스태틱 필드로 만들어야 한다.
-  static final int SIZE = 100;
-
-  int count;
-  Member[] members = new Member[SIZE];
+  MemberDao memberDao = new MemberDao();
   String title;
 
-  // 인스턴스를 만들 때 프롬프트 제목을 반드시 입력하도록 강제한다.
   MemberHandler(String title) {
     this.title = title;
   }
@@ -30,14 +24,16 @@ public class MemberHandler {
     m.setLevel((byte) Prompt.inputInt("0. 비전공자\n1. 준전공자\n2. 전공자\n전공? "));
     m.setCreatedDate(new Date(System.currentTimeMillis()).toString());
 
-    this.members[count++] = m;
+    this.memberDao.insert(m);
   }
 
   void printMembers() {
+
+    Member[] members = this.memberDao.findAll();
+
     System.out.println("번호\t이름\t전화\t재직\t전공");
 
-    for (int i = 0; i < this.count; i++) {
-      Member m = this.members[i];
+    for (Member m : members) {
       System.out.printf("%d\t%s\t%s\t%s\t%s\n",
           m.getNo(), m.getName(), m.getTel(),
           m.isWorking() ? "예" : "아니오",
@@ -48,7 +44,7 @@ public class MemberHandler {
   void printMember() {
     int memberNo = Prompt.inputInt("회원번호? ");
 
-    Member m = this.findByNo(memberNo);
+    Member m = this.memberDao.findByNo(memberNo);
 
     if (m == null) {
       System.out.println("해당 번호의 회원이 없습니다.");
@@ -79,7 +75,7 @@ public class MemberHandler {
   void modifyMember() {
     int memberNo = Prompt.inputInt("회원번호? ");
 
-    Member old = this.findByNo(memberNo);
+    Member old = this.memberDao.findByNo(memberNo);
 
     if (old == null) {
       System.out.println("해당 번호의 회원이 없습니다.");
@@ -107,7 +103,7 @@ public class MemberHandler {
 
     String str = Prompt.inputString("정말 변경하시겠습니까?(y/N) ");
     if (str.equalsIgnoreCase("Y")) {
-      this.members[this.indexOf(old)] = m;
+      this.memberDao.update(m);
       System.out.println("변경했습니다.");
     } else {
       System.out.println("변경 취소했습니다.");
@@ -118,7 +114,7 @@ public class MemberHandler {
   void deleteMember() {
     int memberNo = Prompt.inputInt("회원번호? ");
 
-    Member m = this.findByNo(memberNo);
+    Member m = this.memberDao.findByNo(memberNo);
 
     if (m == null) {
       System.out.println("해당 번호의 회원이 없습니다.");
@@ -131,40 +127,21 @@ public class MemberHandler {
       return;
     }
 
-    for (int i = this.indexOf(m) + 1; i < this.count; i++) {
-      this.members[i - 1] = this.members[i];
-    }
-    this.members[--this.count] = null; // 레퍼런스 카운트를 줄인다.
+    memberDao.delete(m);
 
     System.out.println("삭제했습니다.");
 
   }
 
-  Member findByNo(int no) {
-    for (int i = 0; i < this.count; i++) {
-      if (this.members[i].getNo() == no) {
-        return this.members[i];
-      }
-    }
-    return null;
-  }
-
-  int indexOf(Member m) {
-    for (int i = 0; i < this.count; i++) {
-      if (this.members[i].getNo() == m.getNo()) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
   void searchMember() {
+
+    Member[] members = this.memberDao.findAll();
+
     String name = Prompt.inputString("이름? ");
 
     System.out.println("번호\t이름\t전화\t재직\t전공");
 
-    for (int i = 0; i < this.count; i++) {
-      Member m = this.members[i];
+    for (Member m : members) {
       if (m.getName().equalsIgnoreCase(name)) {
         System.out.printf("%d\t%s\t%s\t%s\t%s\n",
             m.getNo(), m.getName(), m.getTel(),
