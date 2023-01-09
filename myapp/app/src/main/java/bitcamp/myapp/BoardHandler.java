@@ -4,13 +4,8 @@ import java.sql.Date;
 
 public class BoardHandler {
 
-  // 모든 인스턴스가 공유하는 데이터를 스태틱 필드로 만든다.
-  // 특히 데이터를 조회하는 용으로 사용하는 final 변수는 스태틱 필드로 만들어야 한다.
-  static final int SIZE = 100;
-
-  int count;
-  Board[] boards = new Board[SIZE];
-  String title;
+  private BoardDao boardDao = new BoardDao();
+  private String title;
 
   // 인스턴스를 만들 때 프롬프트 제목을 반드시 입력하도록 강제한다.
   BoardHandler(String title) {
@@ -25,14 +20,15 @@ public class BoardHandler {
     b.setPassword(Prompt.inputString("암호? "));
     b.setCreatedDate(new Date(System.currentTimeMillis()).toString());
 
-    this.boards[count++] = b;
+    this.boardDao.insert(b);
   }
 
   void printBoards() {
     System.out.println("번호\t제목\t작성일\t조회수");
 
-    for (int i = 0; i < this.count; i++) {
-      Board b = this.boards[i];
+    Board[] boards = this.boardDao.findAll();
+
+    for (Board b : boards) {
       System.out.printf("%d\t%s\t%s\t%d\n",
           b.getNo(), b.getTitle(), b.getCreatedDate(), b.getViewCount());
     }
@@ -41,7 +37,7 @@ public class BoardHandler {
   void printBoard() {
     int boardNo = Prompt.inputInt("게시글 번호? ");
 
-    Board b = this.findByNo(boardNo);
+    Board b = this.boardDao.findByNo(boardNo);
 
     if (b == null) {
       System.out.println("해당 번호의 게시글 없습니다.");
@@ -58,7 +54,7 @@ public class BoardHandler {
   void modifyBoard() {
     int boardNo = Prompt.inputInt("게시글 번호? ");
 
-    Board old = this.findByNo(boardNo);
+    Board old = this.boardDao.findByNo(boardNo);
 
     if (old == null) {
       System.out.println("해당 번호의 게시글이 없습니다.");
@@ -80,7 +76,7 @@ public class BoardHandler {
 
     String str = Prompt.inputString("정말 변경하시겠습니까?(y/N) ");
     if (str.equalsIgnoreCase("Y")) {
-      this.boards[this.indexOf(old)] = b;
+      this.boardDao.update(b);
       System.out.println("변경했습니다.");
     } else {
       System.out.println("변경 취소했습니다.");
@@ -91,7 +87,7 @@ public class BoardHandler {
   void deleteBoard() {
     int boardNo = Prompt.inputInt("게시글 번호? ");
 
-    Board b = this.findByNo(boardNo);
+    Board b = this.boardDao.findByNo(boardNo);
 
     if (b == null) {
       System.out.println("해당 번호의 게시글이 없습니다.");
@@ -110,40 +106,17 @@ public class BoardHandler {
       return;
     }
 
-    for (int i = this.indexOf(b) + 1; i < this.count; i++) {
-      this.boards[i - 1] = this.boards[i];
-    }
-    this.boards[--this.count] = null; // 레퍼런스 카운트를 줄인다.
+    this.boardDao.delete(b);
 
     System.out.println("삭제했습니다.");
 
   }
 
-  Board findByNo(int no) {
-    for (int i = 0; i < this.count; i++) {
-      if (this.boards[i].getNo() == no) {
-        return this.boards[i];
-      }
-    }
-    return null;
-  }
-
-  int indexOf(Board b) {
-    for (int i = 0; i < this.count; i++) {
-      if (this.boards[i].getNo() == b.getNo()) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
   void searchBoard() {
+    Board[] boards = this.boardDao.findAll();
     String keyword = Prompt.inputString("검색어? ");
-
     System.out.println("번호\t제목\t작성일\t조회수");
-
-    for (int i = 0; i < this.count; i++) {
-      Board b = this.boards[i];
+    for (Board b : boards) {
       if (b.getTitle().indexOf(keyword) != -1 ||
           b.getContent().indexOf(keyword) != -1) {
         System.out.printf("%d\t%s\t%s\t%d\n",
