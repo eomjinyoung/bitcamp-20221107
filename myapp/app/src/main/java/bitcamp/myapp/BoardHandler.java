@@ -19,11 +19,11 @@ public class BoardHandler {
 
   void inputBoard() {
     Board b = new Board();
-    b.no = Prompt.inputInt("번호? ");
-    b.title = Prompt.inputString("제목? ");
-    b.content = Prompt.inputString("내용? ");
-    b.password = Prompt.inputString("암호? ");
-    b.createdDate = new Date(System.currentTimeMillis()).toString();
+    b.setNo(Prompt.inputInt("번호? "));
+    b.setTitle(Prompt.inputString("제목? "));
+    b.setContent(Prompt.inputString("내용? "));
+    b.setPassword(Prompt.inputString("암호? "));
+    b.setCreatedDate(new Date(System.currentTimeMillis()).toString());
 
     this.boards[count++] = b;
   }
@@ -34,7 +34,7 @@ public class BoardHandler {
     for (int i = 0; i < this.count; i++) {
       Board b = this.boards[i];
       System.out.printf("%d\t%s\t%s\t%d\n",
-          b.no, b.title, b.createdDate, b.viewCount);
+          b.getNo(), b.getTitle(), b.getCreatedDate(), b.getViewCount());
     }
   }
 
@@ -48,10 +48,11 @@ public class BoardHandler {
       return;
     }
 
-    System.out.printf("    제목: %s\n", b.title);
-    System.out.printf("    내용: %s\n", b.content);
-    System.out.printf("  등록일: %s\n", b.createdDate);
-    System.out.printf("  조회수: %d\n", b.viewCount++);
+    System.out.printf("    제목: %s\n", b.getTitle());
+    System.out.printf("    내용: %s\n", b.getContent());
+    System.out.printf("  등록일: %s\n", b.getCreatedDate());
+    System.out.printf("  조회수: %d\n", b.getViewCount());
+    b.setViewCount(b.getViewCount() + 1);
   }
 
   void modifyBoard() {
@@ -66,13 +67,13 @@ public class BoardHandler {
 
     // 변경할 데이터를 저장할 인스턴스 준비
     Board b = new Board();
-    b.no = old.no;
-    b.createdDate = old.createdDate;
-    b.title = Prompt.inputString(String.format("제목(%s)? ", old.title));
-    b.content = Prompt.inputString(String.format("내용(%s)? ", old.content));
-    b.password = Prompt.inputString("암호? ");
+    b.setNo(old.getNo());
+    b.setCreatedDate(old.getCreatedDate());
+    b.setTitle(Prompt.inputString(String.format("제목(%s)? ", old.getTitle())));
+    b.setContent(Prompt.inputString(String.format("내용(%s)? ", old.getContent())));
+    b.setPassword(Prompt.inputString("암호? "));
 
-    if (!old.password.equals(b.password)) {
+    if (!old.getPassword().equals(b.getPassword())) {
       System.out.println("암호가 맞지 않습니다!");
       return;
     }
@@ -98,7 +99,7 @@ public class BoardHandler {
     }
 
     String password = Prompt.inputString("암호? ");
-    if (!b.password.equals(password)) {
+    if (!b.getPassword().equals(password)) {
       System.out.println("암호가 맞지 않습니다!");
       return;
     }
@@ -120,7 +121,7 @@ public class BoardHandler {
 
   Board findByNo(int no) {
     for (int i = 0; i < this.count; i++) {
-      if (this.boards[i].no == no) {
+      if (this.boards[i].getNo() == no) {
         return this.boards[i];
       }
     }
@@ -129,7 +130,7 @@ public class BoardHandler {
 
   int indexOf(Board b) {
     for (int i = 0; i < this.count; i++) {
-      if (this.boards[i].no == b.no) {
+      if (this.boards[i].getNo() == b.getNo()) {
         return i;
       }
     }
@@ -143,10 +144,10 @@ public class BoardHandler {
 
     for (int i = 0; i < this.count; i++) {
       Board b = this.boards[i];
-      if (b.title.indexOf(keyword) != -1 ||
-          b.content.indexOf(keyword) != -1) {
+      if (b.getTitle().indexOf(keyword) != -1 ||
+          b.getContent().indexOf(keyword) != -1) {
         System.out.printf("%d\t%s\t%s\t%d\n",
-            b.no, b.title, b.createdDate, b.viewCount);
+            b.getNo(), b.getTitle(), b.getCreatedDate(), b.getViewCount());
       }
     }
   }

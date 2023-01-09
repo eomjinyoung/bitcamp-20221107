@@ -19,16 +19,16 @@ public class MemberHandler {
 
   void inputMember() {
     Member m = new Member();
-    m.no = Prompt.inputInt("번호? ");
-    m.name = Prompt.inputString("이름? ");
-    m.tel = Prompt.inputString("전화? ");
-    m.postNo = Prompt.inputString("우편번호? ");
-    m.basicAddress = Prompt.inputString("주소1? ");
-    m.detailAddress = Prompt.inputString("주소2? ");
-    m.working = Prompt.inputInt("0. 미취업\n1. 재직중\n재직자? ") == 1;
-    m.gender = Prompt.inputInt("0. 남자\n1. 여자\n성별? ") == 0 ? 'M' : 'W';
-    m.level = (byte) Prompt.inputInt("0. 비전공자\n1. 준전공자\n2. 전공자\n전공? ");
-    m.createdDate = new Date(System.currentTimeMillis()).toString();
+    m.setNo(Prompt.inputInt("번호? "));
+    m.setName(Prompt.inputString("이름? "));
+    m.setTel(Prompt.inputString("전화? "));
+    m.setPostNo(Prompt.inputString("우편번호? "));
+    m.setBasicAddress(Prompt.inputString("주소1? "));
+    m.setDetailAddress(Prompt.inputString("주소2? "));
+    m.setWorking(Prompt.inputInt("0. 미취업\n1. 재직중\n재직자? ") == 1);
+    m.setGender(Prompt.inputInt("0. 남자\n1. 여자\n성별? ") == 0 ? 'M' : 'W');
+    m.setLevel((byte) Prompt.inputInt("0. 비전공자\n1. 준전공자\n2. 전공자\n전공? "));
+    m.setCreatedDate(new Date(System.currentTimeMillis()).toString());
 
     this.members[count++] = m;
   }
@@ -39,9 +39,9 @@ public class MemberHandler {
     for (int i = 0; i < this.count; i++) {
       Member m = this.members[i];
       System.out.printf("%d\t%s\t%s\t%s\t%s\n",
-          m.no, m.name, m.tel,
-          m.working ? "예" : "아니오",
-              getLevelText(m.level));
+          m.getNo(), m.getName(), m.getTel(),
+          m.isWorking() ? "예" : "아니오",
+              getLevelText(m.getLevel()));
     }
   }
 
@@ -55,15 +55,15 @@ public class MemberHandler {
       return;
     }
 
-    System.out.printf("    이름: %s\n", m.name);
-    System.out.printf("    전화: %s\n", m.tel);
-    System.out.printf("우편번호: %s\n", m.postNo);
-    System.out.printf("기본주소: %s\n", m.basicAddress);
-    System.out.printf("상세주소: %s\n", m.detailAddress);
-    System.out.printf("재직여부: %s\n", m.working ? "예" : "아니오");
-    System.out.printf("    성별: %s\n", m.gender == 'M' ? "남자" : "여자");
-    System.out.printf("    전공: %s\n", getLevelText(m.level));
-    System.out.printf("  등록일: %s\n", m.createdDate);
+    System.out.printf("    이름: %s\n", m.getName());
+    System.out.printf("    전화: %s\n", m.getTel());
+    System.out.printf("우편번호: %s\n", m.getNo());
+    System.out.printf("기본주소: %s\n", m.getBasicAddress());
+    System.out.printf("상세주소: %s\n", m.getDetailAddress());
+    System.out.printf("재직여부: %s\n", m.isWorking() ? "예" : "아니오");
+    System.out.printf("    성별: %s\n", m.getGender() == 'M' ? "남자" : "여자");
+    System.out.printf("    전공: %s\n", getLevelText(m.getLevel()));
+    System.out.printf("  등록일: %s\n", m.getCreatedDate());
   }
 
   // 인스턴스 멤버(필드나 메서드)를 사용하지 않기 때문에
@@ -88,22 +88,22 @@ public class MemberHandler {
 
     // 변경할 데이터를 저장할 인스턴스 준비
     Member m = new Member();
-    m.no = old.no;
-    m.createdDate = old.createdDate;
-    m.name = Prompt.inputString(String.format("이름(%s)? ", old.name));
-    m.tel = Prompt.inputString(String.format("전화(%s)? ", old.tel));
-    m.postNo = Prompt.inputString(String.format("우편번호(%s)? ", old.postNo));
-    m.basicAddress = Prompt.inputString(String.format("기본주소(%s)? ", old.basicAddress));
-    m.detailAddress = Prompt.inputString(String.format("상세주소(%s)? ", old.detailAddress));
-    m.working = Prompt.inputInt(String.format(
+    m.setNo(old.getNo());
+    m.setCreatedDate(old.getCreatedDate());
+    m.setName(Prompt.inputString(String.format("이름(%s)? ", old.getName())));
+    m.setTel(Prompt.inputString(String.format("전화(%s)? ", old.getTel())));
+    m.setPostNo(Prompt.inputString(String.format("우편번호(%s)? ", old.getPostNo())));
+    m.setBasicAddress(Prompt.inputString(String.format("기본주소(%s)? ", old.getBasicAddress())));
+    m.setDetailAddress(Prompt.inputString(String.format("상세주소(%s)? ", old.getDetailAddress())));
+    m.setWorking(Prompt.inputInt(String.format(
         "0. 미취업\n1. 재직중\n재직여부(%s)? ",
-        old.working ? "재직중" : "미취업")) == 1;
-    m.gender = Prompt.inputInt(String.format(
+        old.isWorking() ? "재직중" : "미취업")) == 1);
+    m.setGender(Prompt.inputInt(String.format(
         "0. 남자\n1. 여자\n성별(%s)? ",
-        old.gender == 'M' ? "남자" : "여자")) == 0 ? 'M' : 'W';
-    m.level = (byte) Prompt.inputInt(String.format(
+        old.getGender() == 'M' ? "남자" : "여자")) == 0 ? 'M' : 'W');
+    m.setLevel((byte) Prompt.inputInt(String.format(
         "0. 비전공자\n1. 준전공자\n2. 전공자\n전공(%s)? ",
-        getLevelText(old.level)));
+        getLevelText(old.getLevel()))));
 
     String str = Prompt.inputString("정말 변경하시겠습니까?(y/N) ");
     if (str.equalsIgnoreCase("Y")) {
@@ -142,7 +142,7 @@ public class MemberHandler {
 
   Member findByNo(int no) {
     for (int i = 0; i < this.count; i++) {
-      if (this.members[i].no == no) {
+      if (this.members[i].getNo() == no) {
         return this.members[i];
       }
     }
@@ -151,7 +151,7 @@ public class MemberHandler {
 
   int indexOf(Member m) {
     for (int i = 0; i < this.count; i++) {
-      if (this.members[i].no == m.no) {
+      if (this.members[i].getNo() == m.getNo()) {
         return i;
       }
     }
@@ -165,11 +165,11 @@ public class MemberHandler {
 
     for (int i = 0; i < this.count; i++) {
       Member m = this.members[i];
-      if (m.name.equalsIgnoreCase(name)) {
+      if (m.getName().equalsIgnoreCase(name)) {
         System.out.printf("%d\t%s\t%s\t%s\t%s\n",
-            m.no, m.name, m.tel,
-            m.working ? "예" : "아니오",
-                getLevelText(m.level));
+            m.getNo(), m.getName(), m.getTel(),
+            m.isWorking() ? "예" : "아니오",
+                getLevelText(m.getLevel()));
       }
     }
   }
