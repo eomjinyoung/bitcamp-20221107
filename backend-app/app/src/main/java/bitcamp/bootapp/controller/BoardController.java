@@ -1,5 +1,6 @@
 package bitcamp.bootapp.controller;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,7 +31,7 @@ public class BoardController {
 
   @CrossOrigin(origins = "http://127.0.0.1:5500")
   @PostMapping("/boards")
-  public Object getBoards(
+  public Object addBoard(
       @RequestParam(required = false) String title,
       @RequestParam(required = false) String content,
       @RequestParam(required = false) String password) {
@@ -39,12 +40,26 @@ public class BoardController {
     b.setTitle(title);
     b.setContent(content);
     b.setPassword(password);
+    b.setCreatedDate(new Date(System.currentTimeMillis()).toString());
 
     this.boardDao.insert(b);
 
     // 응답 결과를 담을 맵 객체 준비
     Map<String,Object> contentMap = new HashMap<>();
     contentMap.put("status", "success");
+
+    return contentMap;
+  }
+
+  @CrossOrigin(origins = "http://127.0.0.1:5500")
+  @GetMapping("/boards")
+  public Object getBoards() {
+
+    Board[] boards = this.boardDao.findAll();
+
+    Map<String,Object> contentMap = new HashMap<>();
+    contentMap.put("status", "success");
+    contentMap.put("data", boards);
 
     return contentMap;
   }

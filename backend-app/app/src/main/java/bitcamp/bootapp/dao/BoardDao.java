@@ -6,10 +6,12 @@ import bitcamp.bootapp.vo.Board;
 public class BoardDao {
   private static final int SIZE = 100;
 
+  private int no; // board 식별 번호
   private int count;
   private Board[] boards = new Board[SIZE];
 
   public void insert(Board board) {
+    board.setNo(++no);
     this.boards[this.count++] = board;
   }
 

@@ -27,5 +27,28 @@
     </tr>
   </tbody>
 </table>
+
+<script>
+var tbody = document.querySelector("tbody");
+
+fetch('http://localhost:8080/boards')
+  .then((response) => {return response.json();})
+  .then((obj) => {
+    var html = '';
+    for (var b of obj.data) {
+      html += `<tr>
+        <td>${b.no}</td>
+        <td>${b.title}</td>
+        <td>${b.createdDate}</td>
+        <td>${b.viewCount}</td>
+        </tr>\n`;
+    }
+    tbody.innerHTML = html;
+  })
+  .catch((err) => {
+    alert("서버 요청 오류!");
+    console.log(err);
+  });  
+</script>
 </body>
 </html>
