@@ -12,24 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 import bitcamp.bootapp.dao.BoardDao;
 import bitcamp.bootapp.vo.Board;
 
+@CrossOrigin(origins = {"http://127.0.0.1:5500", "http://localhost:5500"})
 @RestController
 public class BoardController {
 
   BoardDao boardDao = new BoardDao();
 
-  public BoardController() {
-    Board b = new Board();
-    b.setNo(1);
-    b.setTitle("제목입니다.1");
-    b.setContent("내용입니다.1");
-    b.setPassword("1111");
-    b.setCreatedDate("2023-1-1");
-    b.setViewCount(1);
-
-    this.boardDao.insert(b);
-  }
-
-  @CrossOrigin(origins = "http://127.0.0.1:5500")
   @PostMapping("/boards")
   public Object addBoard(
       @RequestParam(required = false) String title,
@@ -51,7 +39,7 @@ public class BoardController {
     return contentMap;
   }
 
-  @CrossOrigin(origins = "http://127.0.0.1:5500")
+
   @GetMapping("/boards")
   public Object getBoards() {
 
@@ -74,10 +62,10 @@ public class BoardController {
 
     if (b == null) {
       contentMap.put("status", "failure");
-      contentMap.put("message", "해당 번호의 게시글이 없습니다.");
+      contentMap.put("data", "해당 번호의 게시글이 없습니다.");
     } else {
       contentMap.put("status", "success");
-      contentMap.put("message", b);
+      contentMap.put("data", b);
     }
 
     return contentMap;
