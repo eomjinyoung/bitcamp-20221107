@@ -41,10 +41,16 @@ document.querySelector('#add-btn').onclick = (e) => {
     headers: {
       'Content-type': 'application/x-www-form-urlencoded'
     },
-    body: `title=${title}&content=${content}&password=${password}`
+    body: `title=${title}&content2=${content}&password=${password}`
   })
   .then((response) => {return response.json();})
-  .then((obj) => {console.log(obj)});
+  .then((obj) => {
+    location.href = "list.html";
+  })
+  .catch((err) => {
+    alert("서버 요청 오류!");
+    console.log(err);
+  });
 };
 
 document.querySelector('#cancel-btn').onclick = (e) => {

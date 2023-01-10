@@ -2,9 +2,11 @@ package bitcamp.bootapp.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import bitcamp.bootapp.dao.BoardDao;
 import bitcamp.bootapp.vo.Board;
@@ -26,21 +28,23 @@ public class BoardController {
     this.boardDao.insert(b);
   }
 
+  @CrossOrigin(origins = "http://127.0.0.1:5500")
   @PostMapping("/boards")
-  public Object getBoard(@PathVariable int boardNo) {
+  public Object getBoards(
+      @RequestParam(required = false) String title,
+      @RequestParam(required = false) String content,
+      @RequestParam(required = false) String password) {
 
-    Board b = this.boardDao.findByNo(boardNo);
+    Board b = new Board();
+    b.setTitle(title);
+    b.setContent(content);
+    b.setPassword(password);
+
+    this.boardDao.insert(b);
 
     // 응답 결과를 담을 맵 객체 준비
     Map<String,Object> contentMap = new HashMap<>();
-
-    if (b == null) {
-      contentMap.put("status", "failure");
-      contentMap.put("message", "해당 번호의 게시글이 없습니다.");
-    } else {
-      contentMap.put("status", "success");
-      contentMap.put("message", b);
-    }
+    contentMap.put("status", "success");
 
     return contentMap;
   }
