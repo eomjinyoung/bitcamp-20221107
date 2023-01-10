@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -99,6 +100,28 @@ public class BoardController {
     this.boardDao.update(b);
 
     contentMap.put("status", "success");
+
+    return contentMap;
+  }
+
+  @DeleteMapping("/boards/{boardNo}")
+  public Object deleteBoard(
+      @PathVariable int boardNo,
+      @RequestParam String password) {
+
+    Board b = this.boardDao.findByNo(boardNo);
+
+    // 응답 결과를 담을 맵 객체 준비
+    Map<String,Object> contentMap = new HashMap<>();
+
+    if (b == null || !b.getPassword().equals(password)) {
+      contentMap.put("status", "failure");
+      contentMap.put("data", "게시글이 없거나 암호가 맞지 않습니다.");
+
+    } else {
+      this.boardDao.delete(b);
+      contentMap.put("status", "success");
+    }
 
     return contentMap;
   }
