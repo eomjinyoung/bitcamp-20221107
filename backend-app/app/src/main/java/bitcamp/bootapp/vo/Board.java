@@ -1,4 +1,4 @@
-package bitcamp.bootapp;
+package bitcamp.bootapp.vo;
 
 public class Board {
   private int no;

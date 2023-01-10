@@ -1,4 +1,4 @@
-package bitcamp.bootapp;
+package bitcamp.bootapp.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
