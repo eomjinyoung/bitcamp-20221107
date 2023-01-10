@@ -13,7 +13,7 @@
   <tbody>
     <tr>
       <th>번호</th>
-      <td><input type="text" name="no" id="f-no"></td>
+      <td><input type="text" name="no" id="f-no" readonly></td>
     </tr>
     <tr>
       <th>제목</th>
@@ -63,19 +63,57 @@ if (values2.length != 2 || values2[0] != "no") {
 }
 
 var no = parseInt(values2[1]);
-console.log(no);
 if (isNaN(no)) {
   alert("페이지 번호가 옳지 않습니다.");
   throw "no 파라미터 값이 숫자가 아닙니다.";
 }
 
 fetch(`http://localhost:8080/boards/${no}`)
-  .then((response) => {return response.json()})
-  .then((obj) => {console.log(obj)})
-  .catch((err) => {console.log(err)});
+  .then((response) => response.json())
+  .then((obj) => {
+    if (obj.status == "failure") {
+      alert("서버 요청 오류!");
+      console.log(obj.data);
+      return;
+    }
+    document.querySelector("#f-no").value = obj.data.no;
+    document.querySelector("#f-title").value = obj.data.title;
+    document.querySelector("#f-content").value = obj.data.content;
+    document.querySelector("#f-createddate").innerHTML = obj.data.createdDate;
+    document.querySelector("#f-viewcount").innerHTML = obj.data.viewCount;
+  })
+  .catch((err) => {
+    alert("서버 요청 오류!");
+    console.log(err)
+  });
 
 document.querySelector('#update-btn').onclick = (e) => {
-  console.log("변경!");
+  var title = encodeURIComponent(document.querySelector('#f-title').value);
+  var content = encodeURIComponent(document.querySelector('#f-content').value);
+  var password = document.querySelector('#f-password').value;
+
+  fetch(`http://localhost:8080/boards/${no}`, {
+    method: 'PUT',
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded'
+    },
+    body: `title=${title}&content=${content}&password=${password}`
+  })
+  .then((response) => response.json())
+  .then((obj) => {
+    if (obj.status == "failure") {
+      alert("게시글 변경 오류!\n" + obj.data);
+      return;
+    }
+
+    location.href = "list.html";
+  })
+  .catch((err) => {
+    alert("서버 요청 오류!");
+    console.log(err);
+  });
+
+
 };
 
 document.querySelector('#delete-btn').onclick = (e) => {

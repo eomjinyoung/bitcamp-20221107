@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import bitcamp.bootapp.dao.BoardDao;
@@ -67,6 +68,37 @@ public class BoardController {
       contentMap.put("status", "success");
       contentMap.put("data", b);
     }
+
+    return contentMap;
+  }
+
+  @PutMapping("/boards/{boardNo}")
+  public Object updateBoard(
+      @PathVariable int boardNo,
+      @RequestParam(required = false) String title,
+      @RequestParam(required = false) String content,
+      @RequestParam(required = false) String password) {
+
+    Map<String,Object> contentMap = new HashMap<>();
+
+    Board old = this.boardDao.findByNo(boardNo);
+    if (old == null || !old.getPassword().equals(password)) {
+      contentMap.put("status", "failure");
+      contentMap.put("data", "게시글이 없거나 암호가 맞지 않습니다.");
+      return contentMap;
+    }
+
+    Board b = new Board();
+    b.setNo(boardNo);
+    b.setTitle(title);
+    b.setContent(content);
+    b.setPassword(password);
+    b.setCreatedDate(old.getCreatedDate());
+    b.setViewCount(old.getViewCount());
+
+    this.boardDao.update(b);
+
+    contentMap.put("status", "success");
 
     return contentMap;
   }
