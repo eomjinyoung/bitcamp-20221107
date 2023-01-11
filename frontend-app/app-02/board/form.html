@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+<h1>새 게시글</h1>
+<form>
+<table border="1">
+  <tbody>
+    <tr>
+      <th>제목</th>
+      <td><input type="text" name="title" id="f-title"></td>
+    </tr>
+    <tr>
+      <th>내용</th>
+      <td><textarea name="content" rows="10" cols="50" id="f-content"></textarea></td>
+    </tr>
+    <tr>
+      <th>암호</th>
+      <td><input type="password" name="password" id="f-password"></td>
+    </tr>
+  </tbody>
+</table>
+<button id="add-btn" type="button">등록</button>
+<button id="cancel-btn" type="button">취소</button>
+</form>
+
+<script>
+document.querySelector('#add-btn').onclick = (e) => {
+  var title = encodeURIComponent(document.querySelector('#f-title').value);
+  var content = encodeURIComponent(document.querySelector('#f-content').value);
+  var password = document.querySelector('#f-password').value;
+
+  // console.log(`title=${title}&content=${content}&password=${password}`);
+  fetch('http://localhost:8080/boards', {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded'
+    },
+    body: `title=${title}&content=${content}&password=${password}`
+  })
+  .then((response) => {return response.json();})
+  .then((obj) => {
+    location.href = "list.html";
+  })
+  .catch((err) => {
+    alert("서버 요청 오류!");
+    console.log(err);
+  });
+};
+
+document.querySelector('#cancel-btn').onclick = (e) => {
+  location.href = "list.html";
+};
+
+</script>
+</body>
+</html>
