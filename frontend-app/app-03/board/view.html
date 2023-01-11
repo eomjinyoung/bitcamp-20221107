@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+<h1>게시글</h1>
+<form>
+<table border="1">
+  <tbody>
+    <tr>
+      <th>번호</th>
+      <td><input type="text" name="no" id="f-no" readonly></td>
+    </tr>
+    <tr>
+      <th>제목</th>
+      <td><input type="text" name="title" id="f-title"></td>
+    </tr>
+    <tr>
+      <th>내용</th>
+      <td><textarea name="content" rows="10" cols="50" id="f-content"></textarea></td>
+    </tr>
+    <tr>
+      <th>암호</th>
+      <td><input type="password" name="password" id="f-password"></td>
+    </tr>
+    <tr>
+      <th>작성일</th>
+      <td><span id="f-createddate"></span></td>
+    </tr>
+    <tr>
+      <th>조회수</th>
+      <td><span id="f-viewcount"></span></td>
+    </tr>
+  </tbody>
+</table>
+<button id="update-btn" type="button">변경</button>
+<button id="delete-btn" type="button">삭제</button>
+<button id="list-btn" type="button">목록</button>
+</form>
+
+<script>
+
+// location.href --> http://localhost:5500/bitcamp-ncp-teacher/frontend-app/app/board/view.html?no=20
+// values[0] --> "http://localhost:5500/bitcamp-ncp-teacher/frontend-app/app/board/view.html"
+// values[1] --> "no=20"
+var values = location.href.split('?');
+if (values.length != 2) {
+  alert("옳바른 페이지 주소가 아닙니다.");
+  throw "no 파라미터 값이 누락되었습니다.";
+} 
+
+// values[1] --> "no=20"
+// values2[0] --> "no"
+// values2[1] --> "20"
+var values2 = values[1].split("=");
+if (values2.length != 2 || values2[0] != "no") {
+  alert("옳바른 페이지 주소가 아닙니다.");
+  throw "no 파라미터 값이 누락되었습니다.";
+}
+
+var no = parseInt(values2[1]);
+if (isNaN(no)) {
+  alert("게시글 번호가 옳지 않습니다.");
+  throw "no 파라미터 값이 숫자가 아닙니다.";
+}
+
+fetch(`http://localhost:8080/boards/${no}`)
+  .then((response) => response.json())
+  .then((obj) => {
+    if (obj.status == "failure") {
+      alert("서버 요청 오류!");
+      console.log(obj.data);
+      return;
+    }
+    document.querySelector("#f-no").value = obj.data.no;
+    document.querySelector("#f-title").value = obj.data.title;
+    document.querySelector("#f-content").value = obj.data.content;
+    document.querySelector("#f-createddate").innerHTML = obj.data.createdDate;
+    document.querySelector("#f-viewcount").innerHTML = obj.data.viewCount;
+  })
+  .catch((err) => {
+    alert("서버 요청 오류!");
+    console.log(err)
+  });
+
+document.querySelector('#update-btn').onclick = (e) => {
+  var title = encodeURIComponent(document.querySelector('#f-title').value);
+  var content = encodeURIComponent(document.querySelector('#f-content').value);
+  var password = document.querySelector('#f-password').value;
+
+  fetch(`http://localhost:8080/boards/${no}`, {
+    method: 'PUT',
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded'
+    },
+    body: `title=${title}&content=${content}&password=${password}`
+  })
+  .then((response) => response.json())
+  .then((obj) => {
+    if (obj.status == "failure") {
+      alert("게시글 변경 오류!\n" + obj.data);
+      return;
+    }
+
+    location.href = "list.html";
+  })
+  .catch((err) => {
+    alert("서버 요청 오류!");
+    console.log(err);
+  });
+
+
+};
+
+document.querySelector('#delete-btn').onclick = (e) => {
+  var password = prompt('암호를 입력하세요!');
+
+  fetch(`http://localhost:8080/boards/${no}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded'
+    },
+    body: `password=${password}`
+  })
+  .then((response) => response.json())
+  .then((obj) => {
+    if (obj.status == "failure") {
+      alert("게시글 삭제 오류!\n" + obj.data);
+      return;
+    }
+
+    location.href = "list.html";
+  })
+  .catch((err) => {
+    alert("서버 요청 오류!");
+    console.log(err);
+  });
+};
+
+document.querySelector('#list-btn').onclick = (e) => {
+  location.href = "list.html";
+};
+
+</script>
+</body>
+</html>

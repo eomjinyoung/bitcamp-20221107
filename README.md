@@ -474,13 +474,20 @@
 
 ## 48일차(2023-01-11,수)
 
- 자바(계속)
-    - 실전 백엔드 프로젝트(backend-app)
+- 자바(계속)
+    - 실전 백엔드 프로젝트(backend-app)(계속)
         - 02.회원관리, 게시글 관리 REST API 추가
             - 회원관리
-    - 실전 프론트엔드 프로젝트(frontend-app)
+    - 실전 프론트엔드 프로젝트(frontend-app)(계속)
         - 02.회원관리, 게시글 관리 UI 추가
             - 회원관리
+- 과제
+    - 실전 백엔드 프로젝트(backend-app)
+        - 03.강사관리 REST API 추가
+    - 실전 프론트엔드 프로젝트(frontend-app)
+        - 03.강사관리 UI 추가
+
+
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr

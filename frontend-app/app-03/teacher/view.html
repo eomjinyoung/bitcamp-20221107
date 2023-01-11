@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+<h1>회원</h1>
+<form>
+<table border="1">
+  <tbody>
+    <tr>
+      <th>번호</th>
+      <td><input type="text" name="no" id="f-no" readonly></td>
+    </tr>
+    <tr>
+      <th>이름</th>
+      <td><input type="text" name="name" id="f-name"></td>
+    </tr>
+    <tr>
+      <th>전화</th>
+      <td><input type="tel" name="tel" id="f-tel"></td>
+    </tr>
+    <tr>
+      <th>이메일</th>
+      <td><input type="email" name="email" id="f-email"></td>
+    </tr>
+    <tr>
+      <th>학위</th>
+      <td>
+        <select name="degree" id="f-degree">
+          <option value="1">고졸</option>
+          <option value="2">전문학사</option>
+          <option value="3" selected>학사</option>
+          <option value="4">석사</option>
+          <option value="5">박사</option>
+          <option value="0">기타</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <th>학교</th>
+      <td><input type="text" name="school" id="f-school"></td>
+    </tr>
+    <tr>
+      <th>전공</th>
+      <td><input type="text" name="major" id="f-major"></td>
+    </tr>
+    <tr>
+      <th>강의료</th>
+      <td><input type="number" name="wage" id="f-wage">원/시간</td>
+    </tr>
+    <tr>
+      <th>등록일</th>
+      <td><span id="f-createdDate"></span></td>
+    </tr>
+  </tbody>
+</table>
+<button id="update-btn" type="button">변경</button>
+<button id="delete-btn" type="button">삭제</button>
+<button id="list-btn" type="button">목록</button>
+</form>
+
+<script>
+
+var values = location.href.split('?');
+if (values.length != 2) {
+  alert("옳바른 페이지 주소가 아닙니다.");
+  throw "no 파라미터 값이 누락되었습니다.";
+} 
+
+var values2 = values[1].split("=");
+if (values2.length != 2 || values2[0] != "no") {
+  alert("옳바른 페이지 주소가 아닙니다.");
+  throw "no 파라미터 값이 누락되었습니다.";
+}
+
+var no = parseInt(values2[1]);
+if (isNaN(no)) {
+  alert("강사 번호가 옳지 않습니다.");
+  throw "no 파라미터 값이 숫자가 아닙니다.";
+}
+
+fetch(`http://localhost:8080/teachers/${no}`)
+  .then((response) => response.json())
+  .then((obj) => {
+    if (obj.status == "failure") {
+      alert("서버 요청 오류!");
+      console.log(obj.data);
+      return;
+    }
+
+    document.querySelector("#f-no").value = obj.data.no;
+    document.querySelector("#f-name").value = obj.data.name;
+    document.querySelector("#f-tel").value = obj.data.tel;
+    document.querySelector("#f-email").value = obj.data.email;
+    document.querySelector("#f-degree").value = obj.data.degree;
+    document.querySelector("#f-school").value = obj.data.school;
+    document.querySelector("#f-major").value = obj.data.major;
+    document.querySelector("#f-wage").value = obj.data.wage;
+    document.querySelector("#f-createdDate").innerHTML = obj.data.createdDate;
+  })
+  .catch((err) => {
+    alert("서버 요청 오류!");
+    console.log(err)
+  });
+
+document.querySelector('#update-btn').onclick = (e) => {
+  var name = encodeURIComponent(document.querySelector('#f-name').value);
+  var tel = document.querySelector('#f-tel').value;
+  var email = document.querySelector('#f-email').value;
+  var degree = document.querySelector('#f-degree').value;
+  var school = encodeURIComponent(document.querySelector('#f-school').value);
+  var major = encodeURIComponent(document.querySelector('#f-major').value);;
+  var wage = document.querySelector('#f-wage').value;
+
+  fetch(`http://localhost:8080/teachers/${no}`, {
+    method: 'PUT',
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded'
+    },
+    body: `name=${name}&tel=${tel}&email=${email}&degree=${degree}&school=${school}` +
+      `&major=${major}&wage=${wage}`
+  })
+  .then((response) => response.json())
+  .then((obj) => {
+    if (obj.status == "failure") {
+      alert("강사 변경 오류!\n" + obj.data);
+      return;
+    }
+    location.href = "list.html";
+  })
+  .catch((err) => {
+    alert("서버 요청 오류!");
+    console.log(err);
+  });
+
+
+};
+
+document.querySelector('#delete-btn').onclick = (e) => {
+  fetch(`http://localhost:8080/teachers/${no}`, {
+    method: 'DELETE'
+  })
+  .then((response) => response.json())
+  .then((obj) => {
+    if (obj.status == "failure") {
+      alert("강사 삭제 오류!\n" + obj.data);
+      return;
+    }
+    location.href = "list.html";
+  })
+  .catch((err) => {
+    alert("서버 요청 오류!");
+    console.log(err);
+  });
+};
+
+document.querySelector('#list-btn').onclick = (e) => {
+  location.href = "list.html";
+};
+
+</script>
+</body>
+</html>

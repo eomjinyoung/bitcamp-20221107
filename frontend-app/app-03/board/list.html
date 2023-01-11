@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+<h1>게시글</h1>
+<a href="form.html">새 글</a>
+<table border="1">
+  <thead>
+    <tr>
+      <th>번호</th>
+      <th>제목</th>
+      <th>작성일</th>
+      <th>조회수</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+<script>
+var tbody = document.querySelector("tbody");
+
+fetch('http://localhost:8080/boards')
+  .then((response) => {return response.json();})
+  .then((obj) => {
+    var html = '';
+    for (var b of obj.data) {
+      html += `<tr>
+        <td>${b.no}</td>
+        <td><a href="view.html?no=${b.no}">${b.title} </a></td>
+        <td>${b.createdDate}</td>
+        <td>${b.viewCount}</td>
+        </tr>\n`;
+    }
+    tbody.innerHTML = html;
+  })
+  .catch((err) => {
+    alert("서버 요청 오류!");
+    console.log(err);
+  });  
+</script>
+</body>
+</html>

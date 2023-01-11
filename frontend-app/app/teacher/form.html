@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+<h1>새 강사</h1>
+<form>
+<table border="1">
+  <tbody>
+    <tr>
+      <th>이름</th>
+      <td><input type="text" name="name" id="f-name"></td>
+    </tr>
+    <tr>
+      <th>전화</th>
+      <td><input type="tel" name="tel" id="f-tel"></td>
+    </tr>
+    <tr>
+      <th>이메일</th>
+      <td><input type="email" name="email" id="f-email"></td>
+    </tr>
+    <tr>
+      <th>학위</th>
+      <td>
+        <select name="degree" id="f-degree">
+          <option value="1">고졸</option>
+          <option value="2">전문학사</option>
+          <option value="3" selected>학사</option>
+          <option value="4">석사</option>
+          <option value="5">박사</option>
+          <option value="0">기타</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <th>학교</th>
+      <td><input type="text" name="school" id="f-school"></td>
+    </tr>
+    <tr>
+      <th>전공</th>
+      <td><input type="text" name="major" id="f-major"></td>
+    </tr>
+    <tr>
+      <th>강의료</th>
+      <td><input type="number" name="wage" id="f-wage">원/시간</td>
+    </tr>
+  </tbody>
+</table>
+<button id="add-btn" type="button">등록</button>
+<button id="cancel-btn" type="button">취소</button>
+</form>
+
+<script>
+document.querySelector('#add-btn').onclick = (e) => {
+  var name = encodeURIComponent(document.querySelector('#f-name').value);
+  var tel = document.querySelector('#f-tel').value;
+  var email = document.querySelector('#f-email').value;
+  var degree = document.querySelector('#f-degree').value;
+  var school = encodeURIComponent(document.querySelector('#f-school').value);
+  var major = encodeURIComponent(document.querySelector('#f-major').value);;
+  var wage = document.querySelector('#f-wage').value;
+
+  // console.log(`name=${name}&tel=${tel}&email=${email}&degree=${degree}&school=${school}` +
+  //   `&major=${major}&wage=${wage}`);
+
+  fetch('http://localhost:8080/teachers', {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded'
+    },
+    body: `name=${name}&tel=${tel}&email=${email}&degree=${degree}&school=${school}` +
+      `&major=${major}&wage=${wage}`
+  })
+  .then((response) => {return response.json();})
+  .then((obj) => {
+    location.href = "list.html";
+  })
+  .catch((err) => {
+    alert("서버 요청 오류!");
+    console.log(err);
+  });
+};
+
+document.querySelector('#cancel-btn').onclick = (e) => {
+  location.href = "list.html";
+};
+
+</script>
+</body>
+</html>
