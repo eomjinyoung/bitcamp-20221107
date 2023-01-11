@@ -6,10 +6,12 @@ import bitcamp.bootapp.vo.Member;
 public class MemberDao {
   private static final int SIZE = 100;
 
+  private int no;
   private int count;
   private Member[] members = new Member[SIZE];
 
   public void insert(Member member) {
+    member.setNo(++no);
     this.members[this.count++] = member;
   }
 
