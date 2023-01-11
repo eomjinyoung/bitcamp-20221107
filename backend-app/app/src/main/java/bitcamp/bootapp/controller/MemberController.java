@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -74,7 +75,7 @@ public class MemberController {
 
     if (b == null) {
       contentMap.put("status", "failure");
-      contentMap.put("data", "해당 번호의 회원이 없습니다.");
+      contentMap.put("data", "회원이 없습니다.");
     } else {
       contentMap.put("status", "success");
       contentMap.put("data", b);
@@ -106,27 +107,24 @@ public class MemberController {
     return contentMap;
   }
 
-  /*
   @DeleteMapping("/members/{memberNo}")
   public Object deleteMember(
-      @PathVariable int memberNo,
-      @RequestParam(required = false) String password) {
+      // 낱개로 받을 때는 @PathVariable 애노테이션을 생략하면 안된다.
+      @PathVariable int memberNo) {
 
-    Member b = this.memberDao.findByNo(memberNo);
+    Member m = this.memberDao.findByNo(memberNo);
 
-    // 응답 결과를 담을 맵 객체 준비
     Map<String,Object> contentMap = new HashMap<>();
 
-    if (b == null || !b.getPassword().equals(password)) {
+    if (m == null) {
       contentMap.put("status", "failure");
-      contentMap.put("data", "게시글이 없거나 암호가 맞지 않습니다.");
+      contentMap.put("data", "회원이 없습니다.");
 
     } else {
-      this.memberDao.delete(b);
+      this.memberDao.delete(m);
       contentMap.put("status", "success");
     }
 
     return contentMap;
   }
-   */
 }
