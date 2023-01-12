@@ -1,8 +1,10 @@
 package bitcamp.bootapp.dao;
 
 import java.util.Arrays;
+import org.springframework.stereotype.Repository;
 import bitcamp.bootapp.vo.Member;
 
+@Repository
 public class MemberDao {
   private static final int SIZE = 100;
 

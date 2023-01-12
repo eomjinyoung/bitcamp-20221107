@@ -3,7 +3,6 @@ package bitcamp.bootapp.controller;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,11 +12,17 @@ import org.springframework.web.bind.annotation.RestController;
 import bitcamp.bootapp.dao.MemberDao;
 import bitcamp.bootapp.vo.Member;
 
-@CrossOrigin(origins = {"http://127.0.0.1:5500", "http://localhost:5500"})
 @RestController
 public class MemberController {
 
-  MemberDao memberDao = new MemberDao();
+  MemberDao memberDao;
+
+  // Spring IoC 컨테이너가 이 클래스의 인스턴스를 만들기 위해
+  // 생성자를 호출할 때,
+  // 파라미터로 선언된 MemberDao 객체를 주입할 것이다.
+  public MemberController(MemberDao memberDao) {
+    this.memberDao = memberDao;
+  }
 
   @PostMapping("/members")
   public Object addMember(
