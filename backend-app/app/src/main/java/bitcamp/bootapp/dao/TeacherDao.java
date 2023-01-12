@@ -1,5 +1,6 @@
 package bitcamp.bootapp.dao;
 
+import java.sql.Date;
 import java.util.Arrays;
 import org.springframework.stereotype.Repository;
 import bitcamp.bootapp.vo.Teacher;
@@ -14,6 +15,7 @@ public class TeacherDao {
 
   public void insert(Teacher teacher) {
     teacher.setNo(++no);
+    teacher.setCreatedDate(new Date(System.currentTimeMillis()).toString());
     this.teachers[this.count++] = teacher;
   }
 

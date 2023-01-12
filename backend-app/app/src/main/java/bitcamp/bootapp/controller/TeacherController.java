@@ -1,6 +1,5 @@
 package bitcamp.bootapp.controller;
 
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,6 @@ public class TeacherController {
 
   @PostMapping("/teachers")
   public Object addTeacher(Teacher teacher) {
-
-    teacher.setCreatedDate(new Date(System.currentTimeMillis()).toString());
 
     this.teacherDao.insert(teacher);
 

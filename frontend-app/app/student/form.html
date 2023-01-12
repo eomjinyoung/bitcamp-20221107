@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+<h1>새 학생</h1>
+<form>
+<table border="1">
+  <tbody>
+    <tr>
+      <th>이름</th>
+      <td><input type="text" name="name" id="f-name"></td>
+    </tr>
+    <tr>
+      <th>전화</th>
+      <td><input type="text" name="tel" id="f-tel"></td>
+    </tr>
+    <tr>
+      <th>우편번호</th>
+      <td><input type="text" name="postNo" id="f-postNo"></td>
+    </tr>
+    <tr>
+      <th>기본주소</th>
+      <td><input type="text" name="basicAddress" id="f-basicAddress"></td>
+    </tr>
+    <tr>
+      <th>상세주소</th>
+      <td><input type="text" name="detailAddress" id="f-detailAddress"></td>
+    </tr>
+    <tr>
+      <th>재직여부</th>
+      <td><input type="checkbox" name="working" value="true" id="f-working"> 재직중</td>
+    </tr>
+    <tr>
+      <th>성별</th>
+      <td>
+        <input type="radio" name="gender" value="W" id="f-gender-w" checked> 여성
+        <input type="radio" name="gender" value="M" id="f-gender-m"> 남성
+      </td>
+    </tr>
+    <tr>
+      <th>전공</th>
+      <td>
+        <select name="level" id="f-level">
+          <option value="0">비전공자</option>
+          <option value="1">준전공자</option>
+          <option value="2">전공자</option>
+        </select>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<button id="add-btn" type="button">등록</button>
+<button id="cancel-btn" type="button">취소</button>
+</form>
+
+<script>
+document.querySelector('#add-btn').onclick = (e) => {
+  var name = encodeURIComponent(document.querySelector('#f-name').value);
+  var tel = document.querySelector('#f-tel').value;
+  var postNo = document.querySelector('#f-postNo').value;
+  var basicAddress = encodeURIComponent(document.querySelector('#f-basicAddress').value);
+  var detailAddress = encodeURIComponent(document.querySelector('#f-detailAddress').value);
+  var working = document.querySelector('#f-working').checked;
+  var gender = document.querySelector('#f-gender-w').checked ? 'W' : 'M';
+  var level = document.querySelector('#f-level').value;
+
+  // console.log(`name=${name}&tel=${tel}&postNo=${postNo}&basicAddress=${basicAddress}&detailAddress=${detailAddress}` +
+  //   `&working=${working}&gender=${gender}&level=${level}`);
+
+  fetch('http://localhost:8080/students', {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded'
+    },
+    body: `name=${name}&tel=${tel}&postNo=${postNo}&basicAddress=${basicAddress}&detailAddress=${detailAddress}` +
+      `&working=${working}&gender=${gender}&level=${level}`
+  })
+  .then((response) => {return response.json();})
+  .then((obj) => {
+    location.href = "list.html";
+  })
+  .catch((err) => {
+    alert("서버 요청 오류!");
+    console.log(err);
+  });
+
+};
+
+document.querySelector('#cancel-btn').onclick = (e) => {
+  location.href = "list.html";
+};
+
+</script>
+</body>
+</html>
