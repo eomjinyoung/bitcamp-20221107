@@ -29,7 +29,7 @@ public class BoardHandler {
   private void printBoards() {
     System.out.println("번호\t제목\t작성일\t조회수");
 
-    Board[] boards = this.boardDao.findAll();
+    Board[] boards = (Board[]) this.boardDao.findAll();
 
     for (Board b : boards) {
       System.out.printf("%d\t%s\t%s\t%d\n",
@@ -116,7 +116,7 @@ public class BoardHandler {
   }
 
   private void searchBoard() {
-    Board[] boards = this.boardDao.findAll();
+    Board[] boards = (Board[]) this.boardDao.findAll();
     String keyword = Prompt.inputString("검색어? ");
     System.out.println("번호\t제목\t작성일\t조회수");
     for (Board b : boards) {

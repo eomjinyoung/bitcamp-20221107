@@ -1,5 +1,6 @@
 package bitcamp.myapp.handler;
 
+import java.sql.Date;
 import bitcamp.myapp.dao.TeacherDao;
 import bitcamp.myapp.vo.Teacher;
 import bitcamp.util.Prompt;
@@ -23,13 +24,14 @@ public class TeacherHandler {
     m.setSchool(Prompt.inputString("학교? "));
     m.setMajor(Prompt.inputString("전공? "));
     m.setWage(Prompt.inputInt("강의료(시급)? "));
+    m.setCreatedDate(new Date(System.currentTimeMillis()).toString());
 
     this.teacherDao.insert(m);
   }
 
   private void printTeachers() {
 
-    Teacher[] teachers = this.teacherDao.findAll();
+    Teacher[] teachers = (Teacher[]) this.teacherDao.findAll();
 
     System.out.println("번호\t이름\t전화\t학위\t전공\t시강료");
 

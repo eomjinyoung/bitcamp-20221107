@@ -32,7 +32,7 @@ public class StudentHandler {
 
   private void printMembers() {
 
-    Student[] members = this.memberDao.findAll();
+    Student[] members = (Student[]) this.memberDao.findAll();
 
     System.out.println("번호\t이름\t전화\t재직\t전공");
 
@@ -138,7 +138,7 @@ public class StudentHandler {
 
   private void searchMember() {
 
-    Student[] members = this.memberDao.findAll();
+    Student[] members = (Student[]) this.memberDao.findAll();
 
     String name = Prompt.inputString("이름? ");
 

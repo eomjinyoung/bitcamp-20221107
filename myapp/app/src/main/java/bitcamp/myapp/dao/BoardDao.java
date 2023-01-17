@@ -9,13 +9,15 @@ public class BoardDao extends ObjectDao {
     Board b = new Board();
     b.setNo(no);
 
-    int index = this.indexOf(b);
+    //    int index = this.indexOf(b);
+    //
+    //    if (index < 0) {
+    //      return null;
+    //    } else {
+    //      return (Board) this.get(index);
+    //    }
 
-    if (index < 0) {
-      return null;
-    } else {
-      return (Board) this.get(index);
-    }
+    return (Board) this.get(this.indexOf(b));
   }
 
   @Override // 컴파일러에게 오버라이딩을 제대로 했는지 검사해 달라고 표시함
