@@ -1,23 +1,23 @@
 package bitcamp.myapp.dao;
 
 import java.util.Arrays;
-import bitcamp.myapp.vo.Member;
+import bitcamp.myapp.vo.Student;
 
-public class MemberDao {
+public class StudentDao {
   private static final int SIZE = 100;
 
   private int count;
-  private Member[] members = new Member[SIZE];
+  private Student[] members = new Student[SIZE];
 
-  public void insert(Member member) {
+  public void insert(Student member) {
     this.members[this.count++] = member;
   }
 
-  public Member[] findAll() {
+  public Student[] findAll() {
     return Arrays.copyOf(members, count);
   }
 
-  public Member findByNo(int no) {
+  public Student findByNo(int no) {
     for (int i = 0; i < this.count; i++) {
       if (this.members[i].getNo() == no) {
         return this.members[i];
@@ -26,18 +26,18 @@ public class MemberDao {
     return null;
   }
 
-  public void update(Member member) {
+  public void update(Student member) {
     this.members[this.indexOf(member)] = member;
   }
 
-  public void delete(Member member) {
+  public void delete(Student member) {
     for (int i = this.indexOf(member) + 1; i < this.count; i++) {
       this.members[i - 1] = this.members[i];
     }
     this.members[--this.count] = null; // 레퍼런스 카운트를 줄인다.
   }
 
-  private int indexOf(Member b) {
+  private int indexOf(Student b) {
     for (int i = 0; i < this.count; i++) {
       if (this.members[i].getNo() == b.getNo()) {
         return i;
