@@ -1,8 +1,11 @@
 package bitcamp.myapp.dao;
 
+import java.sql.Date;
 import bitcamp.myapp.vo.Teacher;
 
 public class TeacherDao extends ObjectDao {
+
+  int lastNo;
 
   public Teacher findByNo(int no) {
     Teacher t = new Teacher();
@@ -18,6 +21,15 @@ public class TeacherDao extends ObjectDao {
       }
     }
     return -1;
+  }
+
+  @Override
+  public void insert(Object object) {
+    Teacher t = (Teacher) object;
+    t.setNo(++lastNo);
+    t.setCreatedDate(new Date(System.currentTimeMillis()).toString());
+
+    super.insert(object);
   }
 }
 

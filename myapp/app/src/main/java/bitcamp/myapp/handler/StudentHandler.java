@@ -1,6 +1,5 @@
 package bitcamp.myapp.handler;
 
-import java.sql.Date;
 import bitcamp.myapp.dao.StudentDao;
 import bitcamp.myapp.vo.Student;
 import bitcamp.util.Prompt;
@@ -16,7 +15,6 @@ public class StudentHandler {
 
   private void inputMember() {
     Student m = new Student();
-    m.setNo(Prompt.inputInt("번호? "));
     m.setName(Prompt.inputString("이름? "));
     m.setTel(Prompt.inputString("전화? "));
     m.setPostNo(Prompt.inputString("우편번호? "));
@@ -25,18 +23,18 @@ public class StudentHandler {
     m.setWorking(Prompt.inputInt("0. 미취업\n1. 재직중\n재직자? ") == 1);
     m.setGender(Prompt.inputInt("0. 남자\n1. 여자\n성별? ") == 0 ? 'M' : 'W');
     m.setLevel((byte) Prompt.inputInt("0. 비전공자\n1. 준전공자\n2. 전공자\n전공? "));
-    m.setCreatedDate(new Date(System.currentTimeMillis()).toString());
 
     this.memberDao.insert(m);
   }
 
   private void printMembers() {
 
-    Student[] members = (Student[]) this.memberDao.findAll();
+    Object[] members = this.memberDao.findAll();
 
     System.out.println("번호\t이름\t전화\t재직\t전공");
 
-    for (Student m : members) {
+    for (Object obj : members) {
+      Student m = (Student) obj;
       System.out.printf("%d\t%s\t%s\t%s\t%s\n",
           m.getNo(), m.getName(), m.getTel(),
           m.isWorking() ? "예" : "아니오",
@@ -138,13 +136,14 @@ public class StudentHandler {
 
   private void searchMember() {
 
-    Student[] members = (Student[]) this.memberDao.findAll();
+    Object[] members = this.memberDao.findAll();
 
     String name = Prompt.inputString("이름? ");
 
     System.out.println("번호\t이름\t전화\t재직\t전공");
 
-    for (Student m : members) {
+    for (Object obj : members) {
+      Student m = (Student) obj;
       if (m.getName().equalsIgnoreCase(name)) {
         System.out.printf("%d\t%s\t%s\t%s\t%s\n",
             m.getNo(), m.getName(), m.getTel(),
