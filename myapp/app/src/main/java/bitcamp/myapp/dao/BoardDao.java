@@ -1,53 +1,27 @@
 package bitcamp.myapp.dao;
 
-import java.util.Arrays;
 import bitcamp.myapp.vo.Board;
 
-public class BoardDao {
-  private static final int SIZE = 100;
+public class BoardDao extends ObjectDao {
 
-  private int count;
-  private Board[] boards = new Board[SIZE];
-
-  public void insert(Board board) {
-    this.boards[this.count++] = board;
-  }
-
-  public Board[] findAll() {
-    // 배열의 값 복제
-    //    Board[] arr = new Board[this.count];
-    //    for (int i = 0; i < this.count; i++) {
-    //      arr[i] = this.boards[i];
-    //    }
-    //    return arr;
-
-    // 위와 같다!
-    return Arrays.copyOf(boards, count);
-  }
-
+  // Board 객체를 게시글 번호를 찾는 메서드
   public Board findByNo(int no) {
-    for (int i = 0; i < this.count; i++) {
-      if (this.boards[i].getNo() == no) {
-        return this.boards[i];
-      }
+    Board b = new Board();
+    b.setNo(no);
+
+    int index = this.indexOf(b);
+
+    if (index < 0) {
+      return null;
+    } else {
+      return (Board) this.get(index);
     }
-    return null;
   }
 
-  public void update(Board board) {
-    this.boards[this.indexOf(board)] = board;
-  }
-
-  public void delete(Board board) {
-    for (int i = this.indexOf(board) + 1; i < this.count; i++) {
-      this.boards[i - 1] = this.boards[i];
-    }
-    this.boards[--this.count] = null; // 레퍼런스 카운트를 줄인다.
-  }
-
-  private int indexOf(Board b) {
-    for (int i = 0; i < this.count; i++) {
-      if (this.boards[i].getNo() == b.getNo()) {
+  @Override // 컴파일러에게 오버라이딩을 제대로 했는지 검사해 달라고 표시함
+  protected int indexOf(Object obj) {
+    for (int i = 0; i < this.size(); i++) {
+      if (((Board)this.objects[i]).getNo() == ((Board)obj).getNo()) {
         return i;
       }
     }
