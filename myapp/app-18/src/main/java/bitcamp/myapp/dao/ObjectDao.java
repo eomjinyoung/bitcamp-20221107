@@ -92,36 +92,13 @@ public abstract class ObjectDao {
       throw new DaoException("삭제할 값을 찾을 수 없습니다.");
     }
 
+    // 이전 노드의 주소를 저장할 레퍼런스를 준비한다.
+    Node prevNode = null;
 
-    // 삭제할 노드가 시작 노드이면
-    if (index == 0) {
+    // 시작 노드를 가져온다.
+    Node cursor = head;
 
-      // 시작 노드의 주소를 가져온다.
-      Node cursor = head;
-
-      // 현재 head가 가리키는 다음 노드를 시작 노드로 설정한다.
-      head = head.next;
-
-      // 이전의 시작 노드의 next 필드 값을 지운다.
-      cursor.next = null;
-
-      // 리스트 개수를 줄인다.
-      this.size--;
-
-      // 리스트의 개수가 0이라면 tail의 주소를 지운다.
-      if (head == null) {
-        tail = null;
-      }
-      return;
-    }
-
-    // 이전 노드의 주소를 head로 설정한다.
-    Node prevNode = head;
-
-    // 1번 인덱스 노드부터 탐색을 시작한다.
-    Node cursor = head.next;
-
-    int i = 1;
+    int i = 0;
 
     // 해당 인덱스의 노드를 찾는다.
     while (i < index) {
@@ -136,20 +113,37 @@ public abstract class ObjectDao {
       i++;
     }
 
-    // 이전 노드가 커서의 다음 노드를 가리키도록 한다.
-    prevNode.next = cursor.next;
 
-    // 삭제할 노드의 다음 노드 주소를 지운다.
-    cursor.next = null;
+    if (prevNode == null) {
+      // 삭제할 노드가 시작 노드라면,
+
+      // 현재 head가 가리키는 다음 노드를 시작 노드로 설정한다.
+      head = head.next;
+
+      // 이전의 시작 노드의 next 필드 값을 지운다.
+      cursor.next = null;
+
+      // 리스트의 개수가 0이라면 tail의 주소를 지운다.
+      if (head == null) {
+        tail = null;
+      }
+
+    } else {
+      // 이전 노드가 커서의 다음 노드를 가리키도록 한다.
+      prevNode.next = cursor.next;
+
+      // 삭제할 노드의 다음 노드 주소를 지운다.
+      cursor.next = null;
+
+      // 삭제한 노드가 마지막 노드인 경우
+      if (prevNode.next == null) {
+        // 마지막 노드의 주소를 바꾼다.
+        tail = prevNode;
+      }
+    }
 
     // 목록의 개수를 하나 줄인다.
     this.size--;
-
-    // 삭제한 노드가 마지막 노드인 경우
-    if (prevNode.next == null) {
-      // 마지막 노드의 주소를 바꾼다.
-      tail = prevNode;
-    }
   }
 
   // 객체의 위치를 찾는 것은
