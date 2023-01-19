@@ -3,12 +3,15 @@ package bitcamp.myapp.dao;
 import java.util.Arrays;
 
 public abstract class ObjectDao {
-  private static final int SIZE = 100;
+  private static final int SIZE = 3;
 
   private int count;
   protected Object[] objects = new Object[SIZE];
 
   public void insert(Object object) {
+    if (count == SIZE) {
+      throw new DaoException("저장 개수를 초과했습니다.");
+    }
     this.objects[this.count++] = object;
   }
 
@@ -42,7 +45,7 @@ public abstract class ObjectDao {
   // 그런 상황이면 이렇게 수퍼 클래스에 해당 메서드를 정의하면 된다.
   public Object get(int i) {
     if (i < 0 || i >= this.count) {
-      return null;
+      throw new DaoException("인덱스가 무효합니다!");
     }
     return objects[i];
   }

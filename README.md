@@ -547,8 +547,8 @@
 
 - 자바(계속)
     - Wrapper 클래스 사용법(계속)
-
-
+    - 문법 응용 실전 프로젝트(myapp)
+        - 16.예외를 처리하는 방법
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr

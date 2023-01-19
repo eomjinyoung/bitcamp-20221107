@@ -29,7 +29,7 @@ public class App {
       int menuNo;
       try {
         menuNo = Prompt.inputInt("메뉴> ");
-      } catch (Throwable e) {
+      } catch (Exception e) {
         System.out.println("메뉴 번호가 옳지 않습니다!");
         continue;
       }
@@ -43,8 +43,10 @@ public class App {
           default:
             System.out.println("잘못된 메뉴 번호 입니다.");
         }
-      } catch (Throwable e) {
-        System.out.println("명령 실행 중 오류 발생!");
+      } catch (Exception e) {
+        System.out.printf("명령 실행 중 오류 발생! - %s : %s\n",
+            e.getMessage(),
+            e.getClass().getSimpleName());
       }
     }
   }
