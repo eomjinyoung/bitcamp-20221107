@@ -92,11 +92,12 @@ public abstract class ObjectDao {
       throw new DaoException("삭제할 값을 찾을 수 없습니다.");
     }
 
-    // 시작 노드의 주소를 가져온다.
-    Node cursor = head;
 
     // 삭제할 노드가 시작 노드이면
     if (index == 0) {
+
+      // 시작 노드의 주소를 가져온다.
+      Node cursor = head;
 
       // 현재 head가 가리키는 다음 노드를 시작 노드로 설정한다.
       head = head.next;
@@ -114,11 +115,13 @@ public abstract class ObjectDao {
       return;
     }
 
+    // 이전 노드의 주소를 head로 설정한다.
+    Node prevNode = head;
 
-    // 이전 노드의 주소를 저장할 레퍼런스를 준비한다.
-    Node prevNode = null;
+    // 1번 인덱스 노드부터 탐색을 시작한다.
+    Node cursor = head.next;
 
-    int i = 0;
+    int i = 1;
 
     // 해당 인덱스의 노드를 찾는다.
     while (i < index) {
