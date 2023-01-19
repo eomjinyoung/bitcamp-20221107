@@ -543,7 +543,12 @@
     - String 클래스 사용법
     - Wrapper 클래스 사용법
 
-        
+## 54일차(2023-01-19,목)
+
+- 자바(계속)
+    - Wrapper 클래스 사용법(계속)
+
+
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
