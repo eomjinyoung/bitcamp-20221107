@@ -547,8 +547,13 @@
 
 - 자바(계속)
     - Wrapper 클래스 사용법(계속)
+    - Date, Calendar 클래스 사용법
+    - 예외처리 문법 사용법
+    - LinkeList 알고리즘 소개 및 구현
     - 문법 응용 실전 프로젝트(myapp)
-        - 16.예외를 처리하는 방법
+        - 16.예외 처리하기
+        - 17.배열의 크기를 늘리기
+        - 18.LinkedList 알고리즘으로 객체 목록 다루기
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr

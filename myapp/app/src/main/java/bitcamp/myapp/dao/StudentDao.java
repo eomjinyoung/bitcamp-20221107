@@ -16,7 +16,7 @@ public class StudentDao extends ObjectDao {
   @Override
   protected int indexOf(Object obj) {
     for (int i = 0; i < this.size(); i++) {
-      if (((Student) this.objects[i]).getNo() == ((Student) obj).getNo()) {
+      if (((Student) this.get(i)).getNo() == ((Student) obj).getNo()) {
         return i;
       }
     }

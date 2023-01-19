@@ -128,7 +128,6 @@ public class BoardHandler {
   }
 
   public void service() {
-    this.service();
     while (true) {
       System.out.printf("[%s]\n", this.title);
       System.out.println("1. 등록");

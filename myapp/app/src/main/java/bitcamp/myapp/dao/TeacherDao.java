@@ -16,7 +16,7 @@ public class TeacherDao extends ObjectDao {
   @Override
   protected int indexOf(Object obj) {
     for (int i = 0; i < this.size(); i++) {
-      if (((Teacher) this.objects[i]).getNo() == ((Teacher) obj).getNo()) {
+      if (((Teacher) this.get(i)).getNo() == ((Teacher) obj).getNo()) {
         return i;
       }
     }
