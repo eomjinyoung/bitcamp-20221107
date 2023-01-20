@@ -2,35 +2,49 @@ package bitcamp.myapp.dao;
 
 import java.sql.Date;
 import bitcamp.myapp.vo.Student;
+import bitcamp.util.LinkedList;
 
-public class StudentDao extends ObjectDao {
+public class StudentDao {
+
+  LinkedList list = new LinkedList();
 
   int lastNo;
+
+  public void insert(Student s) {
+    s.setNo(++lastNo);
+    s.setCreatedDate(new Date(System.currentTimeMillis()).toString());
+    list.add(s);
+  }
+
+  public Student[] findAll() {
+    Student[] students = new Student[list.size()];
+    Object[] arr = list.toArray();
+    for (int i = 0; i < students.length; i++) {
+      students[i] = (Student) arr[i];
+    }
+    return students;
+  }
 
   public Student findByNo(int no) {
     Student s = new Student();
     s.setNo(no);
-    return (Student) this.get(this.indexOf(s));
-  }
 
-  @Override
-  protected int indexOf(Object obj) {
-    for (int i = 0; i < this.size(); i++) {
-      if (((Student) this.get(i)).getNo() == ((Student) obj).getNo()) {
-        return i;
-      }
+    int index = list.indexOf(s);
+    if (index == -1) {
+      return null;
     }
-    return -1;
+    return (Student) list.get(index);
   }
 
-  @Override
-  public void insert(Object object) {
-    Student s = (Student) object;
-    s.setNo(++lastNo);
-    s.setCreatedDate(new Date(System.currentTimeMillis()).toString());
-
-    super.insert(object);
+  public void update(Student s) {
+    int index = list.indexOf(s);
+    list.set(index, s);
   }
+
+  public boolean delete(Student s) {
+    return list.remove(s);
+  }
+
 }
 
 
