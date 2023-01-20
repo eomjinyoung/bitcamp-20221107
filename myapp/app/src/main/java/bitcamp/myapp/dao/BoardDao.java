@@ -2,13 +2,20 @@ package bitcamp.myapp.dao;
 
 import java.sql.Date;
 import bitcamp.myapp.vo.Board;
-import bitcamp.util.LinkedList;
+import bitcamp.util.List;
 
 public class BoardDao {
 
-  // 목록을 관리하기 위해 ObjectDao를 상속 받는 대신에
-  // 그와 동일한 기능을 수행하는 LinkedList 를 사용한다.
-  LinkedList list = new LinkedList();
+  // 특정 클래스를 지정하기 보다는
+  // 인터페이스를 통해 관계를 느슨하게 만든다.
+  List list;
+
+  public BoardDao(List list) {
+    // List 규칙에 따라서 만든 객체를 외부에서 주입받는다.
+    // 이렇게 하면 이 클래스는 ArrayList 또는 LinkedList와 같은
+    // 특정 클래스와 관계가 없어진다.
+    this.list = list;
+  }
 
   int lastNo;
 

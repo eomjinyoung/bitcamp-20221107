@@ -43,37 +43,37 @@ public class ArrayListTest {
   public static void main(String[] args) {
     ArrayList list = new ArrayList();
 
-    list.append(new Member(1, "aaa", "1111"));
-    list.append(new Member(2, "bbb", "2222"));
-    list.append(new Member(3, "ccc", "3333"));
-    list.append(new Member(4, "ddd", "4444"));
+    list.add(new Member(1, "aaa", "1111"));
+    list.add(new Member(2, "bbb", "2222"));
+    list.add(new Member(3, "ccc", "3333"));
+    list.add(new Member(4, "ddd", "4444"));
     print(list);
 
-    //    System.out.println(list.delete(new Member(3, null, null)));
+    //    System.out.println(list.remove(new Member(3, null, null)));
     //    print(list);
-    //    System.out.println(list.delete(new Member(4, null, null)));
+    //    System.out.println(list.remove(new Member(4, null, null)));
     //    print(list);
-    //    System.out.println(list.delete(new Member(1, null, null)));
+    //    System.out.println(list.remove(new Member(1, null, null)));
     //    print(list);
-    //    System.out.println(list.delete(new Member(2, null, null)));
+    //    System.out.println(list.remove(new Member(2, null, null)));
     //    print(list);
-    //    System.out.println(list.delete(new Member(5, "ddd", "4444")));
+    //    System.out.println(list.remove(new Member(5, "ddd", "4444")));
     //    print(list);
 
-    list.modify(2, new Member(3, "cccx", "3333x"));
+    list.set(2, new Member(3, "cccx", "3333x"));
     print(list);
-    list.modify(0, new Member(1, "aaax", "1111x"));
+    list.set(0, new Member(1, "aaax", "1111x"));
     print(list);
-    list.modify(3, new Member(4, "dddx", "4444x"));
+    list.set(3, new Member(4, "dddx", "4444x"));
     print(list);
-    list.modify(4, new Member(4, "dddx", "4444x"));
+    list.set(4, new Member(4, "dddx", "4444x"));
 
 
   }
 
   static void print(ArrayList list) {
     System.out.println("------------------------------------------------");
-    for (Object obj : list.getList()) {
+    for (Object obj : list.toArray()) {
       System.out.println(obj);
     }
   }

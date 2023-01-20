@@ -2,13 +2,18 @@ package bitcamp.myapp.dao;
 
 import java.sql.Date;
 import bitcamp.myapp.vo.Student;
-import bitcamp.util.LinkedList;
+import bitcamp.util.List;
 
 public class StudentDao {
 
-  LinkedList list = new LinkedList();
+  List list;
 
   int lastNo;
+
+  public StudentDao(List list) {
+    this.list = list;
+  }
+
 
   public void insert(Student s) {
     s.setNo(++lastNo);

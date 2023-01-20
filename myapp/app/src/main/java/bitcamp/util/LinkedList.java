@@ -2,12 +2,13 @@ package bitcamp.util;
 
 import bitcamp.myapp.dao.DaoException;
 
-public class LinkedList {
+public class LinkedList implements List {
 
   private Node head;
   private Node tail;
   private int size;
 
+  @Override
   public void add(Object value) {
     Node node = new Node(value);
     if (this.tail == null) { // size == 0, head == null
@@ -21,6 +22,7 @@ public class LinkedList {
     this.size++;
   }
 
+  @Override
   public Object[] toArray() {
     Object[] values = new Object[this.size];
     int index = 0;
@@ -33,6 +35,7 @@ public class LinkedList {
     return values;
   }
 
+  @Override
   public Object set(int index, Object value) {
     if (index < 0 || index >= this.size) {
       throw new IndexOutOfBoundsException("인덱스가 유효하지 않습니다.");
@@ -54,6 +57,7 @@ public class LinkedList {
     return null;
   }
 
+  @Override
   public boolean remove(Object value) {
     Node prevNode = null;
     Node deletedNode = null;
@@ -90,6 +94,7 @@ public class LinkedList {
     return true;
   }
 
+  @Override
   public int indexOf(Object b) {
     Node cursor = head;
     int i = 0;
@@ -104,10 +109,12 @@ public class LinkedList {
     return -1;
   }
 
+  @Override
   public int size() {
     return this.size;
   }
 
+  @Override
   public Object get(int index) {
     if (index < 0 || index >= this.size) {
       throw new DaoException("인덱스가 무효합니다!");
