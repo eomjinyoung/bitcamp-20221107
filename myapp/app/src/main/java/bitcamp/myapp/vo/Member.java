@@ -1,10 +1,28 @@
 package bitcamp.myapp.vo;
 
+import java.util.Objects;
+
 public class Member {
   private int no;
   private String name;
   private String tel;
   private String createdDate;
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(no);
+  }
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Member other = (Member) obj;
+    return no == other.no;
+  }
 
   public int getNo() {
     return no;

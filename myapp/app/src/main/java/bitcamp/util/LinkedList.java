@@ -92,16 +92,16 @@ public class LinkedList {
 
   public int indexOf(Object b) {
     Node cursor = head;
-    int i = -1;
+    int i = 0;
 
     while (cursor != null) {
-      i++;
       if (cursor.value.equals(b)) {
         return i;
       }
       cursor = cursor.next;
+      i++;
     }
-    return i;
+    return -1;
   }
 
   public int size() {
