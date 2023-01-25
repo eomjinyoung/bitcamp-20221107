@@ -65,6 +65,13 @@ public class ArrayList implements List {
     return -1;
   }
 
+  @Override
+  public Iterator iterator() {
+    // 이 ArrayList 객체에서 값을 꺼내는 일을 할
+    // Iterator 구현체를 만들어 리턴한다.
+    return new ListIterator(this);
+  }
+
 }
 
 

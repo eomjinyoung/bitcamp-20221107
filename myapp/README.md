@@ -115,3 +115,8 @@
   - ArrayList와 LinkedList는 List 규칙에 따라 재구현
   - XxxDao 클래스에 인터페이스 적용
   - 인터페이스를 이용하여 느슨하게 결합(loose coupling)하는 방법
+
+### 22. 데이터 조회 로직을 객체화 하기: Iterator 패턴 적용
+  - 데이터 조회 규격을 Iterator 인터페이스로 정의한다.
+  - List 구현체에서 Iterator 규격을 따르도록 변경한다.
+  - 객체 목록을 다룰 때 Iterator 구현체를 사용한다.
