@@ -2,6 +2,7 @@ package bitcamp.myapp.dao;
 
 import java.sql.Date;
 import bitcamp.myapp.vo.Teacher;
+import bitcamp.util.Iterator;
 import bitcamp.util.List;
 
 public class TeacherDao {
@@ -22,9 +23,10 @@ public class TeacherDao {
 
   public Teacher[] findAll() {
     Teacher[] teachers = new Teacher[list.size()];
-    Object[] arr = list.toArray();
-    for (int i = 0; i < teachers.length; i++) {
-      teachers[i] = (Teacher) arr[i];
+    Iterator i = list.iterator();
+    int index = 0;
+    while (i.hasNext()) {
+      teachers[index++] = (Teacher) i.next();
     }
     return teachers;
   }

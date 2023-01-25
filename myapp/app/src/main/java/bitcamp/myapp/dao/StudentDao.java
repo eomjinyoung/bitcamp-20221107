@@ -2,6 +2,7 @@ package bitcamp.myapp.dao;
 
 import java.sql.Date;
 import bitcamp.myapp.vo.Student;
+import bitcamp.util.Iterator;
 import bitcamp.util.List;
 
 public class StudentDao {
@@ -14,7 +15,6 @@ public class StudentDao {
     this.list = list;
   }
 
-
   public void insert(Student s) {
     s.setNo(++lastNo);
     s.setCreatedDate(new Date(System.currentTimeMillis()).toString());
@@ -23,9 +23,10 @@ public class StudentDao {
 
   public Student[] findAll() {
     Student[] students = new Student[list.size()];
-    Object[] arr = list.toArray();
-    for (int i = 0; i < students.length; i++) {
-      students[i] = (Student) arr[i];
+    Iterator i = list.iterator();
+    int index = 0;
+    while (i.hasNext()) {
+      students[index++] = (Student) i.next();
     }
     return students;
   }
