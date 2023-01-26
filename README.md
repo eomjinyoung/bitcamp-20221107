@@ -579,6 +579,7 @@
 
 - 자바(계속)
     - 인터페이스 문법 소개 및 사용법(계속)
+    - 중첩 클래스 사용법: static/non-static nested class, local class, anonymous class
     - 문법 응용 실전 프로젝트(myapp)
         - 23.중첩 클래스 문법을 이용하여 클래스 사용 범위를 제한하기
 
