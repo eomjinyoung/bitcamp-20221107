@@ -2,30 +2,27 @@ package bitcamp.util;
 
 import java.util.Arrays;
 
-public class ArrayList implements List {
+public class ArrayList extends AbstractList {
 
   private static final int SIZE = 3;
-  private int count;
   protected Object[] objects = new Object[SIZE];
 
   @Override
   public void add(Object object) {
-    if (count == objects.length) {
+    if (size == objects.length) {
       objects = Arrays.copyOf(objects, objects.length + (objects.length >> 1));
     }
-    this.objects[this.count++] = object;
+    this.objects[this.size++] = object;
   }
 
   @Override
   public Object[] toArray() {
-    return Arrays.copyOf(objects, count);
+    return Arrays.copyOf(objects, size);
   }
 
   @Override
   public Object get(int index) {
-    if (index < 0 || index >= this.count) {
-      throw new IndexOutOfBoundsException("인덱스가 무효합니다.");
-    }
+    super.get(index);
     return this.objects[index];
   }
 
@@ -43,33 +40,21 @@ public class ArrayList implements List {
       return false;
     }
 
-    for (int i = index + 1; i < this.count; i++) {
+    for (int i = index + 1; i < this.size; i++) {
       this.objects[i - 1] = this.objects[i];
     }
-    this.objects[--this.count] = null; // 레퍼런스 카운트를 줄인다.
+    this.objects[--this.size] = null; // 레퍼런스 카운트를 줄인다.
     return true;
   }
 
   @Override
-  public int size() {
-    return this.count;
-  }
-
-  @Override
   public int indexOf(Object object) {
-    for (int i = 0; i < this.count; i++) {
+    for (int i = 0; i < this.size; i++) {
       if (objects[i].equals(object)) {
         return i;
       }
     }
     return -1;
-  }
-
-  @Override
-  public Iterator iterator() {
-    // 이 ArrayList 객체에서 값을 꺼내는 일을 할
-    // Iterator 구현체를 만들어 리턴한다.
-    return new ListIterator(this);
   }
 
 }
