@@ -590,6 +590,12 @@
     - 문법 응용 실전 프로젝트(myapp)
         - 24.List가 특정 타입의 목록만 다룰 수 있게 맞춤 설정하는 방법: 제네릭 문법 적용
         - 25.기존 List 구현체를 자바 컬렉션 API로 교체하기: java.util 패키지의 클래스 사용
+    - 과제
+        - 컬렉션(collection) API 사용법 예제 연습하기(필수)
+            - com.eomcs.basic: ex03 ~ ex08
+        - 제네릭 사용법 예제 연습하기(선택: 연봉 올리고 싶은 사람만!)
+            - com.eomcs.generic
+            
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
