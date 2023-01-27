@@ -583,6 +583,13 @@
     - 문법 응용 실전 프로젝트(myapp)
         - 23.중첩 클래스 문법을 이용하여 클래스 사용 범위를 제한하기
 
+## 58일차(2023-01-27,금)
+
+- 자바(계속)
+    - 중첩 클래스 사용법: static/non-static nested class, local class, anonymous class(계속)
+    - 문법 응용 실전 프로젝트(myapp)
+        - 23.중첩 클래스 문법을 이용하여 클래스 사용 범위를 제한하기
+
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
