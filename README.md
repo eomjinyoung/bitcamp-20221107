@@ -589,7 +589,7 @@
     - 중첩 클래스 사용법: static/non-static nested class, local class, anonymous class(계속)
     - 문법 응용 실전 프로젝트(myapp)
         - 24.List가 특정 타입의 목록만 다룰 수 있게 맞춤 설정하는 방법: 제네릭 문법 적용
-
+        - 25.기존 List 구현체를 자바 컬렉션 API로 교체하기: java.util 패키지의 클래스 사용
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
