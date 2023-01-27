@@ -7,7 +7,7 @@ import bitcamp.util.Prompt;
 
 public class TeacherHandler {
 
-  private TeacherDao teacherDao = new TeacherDao(new ArrayList());
+  private TeacherDao teacherDao = new TeacherDao(new ArrayList<Teacher>());
   private String title;
 
   public TeacherHandler(String title) {

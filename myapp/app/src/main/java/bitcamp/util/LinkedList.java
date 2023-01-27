@@ -1,13 +1,16 @@
 package bitcamp.util;
 
-public class LinkedList extends AbstractList {
+// LinkedList 를 생성할 때 어떤 데이터를 다룰지 타입을 지정한다.
+// 예) new LinkedList<Student>();
+//
+public class LinkedList<E> extends AbstractList<E> {
 
-  private Node head;
-  private Node tail;
+  private Node<E> head;
+  private Node<E> tail;
 
   @Override
-  public void add(Object value) {
-    Node node = new Node(value);
+  public void add(E value) {
+    Node<E> node = new Node<>(value);
     if (this.tail == null) { // size == 0, head == null
       this.head = this.tail = node;
 
@@ -23,7 +26,7 @@ public class LinkedList extends AbstractList {
   public Object[] toArray() {
     Object[] values = new Object[this.size];
     int index = 0;
-    Node cursor = this.head;
+    Node<E> cursor = this.head;
 
     while (cursor != null) {
       values[index++] = cursor.value;
@@ -33,17 +36,17 @@ public class LinkedList extends AbstractList {
   }
 
   @Override
-  public Object set(int index, Object value) {
+  public E set(int index, E value) {
     if (index < 0 || index >= this.size) {
       throw new IndexOutOfBoundsException("인덱스가 유효하지 않습니다.");
     }
 
-    Node cursor = head;
+    Node<E> cursor = head;
     int i = 0;
 
     while (cursor != null) {
       if (i == index) {
-        Object old = cursor.value;
+        E old = cursor.value;
         cursor.value = value;
         return old;
       }
@@ -55,10 +58,10 @@ public class LinkedList extends AbstractList {
   }
 
   @Override
-  public boolean remove(Object value) {
-    Node prevNode = null;
-    Node deletedNode = null;
-    Node cursor = this.head;
+  public boolean remove(E value) {
+    Node<E> prevNode = null;
+    Node<E> deletedNode = null;
+    Node<E> cursor = this.head;
 
     while (cursor != null) {
       if (cursor.value.equals(value)) {
@@ -92,8 +95,8 @@ public class LinkedList extends AbstractList {
   }
 
   @Override
-  public int indexOf(Object b) {
-    Node cursor = head;
+  public int indexOf(E b) {
+    Node<E> cursor = head;
     int i = 0;
 
     while (cursor != null) {
@@ -107,10 +110,10 @@ public class LinkedList extends AbstractList {
   }
 
   @Override
-  public Object get(int index) {
+  public E get(int index) {
     super.get(index);
 
-    Node cursor = head;
+    Node<E> cursor = head;
     int i = 0;
 
     while (i < index) {
@@ -120,19 +123,16 @@ public class LinkedList extends AbstractList {
     return cursor.value;
   }
 
-  // - LinkedList 클래스에서만 사용하는 클래스라면
-  //   LinkedList 클래스 안에 두는 것이 유지보수에 더 낫다.
-  // - 패키지 외부에 노출되지 않기 때문에 다른 개발자가 헷갈릴 이유가 없다.
+  // Node 객체에 담을 데이터의 타입이 무엇인지 지정한다.
+  // 예) new Node<Student>();
   //
-  // => 스태틱 중첩 클래스(static nested class)
-  //
-  static class Node {
-    Object value;
-    Node next;
+  static class Node<T> {
+    T value;
+    Node<T> next;
 
     public Node() {}
 
-    public Node(Object value) {
+    public Node(T value) {
       this.value = value;
     }
   }

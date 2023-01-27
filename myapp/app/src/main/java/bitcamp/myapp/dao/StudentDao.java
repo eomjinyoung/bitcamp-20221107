@@ -7,11 +7,11 @@ import bitcamp.util.List;
 
 public class StudentDao {
 
-  List list;
+  List<Student> list;
 
   int lastNo;
 
-  public StudentDao(List list) {
+  public StudentDao(List<Student> list) {
     this.list = list;
   }
 
@@ -23,10 +23,10 @@ public class StudentDao {
 
   public Student[] findAll() {
     Student[] students = new Student[list.size()];
-    Iterator i = list.iterator();
+    Iterator<Student> i = list.iterator();
     int index = 0;
     while (i.hasNext()) {
-      students[index++] = (Student) i.next();
+      students[index++] = i.next();
     }
     return students;
   }
@@ -39,7 +39,7 @@ public class StudentDao {
     if (index == -1) {
       return null;
     }
-    return (Student) list.get(index);
+    return list.get(index);
   }
 
   public void update(Student s) {

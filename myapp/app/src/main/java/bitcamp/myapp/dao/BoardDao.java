@@ -7,14 +7,9 @@ import bitcamp.util.List;
 
 public class BoardDao {
 
-  // 특정 클래스를 지정하기 보다는
-  // 인터페이스를 통해 관계를 느슨하게 만든다.
-  List list;
+  List<Board> list;
 
-  public BoardDao(List list) {
-    // List 규칙에 따라서 만든 객체를 외부에서 주입받는다.
-    // 이렇게 하면 이 클래스는 ArrayList 또는 LinkedList와 같은
-    // 특정 클래스와 관계가 없어진다.
+  public BoardDao(List<Board> list) {
     this.list = list;
   }
 
@@ -28,10 +23,10 @@ public class BoardDao {
 
   public Board[] findAll() {
     Board[] boards = new Board[list.size()];
-    Iterator i = list.iterator();
+    Iterator<Board> i = list.iterator();
     int index = 0;
     while (i.hasNext()) {
-      boards[index++] = (Board) i.next();
+      boards[index++] = i.next();
     }
     return boards;
   }
@@ -45,7 +40,7 @@ public class BoardDao {
       return null;
     }
 
-    return (Board) list.get(index);
+    return list.get(index);
   }
 
   public void update(Board b) {

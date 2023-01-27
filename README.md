@@ -588,7 +588,7 @@
 - 자바(계속)
     - 중첩 클래스 사용법: static/non-static nested class, local class, anonymous class(계속)
     - 문법 응용 실전 프로젝트(myapp)
-        - 23.중첩 클래스 문법을 이용하여 클래스 사용 범위를 제한하기
+        - 24.List가 특정 타입의 목록만 다룰 수 있게 맞춤 설정하는 방법: 제네릭 문법 적용
 
 
 - 구글 미트
