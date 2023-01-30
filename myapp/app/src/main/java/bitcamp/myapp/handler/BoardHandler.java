@@ -129,6 +129,9 @@ public class BoardHandler {
   }
 
   public void service() {
+
+    boardDao.load("board.data");
+
     while (true) {
       System.out.printf("[%s]\n", this.title);
       System.out.println("1. 등록");
@@ -141,7 +144,9 @@ public class BoardHandler {
       int menuNo = Prompt.inputInt(String.format("%s> ", this.title));
 
       switch (menuNo) {
-        case 0: return;
+        case 0:
+          boardDao.save("board.data");
+          return;
         case 1: this.inputBoard(); break;
         case 2: this.printBoards(); break;
         case 3: this.printBoard(); break;

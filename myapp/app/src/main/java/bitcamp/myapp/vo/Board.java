@@ -11,6 +11,11 @@ public class Board {
   private int viewCount;
 
   @Override
+  public String toString() {
+    return "Board [no=" + no + ", title=" + title + ", content=" + content + ", password="
+        + password + ", createdDate=" + createdDate + ", viewCount=" + viewCount + "]";
+  }
+  @Override
   public int hashCode() {
     return Objects.hash(no);
   }

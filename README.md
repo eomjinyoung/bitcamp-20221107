@@ -596,6 +596,13 @@
         - 제네릭 사용법 예제 연습하기(선택: 연봉 올리고 싶은 사람만!)
             - com.eomcs.generic
             
+## 59일차(2023-01-30,월)
+
+- 자바(계속)
+    - I/O Stream API 사용법
+    - 문법 응용 실전 프로젝트(myapp)
+        - 26.파일 API를 사용하여 데이터를 바이너리 형식으로 입출력하기: FileInputStream/FileOutputStream
+    
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
