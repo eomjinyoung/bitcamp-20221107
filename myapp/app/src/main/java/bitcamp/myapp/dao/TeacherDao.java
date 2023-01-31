@@ -1,10 +1,10 @@
 package bitcamp.myapp.dao;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -58,52 +58,24 @@ public class TeacherDao {
   }
 
   public void save(String filename) {
-    try (FileOutputStream out0 = new FileOutputStream(filename);
-        DataOutputStream out = new DataOutputStream(out0)) {
+    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))) {
 
-      out.writeInt(list.size());
-
-      for (Teacher t : list) {
-        out.writeInt(t.getNo());
-        out.writeUTF(t.getName());
-        out.writeUTF(t.getTel());
-        out.writeUTF(t.getCreatedDate());
-        out.writeUTF(t.getEmail());
-        out.writeInt(t.getDegree());
-        out.writeUTF(t.getSchool());
-        out.writeUTF(t.getMajor());
-        out.writeInt(t.getWage());
-      }
+      out.writeObject(list);
 
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
+  @SuppressWarnings("unchecked")
   public void load(String filename) {
     if (list.size() > 0) {
       return;
     }
 
-    try (FileInputStream in0 = new FileInputStream(filename);
-        DataInputStream in = new DataInputStream(in0)) {
+    try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
 
-      int size = in.readInt();
-
-      for (int i = 0; i < size; i++) {
-        Teacher t = new Teacher();
-        t.setNo(in.readInt());
-        t.setName(in.readUTF());
-        t.setTel(in.readUTF());
-        t.setCreatedDate(in.readUTF());
-        t.setEmail(in.readUTF());
-        t.setDegree(in.readInt());
-        t.setSchool(in.readUTF());
-        t.setMajor(in.readUTF());
-        t.setWage(in.readInt());
-
-        list.add(t);
-      }
+      list = (List<Teacher>) in.readObject();
 
       if (list.size() > 0) {
         lastNo = list.get(list.size() - 1).getNo();

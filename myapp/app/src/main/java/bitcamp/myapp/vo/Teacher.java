@@ -1,6 +1,8 @@
 package bitcamp.myapp.vo;
 
-public class Teacher extends Member {
+public class Teacher extends Member implements java.io.Serializable {
+  private static final long serialVersionUID = 1L;
+
   private String email;
   private int degree;
   private String school;
