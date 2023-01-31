@@ -137,3 +137,7 @@
 ### 26. 파일 API를 사용하여 데이터를 바이너리 형식으로 입출력하기: FileInputStream/FileOutputStream
   - 입출력 스트림 API를 사용하여 데이터를 파일로 저장하고 읽는 방법
   - 바이너리 형식으로 데이터를 입출력하는 방법
+
+### 27. Decorator 디자인 패턴을 이용하여 데이터를 바이트 배열로 입출력하는 기능을 캡슐화하기: DataInputStream/DataOutputStream
+  - Primitive 타입과 String 타입의 값을 바이트 또는 바이트 배열로 가공하는 기능을 객체화 한다.
+  - GoF의 데코레이터 설계 기법을 이용하여 클래스를 구조화시킨다.
