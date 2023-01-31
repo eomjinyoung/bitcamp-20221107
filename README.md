@@ -610,6 +610,8 @@
     - 문법 응용 실전 프로젝트(myapp)
         - 26.파일 API를 사용하여 데이터를 바이너리 형식으로 입출력하기: FileInputStream/FileOutputStream(계속)
         - 27.Decorator 디자인 패턴을 이용하여 데이터를 바이트 배열로 입출력하는 기능을 캡슐화하기: DataInputStream/DataOutputStream
+        - 28.인스턴스를 통째로 입출력하기(객체 직렬화): ObjectInputStream/ObjectOutputStream
+  - 인스턴스 필드의 값을 통째로 입출력하는 방법
   
 
 - 구글 미트

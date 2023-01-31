@@ -139,5 +139,8 @@
   - 바이너리 형식으로 데이터를 입출력하는 방법
 
 ### 27. Decorator 디자인 패턴을 이용하여 데이터를 바이트 배열로 입출력하는 기능을 캡슐화하기: DataInputStream/DataOutputStream
-  - Primitive 타입과 String 타입의 값을 바이트 또는 바이트 배열로 가공하는 기능을 객체화 한다.
-  - GoF의 데코레이터 설계 기법을 이용하여 클래스를 구조화시킨다.
+  - Primitive 타입과 String 타입의 값을 바이트 또는 바이트 배열로 가공하는 방법
+  - GoF의 데코레이터 설계 기법의 이해
+
+### 28. 인스턴스를 통째로 입출력하기(객체 직렬화): ObjectInputStream/ObjectOutputStream
+  - 인스턴스 필드의 값을 통째로 입출력하는 방법
