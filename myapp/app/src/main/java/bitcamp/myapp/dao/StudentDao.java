@@ -75,7 +75,9 @@ public class StudentDao {
     try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
 
       list = (List<Student>) in.readObject();
-      lastNo = list.get(list.size() - 1).getNo();
+      if (list.size() > 0) {
+        lastNo = list.get(list.size() - 1).getNo();
+      }
 
     } catch (FileNotFoundException e) {
       System.out.println("데이터 파일이 존재하지 않습니다!");
