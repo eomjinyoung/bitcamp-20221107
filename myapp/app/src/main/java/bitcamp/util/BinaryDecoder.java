@@ -5,6 +5,20 @@ import java.io.InputStream;
 
 public class BinaryDecoder {
 
+  public static byte readByte(InputStream in) throws Exception {
+    return (byte) in.read();
+  }
+
+  public static char readChar(InputStream in) throws Exception {
+    int value = in.read() << 8;
+    value  |= in.read();
+    return (char) value;
+  }
+
+  public static boolean readBoolean(InputStream in) throws Exception {
+    return in.read() == 1 ? true : false;
+  }
+
   public static int readInt(InputStream in) throws Exception {
     int value = 0;
     value  = in.read() << 24;

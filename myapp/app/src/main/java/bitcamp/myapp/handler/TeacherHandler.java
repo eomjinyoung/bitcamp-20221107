@@ -129,6 +129,9 @@ public class TeacherHandler {
   }
 
   public void service() {
+
+    teacherDao.load("teacher.data");
+
     while (true) {
       System.out.printf("[%s]\n", this.title);
       System.out.println("1. 등록");
@@ -140,7 +143,9 @@ public class TeacherHandler {
       int menuNo = Prompt.inputInt(String.format("%s> ", this.title));
 
       switch (menuNo) {
-        case 0: return;
+        case 0:
+          teacherDao.save("teacher.data");
+          return;
         case 1: this.inputTeacher(); break;
         case 2: this.printTeachers(); break;
         case 3: this.printTeacher(); break;
