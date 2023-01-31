@@ -72,10 +72,7 @@ public class BoardDao {
     try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
 
       list = (List<Board>) in.readObject();
-
-      if (list.size() > 0) {
-        lastNo = list.get(list.size() - 1).getNo();
-      }
+      lastNo = list.get(list.size() - 1).getNo();
 
     } catch (Exception e) {
       e.printStackTrace();
