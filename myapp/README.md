@@ -144,3 +144,7 @@
 
 ### 28. 인스턴스를 통째로 입출력하기(객체 직렬화): ObjectInputStream/ObjectOutputStream
   - 인스턴스 필드의 값을 통째로 입출력하는 방법
+
+### 29. 인스턴스를 CSV 텍스트 형식으로 입출력하기: FileReader/FileWriter
+  - 객체의 필드 값을 텍스트로 입출력하는 방법
+  - CSV 형식으로 한 객체의 필드 값을 한 줄 단위로 출력하는 방법

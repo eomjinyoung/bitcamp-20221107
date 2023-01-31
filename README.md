@@ -611,8 +611,22 @@
         - 26.파일 API를 사용하여 데이터를 바이너리 형식으로 입출력하기: FileInputStream/FileOutputStream(계속)
         - 27.Decorator 디자인 패턴을 이용하여 데이터를 바이트 배열로 입출력하는 기능을 캡슐화하기: DataInputStream/DataOutputStream
         - 28.인스턴스를 통째로 입출력하기(객체 직렬화): ObjectInputStream/ObjectOutputStream
-  - 인스턴스 필드의 값을 통째로 입출력하는 방법
-  
+    - 과제
+        - 29. 인스턴스를 CSV 텍스트 형식으로 입출력하기: FileReader/FileWriter
+            - 객체의 필드 값을 텍스트로 입출력하는 방법
+            - CSV 형식으로 한 객체의 필드 값을 한 줄 단위로 출력하는 방법
+
+```
+출력 형식:
+    번호,제목,내용,암호,조회수,작성일
+출력 파일명: 
+    *.csv 예) board.csv
+출력 파일 내용:
+1,제목2,내용,1111,10,2023-01-22
+2,제목2,내용,1111,8,2023-02-02
+3,제목3,내용,1111,23,2023-02-04
+```
+
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
