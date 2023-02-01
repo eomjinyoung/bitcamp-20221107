@@ -60,16 +60,7 @@ public class TeacherDao {
 
       list.forEach(obj -> {
         try {
-          out.write(String.format("%d,%s,%s,%s,%s,%d,%s,%s,%d\n",
-              obj.getNo(),
-              obj.getName(),
-              obj.getTel(),
-              obj.getCreatedDate(),
-              obj.getEmail(),
-              obj.getDegree(),
-              obj.getSchool(),
-              obj.getMajor(),
-              obj.getWage()));
+          out.write(obj.toCsvString() + "\n");
         } catch (Exception e) {
           System.out.println("데이터 출력 중 오류 발생!");
           e.printStackTrace();
@@ -87,26 +78,9 @@ public class TeacherDao {
     }
 
     try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
-
-      while (true) {
-        String str = in.readLine();
-        if (str == null) {
-          break;
-        }
-        String[] values = str.split(",");
-
-        Teacher obj = new Teacher();
-        obj.setNo(Integer.parseInt(values[0]));
-        obj.setName(values[1]);
-        obj.setTel(values[2]);
-        obj.setCreatedDate(values[3]);
-        obj.setEmail(values[4]);
-        obj.setDegree(Integer.parseInt(values[5]));
-        obj.setSchool(values[6]);
-        obj.setMajor(values[7]);
-        obj.setWage(Integer.parseInt(values[8]));
-
-        list.add(obj);
+      String str = null;
+      while ((str = in.readLine()) != null) {
+        list.add(Teacher.create(str));
       }
 
       if (list.size() > 0) {

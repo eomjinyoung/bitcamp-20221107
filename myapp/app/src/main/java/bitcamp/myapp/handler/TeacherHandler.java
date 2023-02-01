@@ -130,7 +130,7 @@ public class TeacherHandler {
 
   public void service() {
 
-    teacherDao.load("teacher.data");
+    teacherDao.load("teacher.csv");
 
     while (true) {
       System.out.printf("[%s]\n", this.title);
@@ -144,7 +144,7 @@ public class TeacherHandler {
 
       switch (menuNo) {
         case 0:
-          teacherDao.save("teacher.data");
+          teacherDao.save("teacher.csv");
           return;
         case 1: this.inputTeacher(); break;
         case 2: this.printTeachers(); break;
