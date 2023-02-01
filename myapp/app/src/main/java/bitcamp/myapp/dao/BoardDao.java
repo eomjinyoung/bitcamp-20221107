@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import bitcamp.myapp.vo.Board;
 
 public class BoardDao {
@@ -57,14 +59,7 @@ public class BoardDao {
   public void save(String filename) {
     try (FileWriter out = new FileWriter(filename)) {
 
-      list.forEach(b -> {
-        try {
-          out.write(b.toCsvString() + "\n");
-        } catch (Exception e) {
-          System.out.println("데이터 출력 중 오류 발생!");
-          e.printStackTrace();
-        }
-      });
+      out.write(new Gson().toJson(list));
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -78,10 +73,12 @@ public class BoardDao {
 
     try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
 
-      String csv = null;
-      while ((csv = in.readLine()) != null) {
-        list.add(Board.create(csv));
-      }
+      // 1) JSON 데이터를 어떤 타입의 객체로 변환할 것인지 그 타입 정보를 준비한다.
+      TypeToken<List<Board>> collectionType = new TypeToken<>() {};
+
+      // 2) 입력 스트림에서 JSON 데이터를 읽고, 지정한 타입의 객체로 변환하여 리턴한다.
+      list = new Gson().fromJson(in, collectionType);
+
       if (list.size() > 0) {
         lastNo = list.get(list.size() - 1).getNo();
       }

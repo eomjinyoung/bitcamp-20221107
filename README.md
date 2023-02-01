@@ -636,6 +636,8 @@
     - 문법 응용 실전 프로젝트(myapp)
         - 29.인스턴스를 CSV 텍스트 형식으로 입출력하기: FileReader/FileWriter
         - 30.리팩토링: Factory Method 패턴, Information Expert 패턴
+        - 31.JSON 형식으로 데이터 입출력하기: Gson 라이브러리 사용
 
+        
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr

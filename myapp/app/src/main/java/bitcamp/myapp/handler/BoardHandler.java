@@ -130,7 +130,7 @@ public class BoardHandler {
 
   public void service() {
 
-    boardDao.load("board.csv");
+    boardDao.load("board.json");
 
     while (true) {
       System.out.printf("[%s]\n", this.title);
@@ -145,7 +145,7 @@ public class BoardHandler {
 
       switch (menuNo) {
         case 0:
-          boardDao.save("board.csv");
+          boardDao.save("board.json");
           return;
         case 1: this.inputBoard(); break;
         case 2: this.printBoards(); break;

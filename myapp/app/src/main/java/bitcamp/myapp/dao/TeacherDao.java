@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import bitcamp.myapp.vo.Teacher;
 
 public class TeacherDao {
@@ -58,14 +60,7 @@ public class TeacherDao {
   public void save(String filename) {
     try (FileWriter out = new FileWriter(filename)) {
 
-      list.forEach(obj -> {
-        try {
-          out.write(obj.toCsvString() + "\n");
-        } catch (Exception e) {
-          System.out.println("데이터 출력 중 오류 발생!");
-          e.printStackTrace();
-        }
-      });
+      out.write(new Gson().toJson(list));
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -78,10 +73,8 @@ public class TeacherDao {
     }
 
     try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
-      String str = null;
-      while ((str = in.readLine()) != null) {
-        list.add(Teacher.create(str));
-      }
+
+      list = new Gson().fromJson(in, new TypeToken<List<Teacher>>() {});
 
       if (list.size() > 0) {
         lastNo = list.get(list.size() - 1).getNo();

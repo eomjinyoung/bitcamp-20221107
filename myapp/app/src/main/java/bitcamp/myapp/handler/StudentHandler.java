@@ -149,7 +149,7 @@ public class StudentHandler {
 
   public void service() {
 
-    memberDao.load("student.csv");
+    memberDao.load("student.json");
 
     while (true) {
       System.out.printf("[%s]\n", this.title);
@@ -172,7 +172,7 @@ public class StudentHandler {
       try {
         switch (menuNo) {
           case 0:
-            memberDao.save("student.csv");
+            memberDao.save("student.json");
             return;
           case 1: this.inputMember(); break;
           case 2: this.printMembers(); break;
