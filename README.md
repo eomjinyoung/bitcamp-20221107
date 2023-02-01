@@ -600,6 +600,7 @@
 
 - 자바(계속)
     - I/O Stream API 사용법
+        - ex01, ex02
     - 문법 응용 실전 프로젝트(myapp)
         - 26.파일 API를 사용하여 데이터를 바이너리 형식으로 입출력하기: FileInputStream/FileOutputStream
     
@@ -607,12 +608,13 @@
 
 - 자바(계속)
     - I/O Stream API 사용법(계속)
+        - ex03, ex04
     - 문법 응용 실전 프로젝트(myapp)
         - 26.파일 API를 사용하여 데이터를 바이너리 형식으로 입출력하기: FileInputStream/FileOutputStream(계속)
         - 27.Decorator 디자인 패턴을 이용하여 데이터를 바이트 배열로 입출력하는 기능을 캡슐화하기: DataInputStream/DataOutputStream
         - 28.인스턴스를 통째로 입출력하기(객체 직렬화): ObjectInputStream/ObjectOutputStream
     - 과제
-        - 29. 인스턴스를 CSV 텍스트 형식으로 입출력하기: FileReader/FileWriter
+        - 29.인스턴스를 CSV 텍스트 형식으로 입출력하기: FileReader/FileWriter
             - 객체의 필드 값을 텍스트로 입출력하는 방법
             - CSV 형식으로 한 객체의 필드 값을 한 줄 단위로 출력하는 방법
 

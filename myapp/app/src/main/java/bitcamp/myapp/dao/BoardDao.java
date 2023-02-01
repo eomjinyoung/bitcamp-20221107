@@ -1,9 +1,8 @@
 package bitcamp.myapp.dao;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -56,8 +55,23 @@ public class BoardDao {
   }
 
   public void save(String filename) {
-    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))) {
-      out.writeObject(list);
+    try (FileWriter out = new FileWriter(filename)) {
+
+      list.forEach(b -> {
+        try {
+          out.write(String.format("%d,%s,%s,%s,%d,%s\n",
+              b.getNo(),
+              b.getTitle(),
+              b.getContent(),
+              b.getPassword(),
+              b.getViewCount(),
+              b.getCreatedDate()));
+        } catch (Exception e) {
+          System.out.println("데이터 출력 중 오류 발생!");
+          e.printStackTrace();
+        }
+      });
+
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -69,9 +83,26 @@ public class BoardDao {
       return;
     }
 
-    try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
+    try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
 
-      list = (List<Board>) in.readObject();
+      while (true) {
+        String str = in.readLine();
+        if (str == null) {
+          break;
+        }
+        String[] values = str.split(",");
+
+        Board b = new Board();
+        b.setNo(Integer.parseInt(values[0]));
+        b.setTitle(values[1]);
+        b.setContent(values[2]);
+        b.setPassword(values[3]);
+        b.setViewCount(Integer.parseInt(values[4]));
+        b.setCreatedDate(values[5]);
+
+        list.add(b);
+      }
+
       if (list.size() > 0) {
         lastNo = list.get(list.size() - 1).getNo();
       }
