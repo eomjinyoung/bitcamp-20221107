@@ -148,4 +148,10 @@
 ### 29. 인스턴스를 CSV 텍스트 형식으로 입출력하기: FileReader/FileWriter
   - 객체의 필드 값을 텍스트로 입출력하는 방법
   - CSV 형식으로 한 객체의 필드 값을 한 줄 단위로 출력하는 방법
-  
+
+### 30. 리팩토링: Factory Method 패턴, Information Expert 패턴
+  - CSV 데이터를 가지고 Board 객체를 생성하는 일은 Board 클래스에 맡긴다.
+    - 객체 생성은 메서드를 통해 수행한다. => Factory Method 패턴
+  - Board 객체의 값을 CSV 형식으로 변환하는 일은 Board 클래스에 맡긴다.
+    - CSV 데이터 생성은 Board의 메서드를 통해 수행한다. => Information Expert 패턴
+

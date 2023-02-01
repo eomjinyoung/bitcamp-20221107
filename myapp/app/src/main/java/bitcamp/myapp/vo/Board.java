@@ -22,6 +22,37 @@ public class Board implements java.io.Serializable {
   private String createdDate;
   private int viewCount;
 
+  // Factory Method 패턴 + Information Expert 패턴
+  public static Board create(String csv) {
+    try {
+      String[] values = csv.split(",");
+
+      Board obj = new Board();
+      obj.setNo(Integer.parseInt(values[0]));
+      obj.setTitle(values[1]);
+      obj.setContent(values[2]);
+      obj.setPassword(values[3]);
+      obj.setViewCount(Integer.parseInt(values[4]));
+      obj.setCreatedDate(values[5]);
+
+      return obj;
+
+    } catch (Exception e) {
+      throw new RuntimeException("Board 객체 생성 오류!", e);
+    }
+  }
+
+  // Information Expert 패턴
+  public String toCsvString() {
+    return String.format("%d,%s,%s,%s,%d,%s",
+        this.getNo(),
+        this.getTitle(),
+        this.getContent(),
+        this.getPassword(),
+        this.getViewCount(),
+        this.getCreatedDate());
+  }
+
   @Override
   public String toString() {
     return "Board [no=" + no + ", title=" + title + ", content=" + content + ", password="

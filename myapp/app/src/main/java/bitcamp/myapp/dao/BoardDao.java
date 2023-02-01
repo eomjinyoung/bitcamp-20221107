@@ -59,13 +59,7 @@ public class BoardDao {
 
       list.forEach(b -> {
         try {
-          out.write(String.format("%d,%s,%s,%s,%d,%s\n",
-              b.getNo(),
-              b.getTitle(),
-              b.getContent(),
-              b.getPassword(),
-              b.getViewCount(),
-              b.getCreatedDate()));
+          out.write(b.toCsvString() + "\n");
         } catch (Exception e) {
           System.out.println("데이터 출력 중 오류 발생!");
           e.printStackTrace();
@@ -84,24 +78,10 @@ public class BoardDao {
 
     try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
 
-      while (true) {
-        String str = in.readLine();
-        if (str == null) {
-          break;
-        }
-        String[] values = str.split(",");
-
-        Board b = new Board();
-        b.setNo(Integer.parseInt(values[0]));
-        b.setTitle(values[1]);
-        b.setContent(values[2]);
-        b.setPassword(values[3]);
-        b.setViewCount(Integer.parseInt(values[4]));
-        b.setCreatedDate(values[5]);
-
-        list.add(b);
+      String csv = null;
+      while ((csv = in.readLine()) != null) {
+        list.add(Board.create(csv));
       }
-
       if (list.size() > 0) {
         lastNo = list.get(list.size() - 1).getNo();
       }
