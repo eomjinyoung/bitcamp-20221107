@@ -629,6 +629,13 @@
 3,제목3,내용,1111,23,2023-02-04
 ```
 
+## 61일차(2023-02-01,수)
+
+- 자바(계속)
+    - I/O Stream API 사용법(계속)
+    - 문법 응용 실전 프로젝트(myapp)
+        - 29.인스턴스를 CSV 텍스트 형식으로 입출력하기: FileReader/FileWriter
+    
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
