@@ -5,7 +5,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.sql.Date;
 import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -24,57 +23,29 @@ public class NetworkBoardDao implements BoardDao {
   }
 
   @Override
-  public void insert(Board board) {
-    board.setNo(++lastNo);
-    board.setCreatedDate(new Date(System.currentTimeMillis()).toString());
-    list.add(board);
+  public void insert(Board b) {
+    fetch("board", "insert", b);
   }
 
   @Override
   public Board[] findAll() {
-    try {
-      // 요청
-      out.writeUTF("board");
-      out.writeUTF("findAll");
-
-      // 응답
-      String status = in.readUTF();
-      if (status.equals("400")) {
-        throw new DaoException("클라이언트 요청 오류!");
-      } else if (status.equals("500")) {
-        throw new DaoException("서버 실행 오류!");
-      }
-      return new Gson().fromJson(in.readUTF(), Board[].class);
-
-    } catch (DaoException e) {
-      throw e;
-    } catch (Exception e) {
-      throw new DaoException("오류 발생!", e);
-    }
+    return new Gson().fromJson(fetch("board", "findAll"), Board[].class);
   }
 
   @Override
   public Board findByNo(int no) {
-    Board b = new Board();
-    b.setNo(no);
-
-    int index = list.indexOf(b);
-    if (index == -1) {
-      return null;
-    }
-
-    return list.get(index);
+    return new Gson().fromJson(fetch("board", "findByNo"), Board.class);
   }
 
   @Override
   public void update(Board b) {
-    int index = list.indexOf(b);
-    list.set(index, b);
+    fetch("board", "update", b);
   }
 
   @Override
   public boolean delete(Board b) {
-    return list.remove(b);
+    fetch("board", "delete", b);
+    return true;
   }
 
   public void save(String filename) {
@@ -106,6 +77,32 @@ public class NetworkBoardDao implements BoardDao {
 
     } catch (Exception e) {
       e.printStackTrace();
+    }
+  }
+
+
+  public String fetch(String dataName, String action, Object... data) throws DaoException {
+    try {
+      out.writeUTF(dataName);
+      out.writeUTF(action);
+
+      if (data.length > 0) {
+        out.writeUTF(new Gson().toJson(data[0]));
+      }
+
+      // 응답
+      String status = in.readUTF();
+      if (status.equals("400")) {
+        throw new DaoException("클라이언트 요청 오류!");
+      } else if (status.equals("500")) {
+        throw new DaoException("서버 실행 오류!");
+      }
+      return in.readUTF();
+
+    } catch (DaoException e) {
+      throw e;
+    } catch (Exception e) {
+      throw new DaoException("오류 발생!", e);
     }
   }
 }

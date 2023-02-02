@@ -4,9 +4,12 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.LinkedList;
+import bitcamp.myapp.dao.BoardDao;
 import bitcamp.myapp.servlet.BoardServlet;
 import bitcamp.myapp.servlet.StudentServlet;
 import bitcamp.myapp.servlet.TeacherServlet;
+import bitcamp.myapp.vo.Board;
 
 public class ServerApp {
 
@@ -23,15 +26,21 @@ public class ServerApp {
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
 
+      BoardDao boardDao = new BoardDao(new LinkedList<Board>());
+      boardDao.load("board.json");
+
       StudentServlet studentServlet = new StudentServlet("학생");
       TeacherServlet teacherServlet = new TeacherServlet("강사");
-      BoardServlet boardServlet = new BoardServlet();
+      BoardServlet boardServlet = new BoardServlet(boardDao);
 
-      String dataName = in.readUTF();
-      switch (dataName) {
-        case "board":
-          boardServlet.service(in, out);
-          break;
+      while (true) {
+        String dataName = in.readUTF();
+        switch (dataName) {
+          case "board":
+            boardServlet.service(in, out);
+            boardDao.save("board.json");
+            break;
+        }
       }
 
     } catch (Exception e) {

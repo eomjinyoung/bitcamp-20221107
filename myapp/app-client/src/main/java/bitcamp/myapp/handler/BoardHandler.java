@@ -68,6 +68,7 @@ public class BoardHandler {
     b.setTitle(Prompt.inputString(String.format("제목(%s)? ", old.getTitle())));
     b.setContent(Prompt.inputString(String.format("내용(%s)? ", old.getContent())));
     b.setPassword(Prompt.inputString("암호? "));
+    b.setViewCount(old.getViewCount());
 
     if (!old.getPassword().equals(b.getPassword())) {
       System.out.println("암호가 맞지 않습니다!");
