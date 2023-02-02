@@ -13,10 +13,10 @@ import bitcamp.myapp.vo.Student;
 import bitcamp.myapp.vo.Teacher;
 import bitcamp.util.Prompt;
 
-public class ClientApp {
+public class ClientApp0 {
 
   public static void main(String[] args) {
-    new ClientApp().service(8888);
+    new ClientApp0().service(8888);
   }
 
   void service(int port) {

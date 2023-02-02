@@ -1,17 +1,17 @@
 package bitcamp.myapp.handler;
 
-import java.util.ArrayList;
 import bitcamp.myapp.dao.StudentDao;
 import bitcamp.myapp.vo.Student;
 import bitcamp.util.Prompt;
 
 public class StudentHandler {
 
-  private StudentDao memberDao = new StudentDao(new ArrayList<Student>());
+  private StudentDao memberDao;
   private String title;
 
-  public StudentHandler(String title) {
+  public StudentHandler(String title, StudentDao memberDao) {
     this.title = title;
+    this.memberDao = memberDao;
   }
 
   private void inputMember() {
@@ -149,8 +149,6 @@ public class StudentHandler {
 
   public void service() {
 
-    memberDao.load("student.json");
-
     while (true) {
       System.out.printf("[%s]\n", this.title);
       System.out.println("1. 등록");
@@ -171,9 +169,7 @@ public class StudentHandler {
 
       try {
         switch (menuNo) {
-          case 0:
-            memberDao.save("student.json");
-            return;
+          case 0: return;
           case 1: this.inputMember(); break;
           case 2: this.printMembers(); break;
           case 3: this.printMember(); break;
