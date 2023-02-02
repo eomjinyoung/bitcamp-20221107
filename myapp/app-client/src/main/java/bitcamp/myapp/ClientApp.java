@@ -1,14 +1,15 @@
 package bitcamp.myapp;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.Socket;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import bitcamp.myapp.dao.LocalBoardDao;
 import bitcamp.myapp.dao.LocalStudentDao;
 import bitcamp.myapp.dao.LocalTeacherDao;
+import bitcamp.myapp.dao.NetworkBoardDao;
 import bitcamp.myapp.handler.BoardHandler;
 import bitcamp.myapp.handler.StudentHandler;
 import bitcamp.myapp.handler.TeacherHandler;
-import bitcamp.myapp.vo.Board;
 import bitcamp.myapp.vo.Student;
 import bitcamp.myapp.vo.Teacher;
 import bitcamp.util.Prompt;
@@ -20,13 +21,11 @@ public class ClientApp {
   }
 
   void service(int port) {
-    try /*(Socket socket = new Socket("127.0.0.1", port);
+    try (Socket socket = new Socket("127.0.0.1", port);
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-        DataInputStream in = new DataInputStream(socket.getInputStream()))*/ {
+        DataInputStream in = new DataInputStream(socket.getInputStream())) {
 
-      LocalBoardDao boardDao = new LocalBoardDao(new LinkedList<Board>());
-      boardDao.load("board.json");
-      //NetworkBoardDao boardDao = new NetworkBoardDao(in, out);
+      NetworkBoardDao boardDao = new NetworkBoardDao(in, out);
 
       LocalStudentDao studentDao = new LocalStudentDao(new ArrayList<Student>());
       studentDao.load("student.json");
@@ -64,7 +63,6 @@ public class ClientApp {
               break;
             case 3:
               boardHandler.service();
-              boardDao.save("board.json");
               break;
             case 9: break loop; // loop 라벨이 붙은 while 문을 나간다.
             default:

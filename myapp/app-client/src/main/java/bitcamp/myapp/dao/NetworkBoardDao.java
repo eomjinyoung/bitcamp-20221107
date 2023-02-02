@@ -6,7 +6,6 @@ import java.io.DataOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.sql.Date;
-import java.util.Iterator;
 import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -33,13 +32,25 @@ public class NetworkBoardDao implements BoardDao {
 
   @Override
   public Board[] findAll() {
-    Board[] boards = new Board[list.size()];
-    Iterator<Board> i = list.iterator();
-    int index = 0;
-    while (i.hasNext()) {
-      boards[index++] = i.next();
+    try {
+      // 요청
+      out.writeUTF("board");
+      out.writeUTF("findAll");
+
+      // 응답
+      String status = in.readUTF();
+      if (status.equals("400")) {
+        throw new DaoException("클라이언트 요청 오류!");
+      } else if (status.equals("500")) {
+        throw new DaoException("서버 실행 오류!");
+      }
+      return new Gson().fromJson(in.readUTF(), Board[].class);
+
+    } catch (DaoException e) {
+      throw e;
+    } catch (Exception e) {
+      throw new DaoException("오류 발생!", e);
     }
-    return boards;
   }
 
   @Override
