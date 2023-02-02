@@ -17,11 +17,11 @@ import bitcamp.util.Prompt;
 public class ClientApp {
 
   public static void main(String[] args) {
-    new ClientApp().service(8888);
+    new ClientApp().execute("192.168.0.6", 8888);
   }
 
-  void service(int port) {
-    try (Socket socket = new Socket("127.0.0.1", port);
+  void execute(String ip, int port) {
+    try (Socket socket = new Socket(ip, port);
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         DataInputStream in = new DataInputStream(socket.getInputStream())) {
 

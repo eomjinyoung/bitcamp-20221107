@@ -1,16 +1,16 @@
-package bitcamp.myapp.handler;
+package bitcamp.myapp.servlet;
 
 import java.util.ArrayList;
 import bitcamp.myapp.dao.TeacherDao;
 import bitcamp.myapp.vo.Teacher;
 import bitcamp.util.Prompt;
 
-public class TeacherHandler {
+public class TeacherServlet {
 
   private TeacherDao teacherDao = new TeacherDao(new ArrayList<Teacher>());
   private String title;
 
-  public TeacherHandler(String title) {
+  public TeacherServlet(String title) {
     this.title = title;
   }
 

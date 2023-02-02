@@ -1,21 +1,18 @@
-package bitcamp.myapp.handler;
+package bitcamp.myapp.servlet;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.util.LinkedList;
+import com.google.gson.Gson;
 import bitcamp.myapp.dao.BoardDao;
 import bitcamp.myapp.vo.Board;
 import bitcamp.util.Prompt;
 
-public class BoardHandler {
+public class BoardServlet {
 
   private BoardDao boardDao = new BoardDao(new LinkedList<Board>());
-  private String title;
 
-  // 인스턴스를 만들 때 프롬프트 제목을 반드시 입력하도록 강제한다.
-  public BoardHandler(String title) {
-    this.title = title;
-  }
-
-  private void inputBoard() {
+  private void inputBoard(DataInputStream in, DataOutputStream out) {
     Board b = new Board();
     b.setTitle(Prompt.inputString("제목? "));
     b.setContent(Prompt.inputString("내용? "));
@@ -24,18 +21,12 @@ public class BoardHandler {
     this.boardDao.insert(b);
   }
 
-  private void printBoards() {
-    System.out.println("번호\t제목\t작성일\t조회수");
-
-    Board[] boards = this.boardDao.findAll();
-
-    for (Board b : boards) {
-      System.out.printf("%d\t%s\t%s\t%d\n",
-          b.getNo(), b.getTitle(), b.getCreatedDate(), b.getViewCount());
-    }
+  private void printBoards(DataInputStream in, DataOutputStream out) throws Exception {
+    out.writeUTF("200");
+    out.writeUTF(new Gson().toJson(this.boardDao.findAll()));
   }
 
-  private void printBoard() {
+  private void printBoard(DataInputStream in, DataOutputStream out) {
     int boardNo = Prompt.inputInt("게시글 번호? ");
 
     Board b = this.boardDao.findByNo(boardNo);
@@ -52,7 +43,7 @@ public class BoardHandler {
     b.setViewCount(b.getViewCount() + 1);
   }
 
-  private void modifyBoard() {
+  private void modifyBoard(DataInputStream in, DataOutputStream out) {
     int boardNo = Prompt.inputInt("게시글 번호? ");
 
     Board old = this.boardDao.findByNo(boardNo);
@@ -85,7 +76,7 @@ public class BoardHandler {
 
   }
 
-  private void deleteBoard() {
+  private void deleteBoard(DataInputStream in, DataOutputStream out) {
     int boardNo = Prompt.inputInt("게시글 번호? ");
 
     Board b = this.boardDao.findByNo(boardNo);
@@ -113,7 +104,7 @@ public class BoardHandler {
 
   }
 
-  private void searchBoard() {
+  private void searchBoard(DataInputStream in, DataOutputStream out) {
     Board[] boards = this.boardDao.findAll();
 
     String keyword = Prompt.inputString("검색어? ");
@@ -128,34 +119,26 @@ public class BoardHandler {
     }
   }
 
-  public void service() {
-
+  public void service(DataInputStream in, DataOutputStream out) throws Exception {
     boardDao.load("board.json");
 
-    while (true) {
-      System.out.printf("[%s]\n", this.title);
-      System.out.println("1. 등록");
-      System.out.println("2. 목록");
-      System.out.println("3. 조회");
-      System.out.println("4. 변경");
-      System.out.println("5. 삭제");
-      System.out.println("6. 검색");
-      System.out.println("0. 이전");
-      int menuNo = Prompt.inputInt(String.format("%s> ", this.title));
+    try {
+      // 클라이언트가 요구하는 액션을 읽는다.
+      String action = in.readUTF();
 
-      switch (menuNo) {
-        case 0:
-          boardDao.save("board.json");
-          return;
-        case 1: this.inputBoard(); break;
-        case 2: this.printBoards(); break;
-        case 3: this.printBoard(); break;
-        case 4: this.modifyBoard(); break;
-        case 5: this.deleteBoard(); break;
-        case 6: this.searchBoard(); break;
+      switch (action) {
+        case "insert": this.inputBoard(in, out); break;
+        case "findAll": this.printBoards(in, out); break;
+        case "findByNo": this.printBoard(in, out); break;
+        case "update": this.modifyBoard(in, out); break;
+        case "delete": this.deleteBoard(in, out); break;
         default:
           System.out.println("잘못된 메뉴 번호 입니다.");
       }
+    } catch (Exception e) {
+      out.writeUTF("500");
     }
+
+    boardDao.save("board.json");
   }
 }
