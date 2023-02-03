@@ -18,6 +18,14 @@ import bitcamp.myapp.vo.Teacher;
 
 public class ServerApp {
 
+  BoardDao boardDao = new BoardDao(new LinkedList<Board>());
+  StudentDao studentDao = new StudentDao(new ArrayList<Student>());
+  TeacherDao teacherDao = new TeacherDao(new ArrayList<Teacher>());
+
+  StudentServlet studentServlet = new StudentServlet(studentDao);
+  TeacherServlet teacherServlet = new TeacherServlet(teacherDao);
+  BoardServlet boardServlet = new BoardServlet(boardDao);
+
   public static void main(String[] args) {
     new ServerApp().service(8888);
     System.out.println("서버 종료!");
@@ -26,23 +34,25 @@ public class ServerApp {
   void service(int port) {
     System.out.println("서버 실행 중...");
 
-    try (ServerSocket serverSocket = new ServerSocket(port);
-        Socket socket = serverSocket.accept();
-        DataInputStream in = new DataInputStream(socket.getInputStream());
-        DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
+    try (ServerSocket serverSocket = new ServerSocket(port)) {
 
-      BoardDao boardDao = new BoardDao(new LinkedList<Board>());
       boardDao.load("board.json");
-
-      StudentDao studentDao = new StudentDao(new ArrayList<Student>());
       studentDao.load("student.json");
-
-      TeacherDao teacherDao = new TeacherDao(new ArrayList<Teacher>());
       teacherDao.load("teacher.json");
 
-      StudentServlet studentServlet = new StudentServlet(studentDao);
-      TeacherServlet teacherServlet = new TeacherServlet(teacherDao);
-      BoardServlet boardServlet = new BoardServlet(boardDao);
+      while (true) {
+        processRequest(serverSocket.accept());
+      }
+    } catch (Exception e) {
+      System.out.println("서버 오류 발생!");
+      e.printStackTrace();
+    }
+  }
+
+  void processRequest(Socket socket) {
+    try (Socket socket2 = socket;
+        DataInputStream in = new DataInputStream(socket.getInputStream());
+        DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
 
       while (true) {
         String dataName = in.readUTF();
@@ -63,10 +73,8 @@ public class ServerApp {
             return;
         }
       }
-
     } catch (Exception e) {
-      System.out.println("서버 오류 발생!");
-      e.printStackTrace();
+      System.out.println("실행 오류!");
     }
   }
 
