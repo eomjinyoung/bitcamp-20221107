@@ -2,6 +2,7 @@ package bitcamp.myapp;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -54,24 +55,23 @@ public class ServerApp {
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
 
-      while (true) {
-        String dataName = in.readUTF();
-        switch (dataName) {
-          case "board":
-            boardServlet.service(in, out);
-            boardDao.save("board.json");
-            break;
-          case "student":
-            studentServlet.service(in, out);
-            studentDao.save("student.json");
-            break;
-          case "teacher":
-            teacherServlet.service(in, out);
-            teacherDao.save("teacher.json");
-            break;
-          case "quit":
-            return;
-        }
+      InetAddress address = socket.getInetAddress();
+      System.out.printf("%s 가 연결함!\n", address.getHostAddress());
+
+      String dataName = in.readUTF();
+      switch (dataName) {
+        case "board":
+          boardServlet.service(in, out);
+          boardDao.save("board.json");
+          break;
+        case "student":
+          studentServlet.service(in, out);
+          studentDao.save("student.json");
+          break;
+        case "teacher":
+          teacherServlet.service(in, out);
+          teacherDao.save("teacher.json");
+          break;
       }
     } catch (Exception e) {
       System.out.println("실행 오류!");

@@ -1,8 +1,6 @@
 package bitcamp.myapp;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.net.Socket;
+import bitcamp.myapp.dao.DaoStub;
 import bitcamp.myapp.dao.NetworkBoardDao;
 import bitcamp.myapp.dao.NetworkStudentDao;
 import bitcamp.myapp.dao.NetworkTeacherDao;
@@ -14,17 +12,15 @@ import bitcamp.util.Prompt;
 public class ClientApp {
 
   public static void main(String[] args) {
-    new ClientApp().execute("192.168.0.14", 8888);
+    new ClientApp().execute("localhost", 8888);
   }
 
   void execute(String ip, int port) {
-    try (Socket socket = new Socket(ip, port);
-        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-        DataInputStream in = new DataInputStream(socket.getInputStream())) {
-
-      NetworkBoardDao boardDao = new NetworkBoardDao(in, out);
-      NetworkStudentDao studentDao = new NetworkStudentDao(in, out);
-      NetworkTeacherDao teacherDao = new NetworkTeacherDao(in, out);
+    try {
+      DaoStub daoStub = new DaoStub(ip, port);
+      NetworkBoardDao boardDao = new NetworkBoardDao(daoStub);
+      NetworkStudentDao studentDao = new NetworkStudentDao(daoStub);
+      NetworkTeacherDao teacherDao = new NetworkTeacherDao(daoStub);
 
       StudentHandler studentHandler = new StudentHandler("학생", studentDao);
       TeacherHandler teacherHandler = new TeacherHandler("강사", teacherDao);
@@ -56,7 +52,6 @@ public class ClientApp {
               boardHandler.service();
               break;
             case 9:
-              out.writeUTF("quit");
               break loop; // loop 라벨이 붙은 while 문을 나간다.
             default:
               System.out.println("잘못된 메뉴 번호 입니다.");
