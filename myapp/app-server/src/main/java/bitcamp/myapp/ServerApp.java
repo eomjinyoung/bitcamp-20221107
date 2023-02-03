@@ -42,42 +42,55 @@ public class ServerApp {
       teacherDao.load("teacher.json");
 
       while (true) {
-        processRequest(serverSocket.accept());
+        new RequestProcessorThread(serverSocket.accept()).start(); // 스레드를 실행시킨다.
       }
+
     } catch (Exception e) {
       System.out.println("서버 오류 발생!");
       e.printStackTrace();
     }
   }
 
-  void processRequest(Socket socket) {
-    try (Socket socket2 = socket;
-        DataInputStream in = new DataInputStream(socket.getInputStream());
-        DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
+  class RequestProcessorThread extends Thread {
+    Socket socket;
 
-      InetAddress address = socket.getInetAddress();
-      System.out.printf("%s 가 연결함!\n", address.getHostAddress());
+    public RequestProcessorThread(Socket socket) {
+      this.socket = socket;
+    }
 
-      String dataName = in.readUTF();
-      switch (dataName) {
-        case "board":
-          boardServlet.service(in, out);
-          boardDao.save("board.json");
-          break;
-        case "student":
-          studentServlet.service(in, out);
-          studentDao.save("student.json");
-          break;
-        case "teacher":
-          teacherServlet.service(in, out);
-          teacherDao.save("teacher.json");
-          break;
+    @Override
+    public void run() {
+      // 스레드를 통해 독립적으로 실행시키고 싶은 코드가 있다면
+      // run() 메서드 안에 두어라!
+      // 또는 run() 메서드에서 해당 코드를 호출하도록 만들어라!
+      //
+      try (Socket socket2 = socket;
+          DataInputStream in = new DataInputStream(socket.getInputStream());
+          DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
+
+        InetAddress address = socket.getInetAddress();
+        System.out.printf("%s 가 연결함!\n", address.getHostAddress());
+
+        String dataName = in.readUTF();
+        switch (dataName) {
+          case "board":
+            boardServlet.service(in, out);
+            boardDao.save("board.json");
+            break;
+          case "student":
+            studentServlet.service(in, out);
+            studentDao.save("student.json");
+            break;
+          case "teacher":
+            teacherServlet.service(in, out);
+            teacherDao.save("teacher.json");
+            break;
+        }
+      } catch (Exception e) {
+        System.out.println("실행 오류!");
       }
-    } catch (Exception e) {
-      System.out.println("실행 오류!");
     }
   }
-
 }
 
 

@@ -675,6 +675,8 @@
     - 문법 응용 실전 프로젝트(myapp)
         - 32-2.네트워킹을 이용한 파일 공유: client/server app. 아키텍처로 전환 (계속)
         - 33.통신 방식을 Stateful에서 Stateless로 변경하기
+        - 34.Thread를 이용한 멀티 태스킹 구현하기: 동시 요청 처리하기
+
         
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
