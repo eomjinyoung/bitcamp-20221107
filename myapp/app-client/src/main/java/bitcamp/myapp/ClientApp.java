@@ -3,15 +3,12 @@ package bitcamp.myapp;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
-import bitcamp.myapp.dao.LocalStudentDao;
-import bitcamp.myapp.dao.LocalTeacherDao;
 import bitcamp.myapp.dao.NetworkBoardDao;
+import bitcamp.myapp.dao.NetworkStudentDao;
+import bitcamp.myapp.dao.NetworkTeacherDao;
 import bitcamp.myapp.handler.BoardHandler;
 import bitcamp.myapp.handler.StudentHandler;
 import bitcamp.myapp.handler.TeacherHandler;
-import bitcamp.myapp.vo.Student;
-import bitcamp.myapp.vo.Teacher;
 import bitcamp.util.Prompt;
 
 public class ClientApp {
@@ -26,12 +23,8 @@ public class ClientApp {
         DataInputStream in = new DataInputStream(socket.getInputStream())) {
 
       NetworkBoardDao boardDao = new NetworkBoardDao(in, out);
-
-      LocalStudentDao studentDao = new LocalStudentDao(new ArrayList<Student>());
-      studentDao.load("student.json");
-
-      LocalTeacherDao teacherDao = new LocalTeacherDao(new ArrayList<Teacher>());
-      teacherDao.load("teacher.json");
+      NetworkStudentDao studentDao = new NetworkStudentDao(in, out);
+      NetworkTeacherDao teacherDao = new NetworkTeacherDao(in, out);
 
       StudentHandler studentHandler = new StudentHandler("학생", studentDao);
       TeacherHandler teacherHandler = new TeacherHandler("강사", teacherDao);
@@ -55,16 +48,16 @@ public class ClientApp {
           switch (menuNo) {
             case 1:
               studentHandler.service();
-              studentDao.save("student.json");
               break;
             case 2:
               teacherHandler.service();
-              teacherDao.save("teacher.json");
               break;
             case 3:
               boardHandler.service();
               break;
-            case 9: break loop; // loop 라벨이 붙은 while 문을 나간다.
+            case 9:
+              out.writeUTF("quit");
+              break loop; // loop 라벨이 붙은 while 문을 나간다.
             default:
               System.out.println("잘못된 메뉴 번호 입니다.");
           }

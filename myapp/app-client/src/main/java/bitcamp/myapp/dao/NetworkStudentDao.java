@@ -3,41 +3,41 @@ package bitcamp.myapp.dao;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import com.google.gson.Gson;
-import bitcamp.myapp.vo.Board;
+import bitcamp.myapp.vo.Student;
 
-public class NetworkBoardDao implements BoardDao {
+public class NetworkStudentDao implements StudentDao {
 
   DataInputStream in;
   DataOutputStream out;
 
-  public NetworkBoardDao(DataInputStream in, DataOutputStream out) {
+  public NetworkStudentDao(DataInputStream in, DataOutputStream out) {
     this.in = in;
     this.out = out;
   }
 
   @Override
-  public void insert(Board b) {
-    fetch("board", "insert", b);
+  public void insert(Student b) {
+    fetch("student", "insert", b);
   }
 
   @Override
-  public Board[] findAll() {
-    return new Gson().fromJson(fetch("board", "findAll"), Board[].class);
+  public Student[] findAll() {
+    return new Gson().fromJson(fetch("student", "findAll"), Student[].class);
   }
 
   @Override
-  public Board findByNo(int no) {
-    return new Gson().fromJson(fetch("board", "findByNo", no), Board.class);
+  public Student findByNo(int no) {
+    return new Gson().fromJson(fetch("student", "findByNo", no), Student.class);
   }
 
   @Override
-  public void update(Board b) {
-    fetch("board", "update", b);
+  public void update(Student b) {
+    fetch("student", "update", b);
   }
 
   @Override
-  public boolean delete(Board b) {
-    fetch("board", "delete", b);
+  public boolean delete(Student b) {
+    fetch("student", "delete", b);
     return true;
   }
 

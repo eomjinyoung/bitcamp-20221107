@@ -4,12 +4,17 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import bitcamp.myapp.dao.BoardDao;
+import bitcamp.myapp.dao.StudentDao;
+import bitcamp.myapp.dao.TeacherDao;
 import bitcamp.myapp.servlet.BoardServlet;
 import bitcamp.myapp.servlet.StudentServlet;
 import bitcamp.myapp.servlet.TeacherServlet;
 import bitcamp.myapp.vo.Board;
+import bitcamp.myapp.vo.Student;
+import bitcamp.myapp.vo.Teacher;
 
 public class ServerApp {
 
@@ -29,8 +34,14 @@ public class ServerApp {
       BoardDao boardDao = new BoardDao(new LinkedList<Board>());
       boardDao.load("board.json");
 
-      StudentServlet studentServlet = new StudentServlet("학생");
-      TeacherServlet teacherServlet = new TeacherServlet("강사");
+      StudentDao studentDao = new StudentDao(new ArrayList<Student>());
+      studentDao.load("student.json");
+
+      TeacherDao teacherDao = new TeacherDao(new ArrayList<Teacher>());
+      teacherDao.load("teacher.json");
+
+      StudentServlet studentServlet = new StudentServlet(studentDao);
+      TeacherServlet teacherServlet = new TeacherServlet(teacherDao);
       BoardServlet boardServlet = new BoardServlet(boardDao);
 
       while (true) {
@@ -40,6 +51,16 @@ public class ServerApp {
             boardServlet.service(in, out);
             boardDao.save("board.json");
             break;
+          case "student":
+            studentServlet.service(in, out);
+            studentDao.save("student.json");
+            break;
+          case "teacher":
+            teacherServlet.service(in, out);
+            teacherDao.save("teacher.json");
+            break;
+          case "quit":
+            return;
         }
       }
 
