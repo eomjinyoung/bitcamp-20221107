@@ -678,6 +678,12 @@
         - 34.Thread를 이용한 멀티 태스킹 구현하기: 동시 요청 처리하기
 
 
+## 64일차(2023-02-06,월)
+
+- 자바(계속)
+    - DBMS와 SQL
+
+
           
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
