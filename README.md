@@ -682,12 +682,15 @@
 
 - 자바(계속)
     - DBMS와 SQL
+        - DDL
+        - DML
 
 ## 65일차(2023-02-07,화)
 
 - 자바(계속)
     - DBMS와 SQL
-          
-          
+        - DML(계속)
+        - DQL 
+
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
