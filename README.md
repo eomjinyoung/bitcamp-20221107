@@ -683,7 +683,11 @@
 - 자바(계속)
     - DBMS와 SQL
 
+## 65일차(2023-02-07,화)
 
+- 자바(계속)
+    - DBMS와 SQL
+          
           
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
