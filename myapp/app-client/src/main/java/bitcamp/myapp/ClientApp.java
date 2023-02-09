@@ -1,7 +1,7 @@
 package bitcamp.myapp;
 
 import bitcamp.myapp.dao.DaoStub;
-import bitcamp.myapp.dao.NetworkBoardDao;
+import bitcamp.myapp.dao.JdbcBoardDao;
 import bitcamp.myapp.dao.NetworkStudentDao;
 import bitcamp.myapp.dao.NetworkTeacherDao;
 import bitcamp.myapp.handler.BoardHandler;
@@ -18,7 +18,7 @@ public class ClientApp {
   void execute(String ip, int port) {
     try {
       DaoStub daoStub = new DaoStub(ip, port);
-      NetworkBoardDao boardDao = new NetworkBoardDao(daoStub);
+      JdbcBoardDao boardDao = new JdbcBoardDao();
       NetworkStudentDao studentDao = new NetworkStudentDao(daoStub);
       NetworkTeacherDao teacherDao = new NetworkTeacherDao(daoStub);
 
