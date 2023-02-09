@@ -699,5 +699,12 @@
     - DBMS와 SQL
         - join, subquery, group by ~ having 
 
+## 67일차(2023-02-09,목)
+
+- 자바(계속)
+    - JDBC API 사용법
+    - 문법 응용 실전 프로젝트(myapp)
+        - 35.DBMS 도입하기
+
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
