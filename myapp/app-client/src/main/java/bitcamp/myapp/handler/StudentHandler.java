@@ -49,7 +49,7 @@ public class StudentHandler {
 
     System.out.printf("    이름: %s\n", m.getName());
     System.out.printf("    전화: %s\n", m.getTel());
-    System.out.printf("우편번호: %s\n", m.getNo());
+    System.out.printf("우편번호: %s\n", m.getPostNo());
     System.out.printf("기본주소: %s\n", m.getBasicAddress());
     System.out.printf("상세주소: %s\n", m.getDetailAddress());
     System.out.printf("재직여부: %s\n", m.isWorking() ? "예" : "아니오");
