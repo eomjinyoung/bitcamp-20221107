@@ -64,7 +64,6 @@ public class JdbcBoardDao implements BoardDao {
 
       if (rs.next()) {
         Board b = new Board();
-        b.setNo(0);
         b.setNo(rs.getInt("board_id"));
         b.setTitle(rs.getString("title"));
         b.setContent(rs.getString("content"));
