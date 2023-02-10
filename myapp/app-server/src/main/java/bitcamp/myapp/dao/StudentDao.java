@@ -10,6 +10,8 @@ public interface StudentDao {
 
   Student findByNo(int no);
 
+  Student[] findByKeyword(String keyword);
+
   void update(Student s);
 
   boolean delete(Student s);

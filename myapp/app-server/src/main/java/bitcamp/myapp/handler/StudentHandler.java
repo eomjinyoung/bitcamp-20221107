@@ -2,7 +2,6 @@ package bitcamp.myapp.handler;
 
 import bitcamp.myapp.dao.StudentDao;
 import bitcamp.myapp.vo.Student;
-import bitcamp.util.Prompt;
 import bitcamp.util.StreamTool;
 
 public class StudentHandler {
@@ -15,18 +14,20 @@ public class StudentHandler {
     this.memberDao = memberDao;
   }
 
-  private void inputMember(StreamTool streamTool) {
+  private void inputMember(StreamTool streamTool) throws Exception {
     Student m = new Student();
-    m.setName(Prompt.inputString("이름? "));
-    m.setTel(Prompt.inputString("전화? "));
-    m.setPostNo(Prompt.inputString("우편번호? "));
-    m.setBasicAddress(Prompt.inputString("주소1? "));
-    m.setDetailAddress(Prompt.inputString("주소2? "));
-    m.setWorking(Prompt.inputInt("0. 미취업\n1. 재직중\n재직자? ") == 1);
-    m.setGender(Prompt.inputInt("0. 남자\n1. 여자\n성별? ") == 0 ? 'M' : 'W');
-    m.setLevel((byte) Prompt.inputInt("0. 비전공자\n1. 준전공자\n2. 전공자\n전공? "));
+    m.setName(streamTool.promptString("이름? "));
+    m.setTel(streamTool.promptString("전화? "));
+    m.setPostNo(streamTool.promptString("우편번호? "));
+    m.setBasicAddress(streamTool.promptString("주소1? "));
+    m.setDetailAddress(streamTool.promptString("주소2? "));
+    m.setWorking(streamTool.promptInt("0. 미취업\n1. 재직중\n재직자? ") == 1);
+    m.setGender(streamTool.promptInt("0. 남자\n1. 여자\n성별? ") == 0 ? 'M' : 'W');
+    m.setLevel((byte) streamTool.promptInt("0. 비전공자\n1. 준전공자\n2. 전공자\n전공? "));
 
     this.memberDao.insert(m);
+
+    streamTool.println("입력했습니다!").send();
   }
 
   private void printMembers(StreamTool streamTool) throws Exception {
@@ -41,20 +42,22 @@ public class StudentHandler {
     streamTool.send();
   }
 
-  private void printMember(StreamTool streamTool) {
-    int memberNo = Prompt.inputInt("회원번호? ");
+  private void printMember(StreamTool streamTool) throws Exception {
+    int memberNo = streamTool.promptInt("회원번호? ");
 
     Student m = this.memberDao.findByNo(memberNo);
 
-    System.out.printf("    이름: %s\n", m.getName());
-    System.out.printf("    전화: %s\n", m.getTel());
-    System.out.printf("우편번호: %s\n", m.getPostNo());
-    System.out.printf("기본주소: %s\n", m.getBasicAddress());
-    System.out.printf("상세주소: %s\n", m.getDetailAddress());
-    System.out.printf("재직여부: %s\n", m.isWorking() ? "예" : "아니오");
-    System.out.printf("    성별: %s\n", m.getGender() == 'M' ? "남자" : "여자");
-    System.out.printf("    전공: %s\n", getLevelText(m.getLevel()));
-    System.out.printf("  등록일: %s\n", m.getCreatedDate());
+    streamTool
+    .printf("    이름: %s\n", m.getName())
+    .printf("    전화: %s\n", m.getTel())
+    .printf("우편번호: %s\n", m.getPostNo())
+    .printf("기본주소: %s\n", m.getBasicAddress())
+    .printf("상세주소: %s\n", m.getDetailAddress())
+    .printf("재직여부: %s\n", m.isWorking() ? "예" : "아니오")
+    .printf("    성별: %s\n", m.getGender() == 'M' ? "남자" : "여자")
+    .printf("    전공: %s\n", getLevelText(m.getLevel()))
+    .printf("  등록일: %s\n", m.getCreatedDate())
+    .send();
   }
 
   // 인스턴스 멤버(필드나 메서드)를 사용하지 않기 때문에
@@ -67,13 +70,13 @@ public class StudentHandler {
     }
   }
 
-  private void modifyMember(StreamTool streamTool) {
-    int memberNo = Prompt.inputInt("회원번호? ");
+  private void modifyMember(StreamTool streamTool) throws Exception {
+    int memberNo = streamTool.promptInt("회원번호? ");
 
     Student old = this.memberDao.findByNo(memberNo);
 
     if (old == null) {
-      System.out.println("해당 번호의 회원이 없습니다.");
+      streamTool.println("해당 번호의 회원이 없습니다.").send();
       return;
     }
 
@@ -81,69 +84,65 @@ public class StudentHandler {
     Student m = new Student();
     m.setNo(old.getNo());
     m.setCreatedDate(old.getCreatedDate());
-    m.setName(Prompt.inputString(String.format("이름(%s)? ", old.getName())));
-    m.setTel(Prompt.inputString(String.format("전화(%s)? ", old.getTel())));
-    m.setPostNo(Prompt.inputString(String.format("우편번호(%s)? ", old.getPostNo())));
-    m.setBasicAddress(Prompt.inputString(String.format("기본주소(%s)? ", old.getBasicAddress())));
-    m.setDetailAddress(Prompt.inputString(String.format("상세주소(%s)? ", old.getDetailAddress())));
-    m.setWorking(Prompt.inputInt(String.format(
+    m.setName(streamTool.promptString(String.format("이름(%s)? ", old.getName())));
+    m.setTel(streamTool.promptString(String.format("전화(%s)? ", old.getTel())));
+    m.setPostNo(streamTool.promptString(String.format("우편번호(%s)? ", old.getPostNo())));
+    m.setBasicAddress(streamTool.promptString(String.format("기본주소(%s)? ", old.getBasicAddress())));
+    m.setDetailAddress(streamTool.promptString(String.format("상세주소(%s)? ", old.getDetailAddress())));
+    m.setWorking(streamTool.promptInt(String.format(
         "0. 미취업\n1. 재직중\n재직여부(%s)? ",
         old.isWorking() ? "재직중" : "미취업")) == 1);
-    m.setGender(Prompt.inputInt(String.format(
+    m.setGender(streamTool.promptInt(String.format(
         "0. 남자\n1. 여자\n성별(%s)? ",
         old.getGender() == 'M' ? "남자" : "여자")) == 0 ? 'M' : 'W');
-    m.setLevel((byte) Prompt.inputInt(String.format(
+    m.setLevel((byte) streamTool.promptInt(String.format(
         "0. 비전공자\n1. 준전공자\n2. 전공자\n전공(%s)? ",
         getLevelText(old.getLevel()))));
 
-    String str = Prompt.inputString("정말 변경하시겠습니까?(y/N) ");
+    String str = streamTool.promptString("정말 변경하시겠습니까?(y/N) ");
     if (str.equalsIgnoreCase("Y")) {
       this.memberDao.update(m);
-      System.out.println("변경했습니다.");
+      streamTool.println("변경했습니다.");
     } else {
-      System.out.println("변경 취소했습니다.");
+      streamTool.println("변경 취소했습니다.");
     }
-
+    streamTool.send();
   }
 
-  private void deleteMember(StreamTool streamTool) {
-    int memberNo = Prompt.inputInt("회원번호? ");
+  private void deleteMember(StreamTool streamTool) throws Exception {
+    int memberNo = streamTool.promptInt("회원번호? ");
 
     Student m = this.memberDao.findByNo(memberNo);
 
     if (m == null) {
-      System.out.println("해당 번호의 회원이 없습니다.");
+      streamTool.println("해당 번호의 회원이 없습니다.").send();
       return;
     }
 
-    String str = Prompt.inputString("정말 삭제하시겠습니까?(y/N) ");
+    String str = streamTool.promptString("정말 삭제하시겠습니까?(y/N) ");
     if (!str.equalsIgnoreCase("Y")) {
-      System.out.println("삭제 취소했습니다.");
+      streamTool.println("삭제 취소했습니다.").send();
       return;
     }
 
     memberDao.delete(m);
 
-    System.out.println("삭제했습니다.");
-
+    streamTool.println("삭제했습니다.").send();
   }
 
-  private void searchMember(StreamTool streamTool) {
+  private void searchMember(StreamTool streamTool) throws Exception {
+    String keyword = streamTool.promptString("검색어? ");
 
-    Student[] members = this.memberDao.findAll();
+    Student[] members = this.memberDao.findByKeyword(keyword);
 
-    String name = Prompt.inputString("이름? ");
-
-    System.out.println("번호\t이름\t전화\t재직\t전공");
-
+    streamTool.println("번호\t이름\t전화\t재직\t전공");
     for (Student m : members) {
-      if (m.getName().equalsIgnoreCase(name)) {
-        System.out.printf("%d\t%s\t%s\t%s\t%s\n",
-            m.getNo(), m.getName(), m.getTel(),
-            m.isWorking() ? "예" : "아니오",
-                getLevelText(m.getLevel()));
-      }
+      streamTool.printf("%d\t%s\t%s\t%s\t%s\n",
+          m.getNo(), m.getName(), m.getTel(),
+          m.isWorking() ? "예" : "아니오",
+              getLevelText(m.getLevel()));
     }
+    streamTool.send();
   }
 
   public void service(StreamTool streamTool) throws Exception {
@@ -168,7 +167,9 @@ public class StudentHandler {
 
       try {
         switch (menuNo) {
-          case 0: return;
+          case 0:
+            streamTool.println("메인화면으로 이동!").send();
+            return;
           case 1: this.inputMember(streamTool); break;
           case 2: this.printMembers(streamTool); break;
           case 3: this.printMember(streamTool); break;
@@ -188,13 +189,13 @@ public class StudentHandler {
 
   void menu(StreamTool streamTool) throws Exception {
     streamTool.printf("[%s]\n", this.title)
-    //    .println("1. 등록")
+    .println("1. 등록")
     .println("2. 목록")
-    //    .println("3. 조회")
-    //    .println("4. 변경")
-    //    .println("5. 삭제")
-    //    .println("6. 검색")
-    //    .println("0. 이전")
+    .println("3. 조회")
+    .println("4. 변경")
+    .println("5. 삭제")
+    .println("6. 검색")
+    .println("0. 이전")
     .send();
   }
 }

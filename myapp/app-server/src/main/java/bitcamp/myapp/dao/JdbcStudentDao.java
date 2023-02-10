@@ -99,6 +99,40 @@ public class JdbcStudentDao implements StudentDao {
   }
 
   @Override
+  public Student[] findByKeyword(String keyword) {
+    try (Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery(
+            "select student_id, name, tel, work, level"
+                + " from app_student"
+                + " where name like('%" + keyword + "%')"
+                + " or tel like('%" + keyword + "%')"
+                + " or bas_addr like('%" + keyword + "%')"
+                + " or det_addr like('%" + keyword + "%')"
+                + " order by student_id desc")) {
+
+      ArrayList<Student> list = new ArrayList<>();
+      while (rs.next()) {
+        Student s = new Student();
+        s.setNo(rs.getInt("student_id"));
+        s.setName(rs.getString("name"));
+        s.setTel(rs.getString("tel"));
+        s.setWorking(rs.getBoolean("work"));
+        s.setLevel(rs.getByte("level"));
+
+        list.add(s);
+      }
+
+      Student[] arr = new Student[list.size()];
+      list.toArray(arr);
+
+      return arr;
+
+    } catch (Exception e) {
+      throw new DaoException(e);
+    }
+  }
+
+  @Override
   public void update(Student s) {
     try (Statement stmt = con.createStatement()) {
 
