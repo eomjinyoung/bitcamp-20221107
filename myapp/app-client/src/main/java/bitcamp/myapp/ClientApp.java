@@ -18,9 +18,10 @@ public class ClientApp {
         DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
 
       while (true) {
-        read(in);
+        System.out.print(in.readUTF());
+
         String input = prompt(">", keyboard);
-        send(out, input);
+        out.writeUTF(input);
         if (input.equalsIgnoreCase("quit")) {
           break;
         }
@@ -31,20 +32,7 @@ public class ClientApp {
     }
   }
 
-  void read(DataInputStream in) throws Exception {
-    while (true) {
-      String str = in.readUTF();
-      if (str.equals("[[END]]"))
-        break;
-      System.out.print(str);
-    }
-  }
-
-  void send(DataOutputStream out, String message) throws Exception {
-    out.writeUTF(message);
-  }
-
-  String prompt(String title, Scanner keyboard) throws Exception {
+  private String prompt(String title, Scanner keyboard) throws Exception {
     System.out.printf("\n%s", title);
     return keyboard.nextLine();
   }
