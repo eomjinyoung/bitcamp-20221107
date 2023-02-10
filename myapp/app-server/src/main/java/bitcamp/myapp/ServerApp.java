@@ -28,10 +28,20 @@ public class ServerApp {
           DataOutputStream out = new DataOutputStream(socket.getOutputStream());
           DataInputStream in = new DataInputStream(socket.getInputStream())) {
 
-        System.out.printf("접속: %s\n", socket.getInetAddress().getHostAddress());
+        String clientIP = socket.getInetAddress().getHostAddress();
+        System.out.printf("접속: %s\n", clientIP);
 
         hello(in, out);
 
+        while (true) {
+          String message = read(in);
+          if (message.equalsIgnoreCase("quit")) {
+            break;
+          }
+          send(out, message + "!!!");
+        }
+
+        System.out.printf("끊기: %s\n", clientIP);
 
       } catch (Exception e) {
         System.out.println("클라이언트 소켓 오류!");
@@ -49,6 +59,15 @@ public class ServerApp {
     out.writeUTF("  Copyright by 네이버클라우드1기\n");
     out.writeUTF("\n");
     out.writeUTF("안녕하세요!\n");
+    out.writeUTF("[[END]]");
+  }
+
+  private String read(DataInputStream in) throws Exception {
+    return in.readUTF();
+  }
+
+  private void send(DataOutputStream out, String response) throws Exception {
+    out.writeUTF(response);
     out.writeUTF("[[END]]");
   }
 
