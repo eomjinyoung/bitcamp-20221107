@@ -2,8 +2,6 @@ package bitcamp.myapp;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.Connection;
@@ -12,9 +10,10 @@ import bitcamp.myapp.dao.JdbcBoardDao;
 import bitcamp.myapp.dao.JdbcStudentDao;
 import bitcamp.myapp.dao.JdbcTeacherDao;
 import bitcamp.myapp.handler.BoardHandler;
+import bitcamp.myapp.handler.HelloHandler;
 import bitcamp.myapp.handler.StudentHandler;
 import bitcamp.myapp.handler.TeacherHandler;
-import bitcamp.util.Prompt;
+import bitcamp.util.StreamTool;
 
 public class ServerApp {
 
@@ -22,9 +21,15 @@ public class ServerApp {
   StudentHandler studentHandler;
   TeacherHandler teacherHandler;
   BoardHandler boardHandler;
+  HelloHandler helloHandler = new HelloHandler();
 
   public static void main(String[] args) {
-    new ServerApp().execute(8888);
+    try {
+      new ServerApp().execute(8888);
+    } catch (Exception e) {
+      System.out.println("서버 실행 오류!");
+      e.printStackTrace();
+    }
   }
 
   public ServerApp() throws Exception{
@@ -50,31 +55,19 @@ public class ServerApp {
           DataOutputStream out = new DataOutputStream(socket.getOutputStream());
           DataInputStream in = new DataInputStream(socket.getInputStream())) {
 
+        // 입출력 보조 도구 준비
+        StreamTool streamTool = new StreamTool(in, out);
+
         String clientIP = socket.getInetAddress().getHostAddress();
         System.out.printf("접속: %s\n", clientIP);
 
-        StringWriter stringWriter = new StringWriter();
-        PrintWriter printWriter = new PrintWriter(stringWriter);
-        hello(printWriter);
-
-        out.writeUTF(stringWriter.toString());
-
-        while (true) {
-          String message = in.readUTF();
-          if (message.equalsIgnoreCase("quit")) {
-            break;
-          }
-
-          stringWriter.getBuffer().setLength(0); // StringWriter의 버퍼를 초기화
-          printWriter.print(message + "!!!");
-
-          out.writeUTF(stringWriter.toString());
-        }
+        hello(streamTool);
+        processRequest(streamTool);
 
         System.out.printf("끊기: %s\n", clientIP);
 
       } catch (Exception e) {
-        System.out.println("클라이언트 소켓 오류!");
+        System.out.println("클라이언트 요청 처리 오류!");
         e.printStackTrace();
       }
 
@@ -84,61 +77,76 @@ public class ServerApp {
     }
   }
 
-  private void hello(PrintWriter out) throws Exception {
-    out.println("비트캠프 관리 시스템");
-    out.println("  Copyright by 네이버클라우드1기");
-    out.println();
-    out.println("안녕하세요!");
+  private void hello(StreamTool streamTool) throws Exception {
+    streamTool.println("비트캠프 관리 시스템")
+    .println("  Copyright by 네이버클라우드1기")
+    .println("--------------------------------------")
+    .println("안녕하세요!")
+    .println()
+    .send();
   }
 
-  private void processRequest(DataInputStream in, ) {
+  private void processRequest(StreamTool streamTool) throws Exception {
 
     loop: while (true) {
-      System.out.println("1. 학생관리");
-      System.out.println("2. 강사관리");
-      System.out.println("3. 게시판");
-      System.out.println("9. 종료");
+      String command = streamTool.readString();
+
+      if (command.equals("menu")) {
+        menu(streamTool);
+        continue;
+      }
 
       int menuNo;
       try {
-        menuNo = Prompt.inputInt("메뉴> ");
+        menuNo = Integer.parseInt(command);
       } catch (Exception e) {
-        System.out.println("메뉴 번호가 옳지 않습니다!");
+        streamTool.println("메뉴 번호가 옳지 않습니다!").println().send();
         continue;
       }
 
       try {
         switch (menuNo) {
           case 1:
-            studentHandler.service();
+            studentHandler.service(streamTool);
             break;
           case 2:
-            teacherHandler.service();
+            //            teacherHandler.service();
+            streamTool.println("2번 선택!").send();
             break;
           case 3:
-            boardHandler.service();
+            //            boardHandler.service();
+            streamTool.println("3번 선택!").send();
+            break;
+          case 4:
+            helloHandler.service(streamTool);
             break;
           case 9:
             break loop; // loop 라벨이 붙은 while 문을 나간다.
           default:
-            System.out.println("잘못된 메뉴 번호 입니다.");
+            streamTool.println("잘못된 메뉴 번호 입니다.").send();
         }
+
       } catch (Exception e) {
-        System.out.printf("명령 실행 중 오류 발생! - %s : %s\n",
+        streamTool.printf("명령 실행 중 오류 발생! - %s : %s\n",
             e.getMessage(),
-            e.getClass().getSimpleName());
+            e.getClass().getSimpleName()).send();
       }
     }
 
-    System.out.println("안녕히 가세요!");
+    // while 종료하면 클라이언트와 연결을 끊는다.
+    streamTool.print("quit").send();
 
-    Prompt.close();
-
-  } catch (Exception e) {
-    System.out.println("네트워킹 오류!");
-    e.printStackTrace();
   }
-}
+
+  void menu(StreamTool streamTool) throws Exception {
+    streamTool.println("1. 학생관리")
+    .println("2. 강사관리")
+    .println("3. 게시판")
+    .println("4. 인사")
+    .println("9. 종료")
+    .println("메뉴 번호:")
+    .send();
+  }
 }
 
 

@@ -17,14 +17,17 @@ public class ClientApp {
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
 
-      while (true) {
-        System.out.print(in.readUTF());
+      System.out.print(in.readUTF());
 
-        String input = prompt(">", keyboard);
+      while (true) {
+        String input = prompt("> ", keyboard);
         out.writeUTF(input);
-        if (input.equalsIgnoreCase("quit")) {
+
+        String response = in.readUTF();
+        if (response.equalsIgnoreCase("quit")) {
           break;
         }
+        System.out.print(response);
       }
       System.out.println("안녕!");
     } catch (Exception e) {
@@ -33,7 +36,7 @@ public class ClientApp {
   }
 
   private String prompt(String title, Scanner keyboard) throws Exception {
-    System.out.printf("\n%s", title);
+    System.out.printf("%s", title);
     return keyboard.nextLine();
   }
 }
