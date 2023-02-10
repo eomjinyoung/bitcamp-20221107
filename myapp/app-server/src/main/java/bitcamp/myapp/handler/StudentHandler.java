@@ -46,18 +46,19 @@ public class StudentHandler {
     int memberNo = streamTool.promptInt("회원번호? ");
 
     Student m = this.memberDao.findByNo(memberNo);
-
-    streamTool
-    .printf("    이름: %s\n", m.getName())
-    .printf("    전화: %s\n", m.getTel())
-    .printf("우편번호: %s\n", m.getPostNo())
-    .printf("기본주소: %s\n", m.getBasicAddress())
-    .printf("상세주소: %s\n", m.getDetailAddress())
-    .printf("재직여부: %s\n", m.isWorking() ? "예" : "아니오")
-    .printf("    성별: %s\n", m.getGender() == 'M' ? "남자" : "여자")
-    .printf("    전공: %s\n", getLevelText(m.getLevel()))
-    .printf("  등록일: %s\n", m.getCreatedDate())
-    .send();
+    if (m != null) {
+      streamTool
+      .printf("    이름: %s\n", m.getName())
+      .printf("    전화: %s\n", m.getTel())
+      .printf("우편번호: %s\n", m.getPostNo())
+      .printf("기본주소: %s\n", m.getBasicAddress())
+      .printf("상세주소: %s\n", m.getDetailAddress())
+      .printf("재직여부: %s\n", m.isWorking() ? "예" : "아니오")
+      .printf("    성별: %s\n", m.getGender() == 'M' ? "남자" : "여자")
+      .printf("    전공: %s\n", getLevelText(m.getLevel()))
+      .printf("  등록일: %s\n", m.getCreatedDate())
+      .send();
+    }
   }
 
   // 인스턴스 멤버(필드나 메서드)를 사용하지 않기 때문에
