@@ -706,5 +706,14 @@
     - 문법 응용 실전 프로젝트(myapp)
         - 35.DBMS 도입하기
 
+## 68일차(2023-02-10,금)
+
+- 자바(계속)
+    - JDBC API 사용법
+    - 문법 응용 실전 프로젝트(myapp)
+        - 36.Connection 객체 공유하기
+
+
+
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr

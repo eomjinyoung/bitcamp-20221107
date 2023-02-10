@@ -183,8 +183,12 @@
   - DBMS를 이용해 데이터를 처리하는 방법
   - projects: client, DBMS
 
-### 36-1. Connection 객체 공유하기
-  - Connection 객체 공유하는 방법 
+### 36. Connection 객체 공유하기
+  - Connection 객체 공유하는 이유 및 방법 
   
+
+
+
+
 ### 36-2. 트랜잭션 다루기 - 자동 커밋과 수동 커밋
   - 여러 개의 데이터 변경 작업을 한 단위로 묶는 방법
