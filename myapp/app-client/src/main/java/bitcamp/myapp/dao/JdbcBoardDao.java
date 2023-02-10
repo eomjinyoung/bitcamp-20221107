@@ -1,7 +1,6 @@
 package bitcamp.myapp.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -9,11 +8,16 @@ import bitcamp.myapp.vo.Board;
 
 public class JdbcBoardDao implements BoardDao {
 
+  Connection con;
+
+  // 의존객체 Connection 을 생성자에서 받는다.
+  public JdbcBoardDao(Connection con) {
+    this.con = con;
+  }
+
   @Override
   public void insert(Board b) {
-    try (Connection con = DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/studydb", "study", "1111");
-        Statement stmt = con.createStatement()) {
+    try (Statement stmt = con.createStatement()) {
 
       String sql = String.format("insert into app_board(title, content, pwd) values('%s', '%s', '%s')",
           b.getTitle(), b.getContent(), b.getPassword());
@@ -27,9 +31,7 @@ public class JdbcBoardDao implements BoardDao {
 
   @Override
   public Board[] findAll() {
-    try (Connection con = DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/studydb", "study", "1111");
-        Statement stmt = con.createStatement();
+    try (Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery(
             "select board_id, title, created_date, view_cnt from app_board order by board_id desc")) {
 
@@ -56,9 +58,7 @@ public class JdbcBoardDao implements BoardDao {
 
   @Override
   public Board findByNo(int no) {
-    try (Connection con = DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/studydb", "study", "1111");
-        Statement stmt = con.createStatement();
+    try (Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery(
             "select board_id, title, content, pwd, created_date, view_cnt from app_board where board_id=" + no)) {
 
@@ -82,9 +82,7 @@ public class JdbcBoardDao implements BoardDao {
 
   @Override
   public void update(Board b) {
-    try (Connection con = DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/studydb", "study", "1111");
-        Statement stmt = con.createStatement()) {
+    try (Statement stmt = con.createStatement()) {
 
       String sql = String.format("update app_board set title='%s', content='%s' where board_id=%d",
           b.getTitle(), b.getContent(), b.getNo());
@@ -98,9 +96,7 @@ public class JdbcBoardDao implements BoardDao {
 
   @Override
   public boolean delete(Board b) {
-    try (Connection con = DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/studydb", "study", "1111");
-        Statement stmt = con.createStatement()) {
+    try (Statement stmt = con.createStatement()) {
 
       String sql = String.format("delete from app_board where board_id=%d", b.getNo());
 

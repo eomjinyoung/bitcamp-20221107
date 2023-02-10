@@ -166,18 +166,22 @@
   - 네트워크를 통해 파일을 공유하고 데이터 입출력을 처리하는 방법
     - 데이터를 파일에 저장하고 꺼내는 기능을 별도의 애플리케이션으로 분리한다.
     - 기존의 프로그램은 네트워크를 통해 파일 서버에 접속하여 데이터 입출력을 처리한다.
+  - projects: client, server, common
 
 ### 33. 통신 방식을 Stateful에서 Stateless로 변경하기
   - Stateful과 Stateless 방식의 차이점 이해
   - Stateless 방식으로 통신하는 방법
+  - projects: client, server, common
 
 ### 34. Thread를 이용한 멀티 태스킹 구현하기: 동시 요청 처리하기
   - Thread로 멀티 태스킹을 구현하는 방법
   - 멀티 태스킹의 이해
   - 멀티 프로세스와 멀티 스레드의 구동 원리 이해
+  - projects: client, server, common
 
 ### 35. DBMS 도입하기
   - DBMS를 이용해 데이터를 처리하는 방법
+  - projects: client, DBMS
 
 ### 36-1. Connection 객체 공유하기
   - Connection 객체 공유하는 방법 

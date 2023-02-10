@@ -1,5 +1,7 @@
 package bitcamp.myapp;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import bitcamp.myapp.dao.JdbcBoardDao;
 import bitcamp.myapp.dao.JdbcStudentDao;
 import bitcamp.myapp.dao.JdbcTeacherDao;
@@ -15,10 +17,13 @@ public class ClientApp {
   }
 
   void execute(String ip, int port) {
-    try {
-      JdbcBoardDao boardDao = new JdbcBoardDao();
-      JdbcStudentDao studentDao = new JdbcStudentDao();
-      JdbcTeacherDao teacherDao = new JdbcTeacherDao();
+    try (Connection con = DriverManager.getConnection(
+        "jdbc:mariadb://localhost:3306/studydb", "study", "1111")) {
+
+      // DAO 객체들끼리 Connection 객체를 공유한다.
+      JdbcBoardDao boardDao = new JdbcBoardDao(con);
+      JdbcStudentDao studentDao = new JdbcStudentDao(con);
+      JdbcTeacherDao teacherDao = new JdbcTeacherDao(con);
 
       StudentHandler studentHandler = new StudentHandler("학생", studentDao);
       TeacherHandler teacherHandler = new TeacherHandler("강사", teacherDao);
