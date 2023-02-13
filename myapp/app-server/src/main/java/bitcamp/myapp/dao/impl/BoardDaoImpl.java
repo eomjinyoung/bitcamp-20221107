@@ -4,16 +4,16 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import bitcamp.myapp.dao.BoardDao;
 import bitcamp.myapp.dao.DaoException;
 import bitcamp.myapp.vo.Board;
 
-public class JdbcBoardDao implements BoardDao {
+public class BoardDaoImpl implements BoardDao {
 
   Connection con;
 
-  // 의존객체 Connection 을 생성자에서 받는다.
-  public JdbcBoardDao(Connection con) {
+  public BoardDaoImpl(Connection con) {
     this.con = con;
   }
 
@@ -32,7 +32,7 @@ public class JdbcBoardDao implements BoardDao {
   }
 
   @Override
-  public Board[] findAll() {
+  public List<Board> findAll() {
     try (Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery(
             "select board_id, title, created_date, view_cnt from app_board order by board_id desc")) {
@@ -47,11 +47,7 @@ public class JdbcBoardDao implements BoardDao {
 
         list.add(b);
       }
-
-      Board[] boards = new Board[list.size()];
-      list.toArray(boards);
-
-      return boards;
+      return list;
 
     } catch (Exception e) {
       throw new DaoException(e);
@@ -100,7 +96,7 @@ public class JdbcBoardDao implements BoardDao {
   }
 
   @Override
-  public Board[] findByKeyword(String keyword) {
+  public List<Board> findByKeyword(String keyword) {
     try (Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery(
             "select board_id, title, created_date, view_cnt"
@@ -119,11 +115,7 @@ public class JdbcBoardDao implements BoardDao {
 
         list.add(b);
       }
-
-      Board[] boards = new Board[list.size()];
-      list.toArray(boards);
-
-      return boards;
+      return list;
 
     } catch (Exception e) {
       throw new DaoException(e);
@@ -131,13 +123,13 @@ public class JdbcBoardDao implements BoardDao {
   }
 
   @Override
-  public void update(Board b) {
+  public int update(Board b) {
     try (Statement stmt = con.createStatement()) {
 
       String sql = String.format("update app_board set title='%s', content='%s' where board_id=%d",
           b.getTitle(), b.getContent(), b.getNo());
 
-      stmt.executeUpdate(sql);
+      return stmt.executeUpdate(sql);
 
     } catch (Exception e) {
       throw new DaoException(e);
@@ -145,12 +137,12 @@ public class JdbcBoardDao implements BoardDao {
   }
 
   @Override
-  public boolean delete(Board b) {
+  public int delete(int no) {
     try (Statement stmt = con.createStatement()) {
 
-      String sql = String.format("delete from app_board where board_id=%d", b.getNo());
+      String sql = String.format("delete from app_board where board_id=%d", no);
 
-      return stmt.executeUpdate(sql) == 1;
+      return stmt.executeUpdate(sql);
 
     } catch (Exception e) {
       throw new DaoException(e);
