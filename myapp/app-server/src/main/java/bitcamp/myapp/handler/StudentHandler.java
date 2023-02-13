@@ -1,5 +1,6 @@
 package bitcamp.myapp.handler;
 
+import java.sql.Connection;
 import java.util.List;
 import bitcamp.myapp.dao.MemberDao;
 import bitcamp.myapp.dao.StudentDao;
@@ -8,12 +9,14 @@ import bitcamp.util.StreamTool;
 
 public class StudentHandler {
 
+  private Connection con;
   private MemberDao memberDao;
   private StudentDao studentDao;
   private String title;
 
-  public StudentHandler(String title, MemberDao memberDao, StudentDao studentDao) {
+  public StudentHandler(String title, Connection con, MemberDao memberDao, StudentDao studentDao) {
     this.title = title;
+    this.con = con;
     this.memberDao = memberDao;
     this.studentDao = studentDao;
   }
@@ -31,10 +34,22 @@ public class StudentHandler {
     s.setGender(streamTool.promptInt("0. 남자\n1. 여자\n성별? ") == 0 ? 'M' : 'W');
     s.setLevel((byte) streamTool.promptInt("0. 비전공자\n1. 준전공자\n2. 전공자\n전공? "));
 
-    this.memberDao.insert(s);
-    this.studentDao.insert(s);
+    con.setAutoCommit(false);
+    try {
+      memberDao.insert(s);
+      studentDao.insert(s);
+      con.commit();
+      streamTool.println("입력했습니다!").send();
 
-    streamTool.println("입력했습니다!").send();
+    } catch (Exception e) {
+      con.rollback();
+      streamTool.println("입력 실패입니다!").send();
+      e.printStackTrace();
+
+    } finally {
+      con.setAutoCommit(true);
+    }
+
   }
 
   private void printMembers(StreamTool streamTool) throws Exception {

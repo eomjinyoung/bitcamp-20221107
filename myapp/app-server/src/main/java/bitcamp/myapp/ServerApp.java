@@ -42,7 +42,7 @@ public class ServerApp {
     StudentDaoImpl studentDao = new StudentDaoImpl(con);
     JdbcTeacherDao teacherDao = new JdbcTeacherDao(con);
 
-    this.studentHandler = new StudentHandler("학생", memberDao, studentDao);
+    this.studentHandler = new StudentHandler("학생", con, memberDao, studentDao);
     this.teacherHandler = new TeacherHandler("강사", teacherDao);
     this.boardHandler = new BoardHandler("게시판", boardDao);
   }
