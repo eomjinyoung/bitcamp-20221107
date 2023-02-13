@@ -1,19 +1,20 @@
 package bitcamp.myapp.dao.impl;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import bitcamp.myapp.dao.DaoException;
 import bitcamp.myapp.dao.StudentDao;
 import bitcamp.myapp.vo.Student;
 
-public class JdbcStudentDao implements StudentDao {
+public class StudentDaoImpl implements StudentDao {
 
   Connection con;
 
-  // 의존객체 Connection 을 생성자에서 받는다.
-  public JdbcStudentDao(Connection con) {
+  public StudentDaoImpl(Connection con) {
     this.con = con;
   }
 
@@ -22,10 +23,9 @@ public class JdbcStudentDao implements StudentDao {
     try (Statement stmt = con.createStatement()) {
 
       String sql = String.format(
-          "insert into app_student(name, tel, pst_no, bas_addr, det_addr, work, gender, level)"
-              + " values('%s','%s','%s','%s','%s',%b,'%s',%d)",
-              s.getName(),
-              s.getTel(),
+          "insert into app_student(member_id, pst_no, bas_addr, det_addr, work, gender, level)"
+              + " values('%s','%s','%s','%s',%b,'%s',%d)",
+              s.getNo(), // app_member 테이블에 입력한 후 자동 생성된 PK 값
               s.getPostNo(),
               s.getBasicAddress(),
               s.getDetailAddress(),
@@ -41,29 +41,34 @@ public class JdbcStudentDao implements StudentDao {
   }
 
   @Override
-  public Student[] findAll() {
+  public List<Student> findAll() {
     try (Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery(
-            "select student_id, name, tel, work, level"
-                + " from app_student"
-                + " order by student_id desc")) {
+            "select"
+                + "  m.member_id,"
+                + "  m.name,"
+                + "  m.email,"
+                + "  m.tel,"
+                + "  s.work,"
+                + "  s.level"
+                + " from app_student s"
+                + "   inner join app_member m on s.member_id = m.member_id"
+                + " order by"
+                + "   name asc")) {
 
       ArrayList<Student> list = new ArrayList<>();
       while (rs.next()) {
         Student s = new Student();
-        s.setNo(rs.getInt("student_id"));
+        s.setNo(rs.getInt("member_id"));
         s.setName(rs.getString("name"));
+        s.setEmail(rs.getString("email"));
         s.setTel(rs.getString("tel"));
         s.setWorking(rs.getBoolean("work"));
         s.setLevel(rs.getByte("level"));
 
         list.add(s);
       }
-
-      Student[] arr = new Student[list.size()];
-      list.toArray(arr);
-
-      return arr;
+      return list;
 
     } catch (Exception e) {
       throw new DaoException(e);
@@ -83,7 +88,7 @@ public class JdbcStudentDao implements StudentDao {
         s.setNo(rs.getInt("student_id"));
         s.setName(rs.getString("name"));
         s.setTel(rs.getString("tel"));
-        s.setCreatedDate(rs.getString("created_date"));
+        //s.setCreatedDate(rs.getString("created_date"));
         s.setPostNo(rs.getString("pst_no"));
         s.setBasicAddress(rs.getString("bas_addr"));
         s.setDetailAddress(rs.getString("det_addr"));
@@ -171,6 +176,46 @@ public class JdbcStudentDao implements StudentDao {
     } catch (Exception e) {
       throw new DaoException(e);
     }
+  }
+
+
+  public static void main(String[] args) throws Exception {
+    Connection con = DriverManager.getConnection(
+        "jdbc:mariadb://localhost:3306/studydb", "study", "1111");
+
+    StudentDaoImpl dao = new StudentDaoImpl(con);
+
+    //    Student s = new Student();
+    //    s.setNo(10);
+    //    s.setPostNo("11100");
+    //    s.setBasicAddress("강남대로10");
+    //    s.setDetailAddress("110호");
+    //    s.setWorking(false);
+    //    s.setGender('W');
+    //    s.setLevel((byte)1);
+    //
+    //    dao.insert(s);
+
+    List<Student> list = dao.findAll();
+    for (Student s : list) {
+      System.out.println(s);
+    }
+
+    //    Member m = dao.findByNo(2);
+    //    System.out.println(m);
+
+
+    //    Member m = new Member();
+    //    m.setNo(2);
+    //    m.setName("xxxx");
+    //    m.setEmail("xxx@test.com");
+    //    m.setPassword("2222");
+    //    m.setTel("101010");
+    //    System.out.println(dao.update(m));
+
+    //    System.out.println(dao.delete(3));
+
+    con.close();
   }
 }
 
