@@ -1,7 +1,6 @@
 package bitcamp.myapp.dao.impl;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -115,21 +114,6 @@ public class MemberDaoImpl implements MemberDao {
     } catch (Exception e) {
       throw new DaoException(e);
     }
-  }
-
-  public static void main(String[] args) throws Exception {
-    Connection con = DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/studydb", "study", "1111");
-
-    MemberDaoImpl dao = new MemberDaoImpl(con);
-
-    Member m = new Member();
-    m.setName("aaa4");
-    m.setTel("11114");
-
-    dao.insert(m);
-
-    con.close();
   }
 }
 

@@ -11,6 +11,12 @@ public class Member implements java.io.Serializable {
   private String tel;
   private Date createdDate;
 
+
+  @Override
+  public String toString() {
+    return "Member [no=" + no + ", name=" + name + ", tel=" + tel + ", createdDate=" + createdDate
+        + "]";
+  }
   @Override
   public int hashCode() {
     return Objects.hash(no);
