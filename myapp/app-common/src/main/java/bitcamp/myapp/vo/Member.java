@@ -1,5 +1,6 @@
 package bitcamp.myapp.vo;
 
+import java.sql.Date;
 import java.util.Objects;
 
 public class Member implements java.io.Serializable {
@@ -8,7 +9,7 @@ public class Member implements java.io.Serializable {
   private int no;
   private String name;
   private String tel;
-  private String createdDate;
+  private Date createdDate;
 
   @Override
   public int hashCode() {
@@ -44,12 +45,14 @@ public class Member implements java.io.Serializable {
   public void setTel(String tel) {
     this.tel = tel;
   }
-  public String getCreatedDate() {
+  public Date getCreatedDate() {
     return createdDate;
   }
-  public void setCreatedDate(String createdDate) {
+  public void setCreatedDate(Date createdDate) {
     this.createdDate = createdDate;
   }
+
+
 
 
 }
