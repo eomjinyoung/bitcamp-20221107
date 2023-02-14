@@ -1,5 +1,6 @@
 package bitcamp.myapp.vo;
 
+import java.sql.Date;
 import java.util.Objects;
 
 public class Board implements java.io.Serializable {
@@ -9,39 +10,8 @@ public class Board implements java.io.Serializable {
   private String title;
   private String content;
   private String password;
-  private String createdDate;
+  private Date createdDate;
   private int viewCount;
-
-  // Factory Method 패턴 + Information Expert 패턴
-  public static Board create(String csv) {
-    try {
-      String[] values = csv.split(",");
-
-      Board obj = new Board();
-      obj.setNo(Integer.parseInt(values[0]));
-      obj.setTitle(values[1]);
-      obj.setContent(values[2]);
-      obj.setPassword(values[3]);
-      obj.setViewCount(Integer.parseInt(values[4]));
-      obj.setCreatedDate(values[5]);
-
-      return obj;
-
-    } catch (Exception e) {
-      throw new RuntimeException("Board 객체 생성 오류!", e);
-    }
-  }
-
-  // Information Expert 패턴
-  public String toCsvString() {
-    return String.format("%d,%s,%s,%s,%d,%s",
-        this.getNo(),
-        this.getTitle(),
-        this.getContent(),
-        this.getPassword(),
-        this.getViewCount(),
-        this.getCreatedDate());
-  }
 
   @Override
   public String toString() {
@@ -88,10 +58,10 @@ public class Board implements java.io.Serializable {
   public void setPassword(String password) {
     this.password = password;
   }
-  public String getCreatedDate() {
+  public Date getCreatedDate() {
     return createdDate;
   }
-  public void setCreatedDate(String createdDate) {
+  public void setCreatedDate(Date createdDate) {
     this.createdDate = createdDate;
   }
   public int getViewCount() {

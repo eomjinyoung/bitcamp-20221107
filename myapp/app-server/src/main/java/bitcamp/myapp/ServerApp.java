@@ -2,8 +2,12 @@ package bitcamp.myapp;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import bitcamp.myapp.dao.impl.BoardDaoImpl;
 import bitcamp.myapp.dao.impl.MemberDaoImpl;
 import bitcamp.myapp.dao.impl.StudentDaoImpl;
@@ -38,7 +42,24 @@ public class ServerApp {
 
   public ServerApp() throws Exception{
 
-    BoardDaoImpl boardDao = new BoardDaoImpl(conFactory);
+    // Mybatis API 사용 준비
+    // 1) Mybatis 설정 파일 준비
+    //    => resources/bitcamp/myapp/config/mybatis-config.xml
+
+    // 2) SQL Mapper 파일 준비
+    //    => resources/bitcamp/myapp/mapper/BoardMapper.xml
+
+    // 3) Mybatis 설정 파일을 읽을 때 사용할 입력 스트림 객체 준비
+    InputStream mybatisConfigInputStream = Resources.getResourceAsStream(
+        "bitcamp/myapp/config/mybatis-config.xml");
+
+    // 4) SqlSessionFactoryBuilder 객체 준비
+    SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
+
+    // 5) builder를 이용하여 SqlSessionFactory 객체 생성
+    SqlSessionFactory sqlSessionFactory = builder.build(mybatisConfigInputStream);
+
+    BoardDaoImpl boardDao = new BoardDaoImpl(sqlSessionFactory);
     MemberDaoImpl memberDao = new MemberDaoImpl(conFactory);
     StudentDaoImpl studentDao = new StudentDaoImpl(conFactory);
     TeacherDaoImpl teacherDao = new TeacherDaoImpl(conFactory);

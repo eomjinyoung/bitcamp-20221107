@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import bitcamp.myapp.dao.BoardDao;
 import bitcamp.myapp.dao.DaoException;
 import bitcamp.myapp.vo.Board;
@@ -12,47 +14,24 @@ import bitcamp.util.ConnectionFactory;
 public class BoardDaoImpl implements BoardDao {
 
   ConnectionFactory conFactory;
+  SqlSessionFactory sqlSessionFactory;
 
-  public BoardDaoImpl(ConnectionFactory conFactory) {
-    this.conFactory = conFactory;
+  public BoardDaoImpl(SqlSessionFactory sqlSessionFactory) {
+    this.sqlSessionFactory = sqlSessionFactory;
   }
 
   @Override
   public void insert(Board b) {
-    try (PreparedStatement stmt = conFactory.getConnection().prepareStatement(
-        "insert into app_board(title, content, pwd) values(?, ?, ?)")) {
-
-      stmt.setString(1, b.getTitle());
-      stmt.setString(2, b.getContent());
-      stmt.setString(3, b.getPassword());
-
-      stmt.executeUpdate();
-
-    } catch (Exception e) {
-      throw new DaoException(e);
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+      sqlSession.insert("BoardMapper.insert", b);
+      sqlSession.commit();
     }
   }
 
   @Override
   public List<Board> findAll() {
-    try (PreparedStatement stmt = conFactory.getConnection().prepareStatement(
-        "select board_id, title, created_date, view_cnt from app_board order by board_id desc");
-        ResultSet rs = stmt.executeQuery()) {
-
-      ArrayList<Board> list = new ArrayList<>();
-      while (rs.next()) {
-        Board b = new Board();
-        b.setNo(rs.getInt("board_id"));
-        b.setTitle(rs.getString("title"));
-        b.setCreatedDate(rs.getString("created_date"));
-        b.setViewCount(rs.getInt("view_cnt"));
-
-        list.add(b);
-      }
-      return list;
-
-    } catch (Exception e) {
-      throw new DaoException(e);
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+      return sqlSession.selectList("BoardMapper.findAll");
     }
   }
 
@@ -70,7 +49,7 @@ public class BoardDaoImpl implements BoardDao {
           b.setTitle(rs.getString("title"));
           b.setContent(rs.getString("content"));
           b.setPassword(rs.getString("pwd"));
-          b.setCreatedDate(rs.getString("created_date"));
+          //b.setCreatedDate(rs.getString("created_date"));
           b.setViewCount(rs.getInt("view_cnt"));
           return b;
         }
@@ -115,7 +94,7 @@ public class BoardDaoImpl implements BoardDao {
           Board b = new Board();
           b.setNo(rs.getInt("board_id"));
           b.setTitle(rs.getString("title"));
-          b.setCreatedDate(rs.getString("created_date"));
+          //b.setCreatedDate(rs.getString("created_date"));
           b.setViewCount(rs.getInt("view_cnt"));
 
           list.add(b);

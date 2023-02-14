@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BoardMapper">
+
+  <insert id="insert" parameterType="bitcamp.myapp.vo.Board">
+    insert into app_board(title, content, pwd) 
+    values(#{title}, #{content}, #{password})
+  </insert>
+
+  <select id="findAll" resultType="bitcamp.myapp.vo.Board">
+    select 
+      board_id as no, 
+      title, 
+      created_date as createdDate, 
+      view_cnt as viewCount 
+    from 
+      app_board 
+    order by 
+      board_id desc
+  </select>
+
+  
+</mapper>
