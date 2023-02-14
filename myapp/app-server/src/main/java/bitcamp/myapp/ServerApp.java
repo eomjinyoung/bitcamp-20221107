@@ -7,9 +7,9 @@ import java.net.Socket;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import bitcamp.myapp.dao.impl.BoardDaoImpl;
-import bitcamp.myapp.dao.impl.JdbcTeacherDao;
 import bitcamp.myapp.dao.impl.MemberDaoImpl;
 import bitcamp.myapp.dao.impl.StudentDaoImpl;
+import bitcamp.myapp.dao.impl.TeacherDaoImpl;
 import bitcamp.myapp.handler.BoardHandler;
 import bitcamp.myapp.handler.HelloHandler;
 import bitcamp.myapp.handler.StudentHandler;
@@ -40,10 +40,10 @@ public class ServerApp {
     BoardDaoImpl boardDao = new BoardDaoImpl(con);
     MemberDaoImpl memberDao = new MemberDaoImpl(con);
     StudentDaoImpl studentDao = new StudentDaoImpl(con);
-    JdbcTeacherDao teacherDao = new JdbcTeacherDao(con);
+    TeacherDaoImpl teacherDao = new TeacherDaoImpl(con);
 
     this.studentHandler = new StudentHandler("학생", con, memberDao, studentDao);
-    this.teacherHandler = new TeacherHandler("강사", teacherDao);
+    this.teacherHandler = new TeacherHandler("강사", con, memberDao, teacherDao);
     this.boardHandler = new BoardHandler("게시판", boardDao);
   }
 

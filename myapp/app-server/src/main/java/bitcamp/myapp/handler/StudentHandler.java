@@ -113,6 +113,8 @@ public class StudentHandler {
     m.setNo(old.getNo());
     m.setCreatedDate(old.getCreatedDate());
     m.setName(streamTool.promptString(String.format("이름(%s)? ", old.getName())));
+    m.setEmail(streamTool.promptString(String.format("이메일(%s)? ", old.getEmail())));
+    m.setPassword(streamTool.promptString("암호? "));
     m.setTel(streamTool.promptString(String.format("전화(%s)? ", old.getTel())));
     m.setPostNo(streamTool.promptString(String.format("우편번호(%s)? ", old.getPostNo())));
     m.setBasicAddress(streamTool.promptString(String.format("기본주소(%s)? ", old.getBasicAddress())));
