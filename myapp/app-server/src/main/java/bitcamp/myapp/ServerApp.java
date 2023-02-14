@@ -5,7 +5,6 @@ import java.io.DataOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import bitcamp.myapp.dao.impl.BoardDaoImpl;
 import bitcamp.myapp.dao.impl.MemberDaoImpl;
 import bitcamp.myapp.dao.impl.StudentDaoImpl;
@@ -14,11 +13,14 @@ import bitcamp.myapp.handler.BoardHandler;
 import bitcamp.myapp.handler.HelloHandler;
 import bitcamp.myapp.handler.StudentHandler;
 import bitcamp.myapp.handler.TeacherHandler;
+import bitcamp.util.ConnectionFactory;
 import bitcamp.util.StreamTool;
 
 public class ServerApp {
 
-  Connection con;
+  ConnectionFactory conFactory = new ConnectionFactory(
+      "jdbc:mariadb://localhost:3306/studydb", "study", "1111");
+
   StudentHandler studentHandler;
   TeacherHandler teacherHandler;
   BoardHandler boardHandler;
@@ -34,16 +36,14 @@ public class ServerApp {
   }
 
   public ServerApp() throws Exception{
-    this.con = DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/studydb", "study", "1111");
 
-    BoardDaoImpl boardDao = new BoardDaoImpl(con);
-    MemberDaoImpl memberDao = new MemberDaoImpl(con);
-    StudentDaoImpl studentDao = new StudentDaoImpl(con);
-    TeacherDaoImpl teacherDao = new TeacherDaoImpl(con);
+    BoardDaoImpl boardDao = new BoardDaoImpl(conFactory);
+    MemberDaoImpl memberDao = new MemberDaoImpl(conFactory);
+    StudentDaoImpl studentDao = new StudentDaoImpl(conFactory);
+    TeacherDaoImpl teacherDao = new TeacherDaoImpl(conFactory);
 
-    this.studentHandler = new StudentHandler("학생", con, memberDao, studentDao);
-    this.teacherHandler = new TeacherHandler("강사", con, memberDao, teacherDao);
+    this.studentHandler = new StudentHandler("학생", conFactory, memberDao, studentDao);
+    this.teacherHandler = new TeacherHandler("강사", conFactory, memberDao, teacherDao);
     this.boardHandler = new BoardHandler("게시판", boardDao);
   }
 
@@ -53,24 +53,9 @@ public class ServerApp {
         ServerSocket serverSocket = new ServerSocket(port)) {
       System.out.println("서버 실행 중...");
 
-      try (Socket socket = serverSocket.accept();
-          DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-          DataInputStream in = new DataInputStream(socket.getInputStream())) {
-
-        // 입출력 보조 도구 준비
-        StreamTool streamTool = new StreamTool(in, out);
-
-        String clientIP = socket.getInetAddress().getHostAddress();
-        System.out.printf("접속: %s\n", clientIP);
-
-        hello(streamTool);
-        processRequest(streamTool);
-
-        System.out.printf("끊기: %s\n", clientIP);
-
-      } catch (Exception e) {
-        System.out.println("클라이언트 요청 처리 오류!");
-        e.printStackTrace();
+      while (true) {
+        Socket socket = serverSocket.accept();
+        new Thread(() -> service(socket)).start();
       }
 
     } catch (Exception e) {
@@ -148,6 +133,29 @@ public class ServerApp {
     .println("9. 종료")
     .println("메뉴 번호:")
     .send();
+  }
+
+  public void service(Socket clientSocket) {
+    // 스레드가 실행할 코드를 둔다.
+    try (Socket socket = clientSocket;
+        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+        DataInputStream in = new DataInputStream(socket.getInputStream())) {
+
+      // 입출력 보조 도구 준비
+      StreamTool streamTool = new StreamTool(in, out);
+
+      String clientIP = socket.getInetAddress().getHostAddress();
+      System.out.printf("접속: %s\n", clientIP);
+
+      hello(streamTool);
+      processRequest(streamTool);
+
+      System.out.printf("끊기: %s\n", clientIP);
+
+    } catch (Exception e) {
+      System.out.println("클라이언트 요청 처리 오류!");
+      e.printStackTrace();
+    }
   }
 }
 

@@ -1,7 +1,5 @@
 package bitcamp.myapp.dao.impl;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -9,18 +7,19 @@ import java.util.List;
 import bitcamp.myapp.dao.DaoException;
 import bitcamp.myapp.dao.TeacherDao;
 import bitcamp.myapp.vo.Teacher;
+import bitcamp.util.ConnectionFactory;
 
 public class TeacherDaoImpl implements TeacherDao {
 
-  Connection con;
+  ConnectionFactory conFactory;
 
-  public TeacherDaoImpl(Connection con) {
-    this.con = con;
+  public TeacherDaoImpl(ConnectionFactory conFactory) {
+    this.conFactory = conFactory;
   }
 
   @Override
   public void insert(Teacher s) {
-    try (Statement stmt = con.createStatement()) {
+    try (Statement stmt = conFactory.getConnection().createStatement()) {
 
       String sql = String.format("insert into app_teacher("
           + " member_id,"
@@ -44,7 +43,7 @@ public class TeacherDaoImpl implements TeacherDao {
 
   @Override
   public List<Teacher> findAll() {
-    try (Statement stmt = con.createStatement();
+    try (Statement stmt = conFactory.getConnection().createStatement();
         ResultSet rs = stmt.executeQuery("select"
             + "  m.member_id,"
             + "  m.name,"
@@ -78,7 +77,7 @@ public class TeacherDaoImpl implements TeacherDao {
 
   @Override
   public Teacher findByNo(int no) {
-    try (Statement stmt = con.createStatement();
+    try (Statement stmt = conFactory.getConnection().createStatement();
         ResultSet rs = stmt.executeQuery("select"
             + "  m.member_id,"
             + "  m.name,"
@@ -116,7 +115,7 @@ public class TeacherDaoImpl implements TeacherDao {
 
   @Override
   public int update(Teacher t) {
-    try (Statement stmt = con.createStatement()) {
+    try (Statement stmt = conFactory.getConnection().createStatement()) {
 
       String sql = String.format(
           "update app_teacher set "
@@ -140,7 +139,7 @@ public class TeacherDaoImpl implements TeacherDao {
 
   @Override
   public int delete(int no) {
-    try (Statement stmt = con.createStatement()) {
+    try (Statement stmt = conFactory.getConnection().createStatement()) {
 
       String sql = String.format("delete from app_teacher"
           + " where member_id=%d", no);
@@ -152,41 +151,6 @@ public class TeacherDaoImpl implements TeacherDao {
     }
   }
 
-  public static void main(String[] args) throws Exception {
-    Connection con = DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/studydb", "study", "1111");
-
-    TeacherDaoImpl dao = new TeacherDaoImpl(con);
-
-    //    Teacher t = new Teacher();
-    //    t.setNo(15);
-    //    t.setDegree(3);
-    //    t.setSchool("비트대학교");
-    //    t.setMajor("수학");
-    //    t.setWage(14000);
-    //
-    //    dao.insert(t);
-
-    //    List<Teacher> list = dao.findAll();
-    //    for (Teacher t : list) {
-    //      System.out.println(t);
-    //    }
-
-    //    Teacher t = dao.findByNo(4);
-    //    System.out.println(t);
-
-    //    Teacher t = new Teacher();
-    //    t.setNo(4);
-    //    t.setDegree(5);
-    //    t.setSchool("비트대학교x");
-    //    t.setMajor("수학xx");
-    //    t.setWage(55000);
-    //    System.out.println(dao.update(t));
-
-    //    System.out.println(dao.delete(4));
-
-    con.close();
-  }
 }
 
 

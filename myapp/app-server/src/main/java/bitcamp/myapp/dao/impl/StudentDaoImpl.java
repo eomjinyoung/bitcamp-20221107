@@ -1,7 +1,5 @@
 package bitcamp.myapp.dao.impl;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -9,19 +7,20 @@ import java.util.List;
 import bitcamp.myapp.dao.DaoException;
 import bitcamp.myapp.dao.StudentDao;
 import bitcamp.myapp.vo.Student;
+import bitcamp.util.ConnectionFactory;
 
 public class StudentDaoImpl implements StudentDao {
 
-  Connection con;
+  ConnectionFactory conFactory;
 
-  public StudentDaoImpl(Connection con) {
-    this.con = con;
+  public StudentDaoImpl(ConnectionFactory conFactory) {
+    this.conFactory = conFactory;
   }
 
   @Override
   public void insert(Student s) {
 
-    try (Statement stmt = con.createStatement()) {
+    try (Statement stmt = conFactory.getConnection().createStatement()) {
 
       String sql = String.format("insert into app_student("
           + "  member_id,"
@@ -49,7 +48,7 @@ public class StudentDaoImpl implements StudentDao {
 
   @Override
   public List<Student> findAll() {
-    try (Statement stmt = con.createStatement();
+    try (Statement stmt = conFactory.getConnection().createStatement();
         ResultSet rs = stmt.executeQuery("select"
             + "  m.member_id,"
             + "  m.name,"
@@ -83,7 +82,7 @@ public class StudentDaoImpl implements StudentDao {
 
   @Override
   public Student findByNo(int no) {
-    try (Statement stmt = con.createStatement();
+    try (Statement stmt = conFactory.getConnection().createStatement();
         ResultSet rs = stmt.executeQuery("select"
             + "  m.member_id,"
             + "  m.name,"
@@ -125,7 +124,7 @@ public class StudentDaoImpl implements StudentDao {
 
   @Override
   public List<Student> findByKeyword(String keyword) {
-    try (Statement stmt = con.createStatement();
+    try (Statement stmt = conFactory.getConnection().createStatement();
         ResultSet rs = stmt.executeQuery("select"
             + "  m.member_id,"
             + "  m.name,"
@@ -165,7 +164,7 @@ public class StudentDaoImpl implements StudentDao {
 
   @Override
   public int update(Student s) {
-    try (Statement stmt = con.createStatement()) {
+    try (Statement stmt = conFactory.getConnection().createStatement()) {
 
       String sql = String.format("update app_student set "
           + "  pst_no='%s',"
@@ -192,7 +191,7 @@ public class StudentDaoImpl implements StudentDao {
 
   @Override
   public int delete(int no) {
-    try (Statement stmt = con.createStatement()) {
+    try (Statement stmt = conFactory.getConnection().createStatement()) {
 
       String sql = String.format("delete from app_student"
           + " where member_id=%d", no);
@@ -201,53 +200,6 @@ public class StudentDaoImpl implements StudentDao {
     } catch (Exception e) {
       throw new DaoException(e);
     }
-  }
-
-
-  public static void main(String[] args) throws Exception {
-    Connection con = DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/studydb", "study", "1111");
-
-    StudentDaoImpl dao = new StudentDaoImpl(con);
-
-    //    Student s = new Student();
-    //    s.setNo(10);
-    //    s.setPostNo("11100");
-    //    s.setBasicAddress("강남대로10");
-    //    s.setDetailAddress("110호");
-    //    s.setWorking(false);
-    //    s.setGender('W');
-    //    s.setLevel((byte)1);
-    //
-    //    dao.insert(s);
-
-    //    List<Student> list = dao.findAll();
-    //    for (Student s : list) {
-    //      System.out.println(s);
-    //    }
-
-    //    Student s = dao.findByNo(10);
-    //    System.out.println(s);
-
-    //    List<Student> list = dao.findByKeyword("1111");
-    //    for (Student s : list) {
-    //      System.out.println(s);
-    //    }
-
-
-    //    Student s = new Student();
-    //    s.setNo(10);
-    //    s.setPostNo("33333");
-    //    s.setBasicAddress("강남대로10xx");
-    //    s.setDetailAddress("110호xx");
-    //    s.setWorking(true);
-    //    s.setGender('M');
-    //    s.setLevel((byte)2);
-    //    System.out.println(dao.update(s));
-
-    //    System.out.println(dao.delete(7));
-
-    con.close();
   }
 }
 
