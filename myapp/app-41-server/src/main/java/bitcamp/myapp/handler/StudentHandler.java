@@ -42,9 +42,9 @@ public class StudentHandler {
       memberDao.insert(s);
       studentDao.insert(s);
 
-      Thread t = Thread.currentThread();
-      System.out.printf("%s 스레드를 30초간 중지합니다!", t.getName());
-      Thread.sleep(30000);
+      // Thread t = Thread.currentThread();
+      // System.out.printf("%s 스레드를 30초간 중지합니다!", t.getName());
+      // Thread.sleep(30000);
 
       con.commit();
       streamTool.println("입력했습니다!").send();
