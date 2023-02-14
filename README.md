@@ -725,7 +725,8 @@
 - 자바(계속)
     - DBMS : 포함관계, 배타적 관계
     - 문법 응용 실전 프로젝트(myapp)
-        - 39.Thread를 이용한 다중 클라이언트 요청 동시 처리와 DB 커넥션풀
+        - 39.멀티 스레드와 DB 커넥션 관리
+        - 40.DB 커넥션 풀을 이용한 Connection 재사용
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
