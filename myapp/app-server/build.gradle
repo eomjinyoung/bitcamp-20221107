@@ -37,6 +37,9 @@ dependencies {
     // MariaDB JDBC 드라이버
     implementation 'org.mariadb.jdbc:mariadb-java-client:3.1.2'
     
+    // Mybatis SQL Mapper 라이브러리
+    implementation 'org.mybatis:mybatis:3.5.11'
+    
     implementation 'com.google.guava:guava:31.1-jre'
     testImplementation 'junit:junit:4.13.2'
 }

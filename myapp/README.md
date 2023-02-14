@@ -200,3 +200,10 @@
 ### 40. DB 커넥션 풀을 이용한 Connection 재사용
   - 풀링기법(pooling)을 이용하여 Connection 객체를 재사용하는 방법
     - GoF의 'Flyweight' 디자인 패턴의 응용이다.
+
+### 41. PreparedStatement를 이용한 SQL 삽입 공격 막기
+  - SQL 삽입 공격 체험
+  - SQL 삽입 공격을 막는 방법
+
+### 42. Mybatis SQL 매퍼 사용하기
+  - Mybatis SQL 매퍼를 사용하여 DAO를 구현하는 방법

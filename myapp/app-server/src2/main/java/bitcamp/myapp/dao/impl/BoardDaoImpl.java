@@ -128,9 +128,7 @@ public class BoardDaoImpl implements BoardDao {
 
       String sql = String.format("update app_board set title='%s', content='%s' where board_id=%d",
           b.getTitle(), b.getContent(), b.getNo());
-      /*
-update app_board set title='xxx', content='hul', view_cnt=20000, created_date='2024-05-05', pwd='d' where board_id=5
-       */
+
       return stmt.executeUpdate(sql);
 
     } catch (Exception e) {
