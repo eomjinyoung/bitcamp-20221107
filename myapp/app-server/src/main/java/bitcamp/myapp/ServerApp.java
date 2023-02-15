@@ -60,7 +60,7 @@ public class ServerApp {
     SqlSessionFactory sqlSessionFactory = builder.build(mybatisConfigInputStream);
 
     BoardDaoImpl boardDao = new BoardDaoImpl(sqlSessionFactory);
-    MemberDaoImpl memberDao = new MemberDaoImpl(conFactory);
+    MemberDaoImpl memberDao = new MemberDaoImpl(sqlSessionFactory);
     StudentDaoImpl studentDao = new StudentDaoImpl(conFactory);
     TeacherDaoImpl teacherDao = new TeacherDaoImpl(conFactory);
 
