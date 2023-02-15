@@ -18,6 +18,7 @@
   
   <mappers>
     <mapper resource="bitcamp/myapp/mapper/BoardMapper.xml"/>
+    <mapper resource="bitcamp/myapp/mapper/MemberMapper.xml"/>
   </mappers>
   
 </configuration>

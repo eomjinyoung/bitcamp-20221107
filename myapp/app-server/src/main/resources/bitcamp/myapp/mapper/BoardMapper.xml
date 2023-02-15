@@ -41,6 +41,32 @@
     where board_id=#{maumdaerohaedodoi}
   </update>
   
+  <select id="findByKeyword" parameterType="string" resultType="bitcamp.myapp.vo.Board">
+    select 
+      board_id as no, 
+      title, 
+      created_date as createdDate, 
+      view_cnt as viewCount 
+    from 
+      app_board 
+    where 
+      title like(concat('%',#{keyword},'%'))
+      or content like(concat('%',#{keyword},'%'))
+    order by 
+      board_id desc
+  </select>
+  
+  <update id="update" parameterType="bitcamp.myapp.vo.Board">
+    update app_board set 
+      title=#{title}, 
+      content=#{content} 
+    where board_id=#{no}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    delete from app_board 
+    where board_id=#{no}
+  </delete>
 </mapper>
 
 
