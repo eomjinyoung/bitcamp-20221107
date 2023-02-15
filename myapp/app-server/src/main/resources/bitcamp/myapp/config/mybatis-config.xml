@@ -4,6 +4,8 @@
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
+  <properties resource="bitcamp/myapp/config/jdbc.properties"></properties>
+
   <typeAliases>
     <!-- 지정된 패키지의 모든 클래스에 대해 클래스 이름과 같은 이름으로 별명을 부여한다. -->
     <package name="bitcamp.myapp.vo"/>
@@ -13,10 +15,10 @@
     <environment id="development">
       <transactionManager type="JDBC"/>
       <dataSource type="POOLED">
-        <property name="driver" value="org.mariadb.jdbc.Driver"/>
-        <property name="url" value="jdbc:mariadb://localhost:3306/studydb"/>
-        <property name="username" value="study"/>
-        <property name="password" value="1111"/>
+        <property name="driver" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
       </dataSource>
     </environment>
   </environments>
