@@ -18,7 +18,6 @@ public class BoardDaoImpl implements BoardDao {
   public void insert(Board b) {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       sqlSession.insert("BoardMapper.insert", b);
-      sqlSession.commit();
     }
   }
 
@@ -40,7 +39,6 @@ public class BoardDaoImpl implements BoardDao {
   public void increaseViewCount(int no) {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       sqlSession.update("BoardMapper.increaseViewCount", no);
-      sqlSession.commit();
     }
   }
 
@@ -54,18 +52,14 @@ public class BoardDaoImpl implements BoardDao {
   @Override
   public int update(Board b) {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      int n = sqlSession.update("BoardMapper.update", b);
-      sqlSession.commit();
-      return n;
+      return sqlSession.update("BoardMapper.update", b);
     }
   }
 
   @Override
   public int delete(int no) {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      int n = sqlSession.delete("BoardMapper.delete", no);
-      sqlSession.commit();
-      return n;
+      return sqlSession.delete("BoardMapper.delete", no);
     }
   }
 }

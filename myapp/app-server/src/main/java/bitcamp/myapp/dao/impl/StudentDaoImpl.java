@@ -20,7 +20,6 @@ public class StudentDaoImpl implements StudentDao {
   public void insert(Student s) {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       sqlSession.insert("StudentMapper.insert", s);
-      sqlSession.commit();
     }
   }
 
@@ -48,18 +47,14 @@ public class StudentDaoImpl implements StudentDao {
   @Override
   public int update(Student s) {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      int n = sqlSession.update("StudentMapper.update", s);
-      sqlSession.commit();
-      return n;
+      return sqlSession.update("StudentMapper.update", s);
     }
   }
 
   @Override
   public int delete(int no) {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      int n = sqlSession.delete("StudentMapper.delete", no);
-      sqlSession.commit();
-      return n;
+      return sqlSession.delete("StudentMapper.delete", no);
     }
   }
 

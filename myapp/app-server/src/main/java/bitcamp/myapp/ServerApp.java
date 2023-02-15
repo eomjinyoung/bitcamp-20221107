@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import bitcamp.myapp.dao.impl.BoardDaoImpl;
 import bitcamp.myapp.dao.impl.MemberDaoImpl;
@@ -16,9 +15,11 @@ import bitcamp.myapp.handler.BoardHandler;
 import bitcamp.myapp.handler.HelloHandler;
 import bitcamp.myapp.handler.StudentHandler;
 import bitcamp.myapp.handler.TeacherHandler;
+import bitcamp.util.BitcampSqlSessionFactory;
 import bitcamp.util.ConnectionFactory;
 import bitcamp.util.ConnectionPool;
 import bitcamp.util.StreamTool;
+import bitcamp.util.TransactionManager;
 
 public class ServerApp {
 
@@ -57,14 +58,19 @@ public class ServerApp {
     SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
 
     // 5) builder를 이용하여 SqlSessionFactory 객체 생성
-    SqlSessionFactory sqlSessionFactory = builder.build(mybatisConfigInputStream);
+    // 6) 오리지널 SqlSessionFactory에 트랜잭션 보조 기능이 덧붙여진 프록시 객체를 준비한다.
+    BitcampSqlSessionFactory sqlSessionFactory = new BitcampSqlSessionFactory(
+        builder.build(mybatisConfigInputStream));
+
+    // 7) BitcampSqlSessionFactory객체를 이용하여 트랜잭션을 다루는 객체를 준비한다.
+    TransactionManager txManager = new TransactionManager(sqlSessionFactory);
 
     BoardDaoImpl boardDao = new BoardDaoImpl(sqlSessionFactory);
     MemberDaoImpl memberDao = new MemberDaoImpl(sqlSessionFactory);
     StudentDaoImpl studentDao = new StudentDaoImpl(sqlSessionFactory);
     TeacherDaoImpl teacherDao = new TeacherDaoImpl(conFactory);
 
-    this.studentHandler = new StudentHandler("학생", conFactory, memberDao, studentDao);
+    this.studentHandler = new StudentHandler("학생", txManager, memberDao, studentDao);
     this.teacherHandler = new TeacherHandler("강사", conFactory, memberDao, teacherDao);
     this.boardHandler = new BoardHandler("게시판", boardDao);
   }

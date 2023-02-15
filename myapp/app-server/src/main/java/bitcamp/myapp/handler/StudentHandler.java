@@ -7,17 +7,19 @@ import bitcamp.myapp.dao.StudentDao;
 import bitcamp.myapp.vo.Student;
 import bitcamp.util.ConnectionFactory;
 import bitcamp.util.StreamTool;
+import bitcamp.util.TransactionManager;
 
 public class StudentHandler {
 
+  private TransactionManager txManager;
   private ConnectionFactory conFactory;
   private MemberDao memberDao;
   private StudentDao studentDao;
   private String title;
 
-  public StudentHandler(String title, ConnectionFactory conFactory, MemberDao memberDao, StudentDao studentDao) {
+  public StudentHandler(String title, TransactionManager txManager, MemberDao memberDao, StudentDao studentDao) {
     this.title = title;
-    this.conFactory = conFactory;
+    this.txManager = txManager;
     this.memberDao = memberDao;
     this.studentDao = studentDao;
   }
@@ -35,29 +37,18 @@ public class StudentHandler {
     s.setGender(streamTool.promptInt("0. 남자\n1. 여자\n성별? ") == 0 ? 'M' : 'W');
     s.setLevel((byte) streamTool.promptInt("0. 비전공자\n1. 준전공자\n2. 전공자\n전공? "));
 
-    // 현재 스레드가 갖고 있는 Connection 객체를 리턴 받는다.
-    Connection con = conFactory.getConnection();
-    con.setAutoCommit(false);
+    txManager.startTransaction();
     try {
       memberDao.insert(s);
       studentDao.insert(s);
-
-      //      Thread t = Thread.currentThread();
-      //      System.out.printf("%s 스레드를 30초간 중지합니다!", t.getName());
-      //      Thread.sleep(30000);
-
-      con.commit();
+      txManager.commit();
       streamTool.println("입력했습니다!").send();
 
     } catch (Exception e) {
-      con.rollback();
+      txManager.rollback();
       streamTool.println("입력 실패입니다!").send();
       e.printStackTrace();
-
-    } finally {
-      con.setAutoCommit(true);
     }
-
   }
 
   private void printMembers(StreamTool streamTool) throws Exception {
@@ -84,6 +75,7 @@ public class StudentHandler {
 
     streamTool
     .printf("    이름: %s\n", m.getName())
+    .printf("  이메일: %s\n", m.getEmail())
     .printf("    전화: %s\n", m.getTel())
     .printf("우편번호: %s\n", m.getPostNo())
     .printf("기본주소: %s\n", m.getBasicAddress())

@@ -20,7 +20,6 @@ public class MemberDaoImpl implements MemberDao {
   public void insert(Member m) {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       sqlSession.insert("MemberMapper.insert", m);
-      sqlSession.commit();
     }
   }
 
@@ -41,18 +40,14 @@ public class MemberDaoImpl implements MemberDao {
   @Override
   public int update(Member m) {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      int n = sqlSession.update("MemberMapper.update", m);
-      sqlSession.commit();
-      return n;
+      return sqlSession.update("MemberMapper.update", m);
     }
   }
 
   @Override
   public int delete(int no) {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      int n = sqlSession.delete("MemberMapper.delete", no);
-      sqlSession.commit();
-      return n;
+      return sqlSession.delete("MemberMapper.delete", no);
     }
   }
 
