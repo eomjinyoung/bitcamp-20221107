@@ -4,7 +4,21 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="StudentMapper">
 
-  <insert id="insert" parameterType="bitcamp.myapp.vo.Student" >
+  <resultMap type="student" id="studentMap">
+    <id column="member_id" property="no"/>
+    <result column="name" property="name"/>
+    <result column="email" property="email"/>
+    <result column="tel" property="tel"/>
+    <result column="created_date" property="createdDate"/>
+    <result column="pst_no" property="postNo"/>
+    <result column="bas_addr" property="basicAddress"/>
+    <result column="det_addr" property="detailAddress"/>
+    <result column="work" property="working"/>
+    <result column="gender" property="gender"/>
+    <result column="level" property="level"/>
+  </resultMap>
+
+  <insert id="insert" parameterType="student" >
     insert into app_student(
       member_id,
       pst_no,
@@ -16,13 +30,13 @@
     values(#{no},#{postNo},#{basicAddress},#{detailAddress},#{working},#{gender},#{level})
   </insert>
 
-  <select id="findAll" resultType="bitcamp.myapp.vo.Student">
+  <select id="findAll" resultMap="studentMap">
     select
-      m.member_id as no,
+      m.member_id,
       m.name,
       m.email,
       m.tel,
-      s.work as working,
+      s.work,
       s.level
     from 
       app_student s
@@ -31,17 +45,17 @@
       m.name asc
   </select>
 
-  <select id="findByNo" parameterType="int" resultType="bitcamp.myapp.vo.Student">
+  <select id="findByNo" parameterType="int" resultMap="studentMap">
     select
-      m.member_id as no,
+      m.member_id,
       m.name,
       m.email,
       m.tel,
-      m.created_date as createdDate,
-      s.pst_no as postNo,
-      s.bas_addr as basicAddress,
-      s.det_addr as detailAddress,
-      s.work as working,
+      m.created_date,
+      s.pst_no,
+      s.bas_addr,
+      s.det_addr,
+      s.work,
       s.gender,
       s.level
     from 
@@ -51,13 +65,13 @@
       m.member_id=#{no}
   </select>
   
-  <select id="findByKeyword" parameterType="string" resultType="bitcamp.myapp.vo.Student">
+  <select id="findByKeyword" parameterType="string" resultMap="studentMap">
     select
-      m.member_id as no,
+      m.member_id,
       m.name,
       m.email,
       m.tel,
-      s.work as working,
+      s.work,
       s.level
     from 
       app_student s
@@ -72,7 +86,7 @@
       m.name asc
   </select>
   
-  <update id="update" parameterType="bitcamp.myapp.vo.Student">
+  <update id="update" parameterType="student">
     update app_student set
       pst_no=#{postNo},
       bas_addr=#{basicAddress},

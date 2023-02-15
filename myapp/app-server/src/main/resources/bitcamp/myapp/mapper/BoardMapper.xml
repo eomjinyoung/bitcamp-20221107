@@ -4,31 +4,40 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BoardMapper">
 
-  <insert id="insert" parameterType="bitcamp.myapp.vo.Board">
+  <resultMap type="board" id="boardMap">
+    <id column="board_id" property="no"/>
+    <result column="title" property="title"/>
+    <result column="content" property="content"/>
+    <result column="pwd" property="password"/>
+    <result column="created_date" property="createdDate"/>
+    <result column="view_cnt" property="viewCount"/>
+  </resultMap>
+
+  <insert id="insert" parameterType="board">
     insert into app_board(title, content, pwd) 
     values(#{title}, #{content}, #{password})
   </insert>
 
-  <select id="findAll" resultType="bitcamp.myapp.vo.Board">
+  <select id="findAll" resultMap="boardMap">
     select 
-      board_id as no, 
+      board_id, 
       title, 
-      created_date as createdDate, 
-      view_cnt as viewCount 
+      created_date, 
+      view_cnt 
     from 
       app_board 
     order by 
       board_id desc
   </select>
 
-  <select id="findByNo" parameterType="int" resultType="bitcamp.myapp.vo.Board">
+  <select id="findByNo" parameterType="int" resultMap="boardMap">
     select 
-      board_id as no, 
+      board_id, 
       title, 
       content, 
-      pwd as password, 
-      created_date as createdDate, 
-      view_cnt as viewCount
+      pwd, 
+      created_date, 
+      view_cnt
     from 
       app_board 
     where 
@@ -41,12 +50,12 @@
     where board_id=#{maumdaerohaedodoi}
   </update>
   
-  <select id="findByKeyword" parameterType="string" resultType="bitcamp.myapp.vo.Board">
+  <select id="findByKeyword" parameterType="string" resultMap="boardMap">
     select 
-      board_id as no, 
+      board_id, 
       title, 
-      created_date as createdDate, 
-      view_cnt as viewCount 
+      created_date, 
+      view_cnt
     from 
       app_board 
     where 
@@ -56,7 +65,7 @@
       board_id desc
   </select>
   
-  <update id="update" parameterType="bitcamp.myapp.vo.Board">
+  <update id="update" parameterType="board">
     update app_board set 
       title=#{title}, 
       content=#{content} 
