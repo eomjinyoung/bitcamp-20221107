@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TeacherMapper">
+
+  <insert id="insert" parameterType="bitcamp.myapp.vo.Teacher" >
+    insert into app_teacher(
+      member_id,
+      degree,
+      school,
+      major,
+      wage)
+    values(#{no},#{degree},#{school},#{major},#{wage})
+  </insert>
+
+  <select id="findAll" resultType="bitcamp.myapp.vo.Teacher">
+    select
+      m.member_id as no,
+      m.name,
+      m.tel,
+      t.degree,
+      t.major,
+      t.wage
+    from 
+      app_teacher t
+      inner join app_member m on t.member_id = m.member_id
+    order by
+      m.name asc
+  </select>
+
+  <select id="findByNo" parameterType="int" resultType="bitcamp.myapp.vo.Teacher">
+    select
+      m.member_id as no,
+      m.name,
+      m.email,
+      m.tel,
+      m.created_date as createdDate,
+      t.degree,
+      t.school,
+      t.major,
+      t.wage
+    from 
+      app_teacher t
+      inner join app_member m on t.member_id = m.member_id
+    where m.member_id=#{no}
+  </select>
+  
+  <update id="update" parameterType="bitcamp.myapp.vo.Teacher">
+    update app_teacher set
+      degree=#{degree},
+      school=#{school},
+      major=#{major},
+      wage=#{wage}
+    where member_id=#{no}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    delete from app_teacher
+    where member_id=#{no}
+  </delete>
+</mapper>
+
+
+
+
+

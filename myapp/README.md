@@ -209,3 +209,7 @@
   - Mybatis SQL 매퍼를 사용하여 DAO를 구현하는 방법
   - Mybatis 를 이용하여 트랜잭션을 제어하는 방법
   - Proxy 패턴으로 기존 클래스의 기능을 변경하는 방법
+
+### 43. Mybatis SQL 매퍼 사용하기 II
+  - Mybatis 의 다양한 기능 사용법
+  - Mybatis 의 설정을 이용하여 DAO 구현체를 자동으로 생성하는 방법
