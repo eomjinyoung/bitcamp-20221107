@@ -728,6 +728,7 @@
         - 39.멀티 스레드와 DB 커넥션 관리
         - 40.DB 커넥션 풀을 이용한 Connection 재사용
         - 41.PreparedStatement를 이용한 SQL 삽입 공격 막기
+        - 42.Mybatis SQL 매퍼 사용하기
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
