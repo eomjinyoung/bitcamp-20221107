@@ -723,12 +723,18 @@
 ## 70일차(2023-02-14,화)
 
 - 자바(계속)
-    - DBMS : 포함관계, 배타적 관계
     - 문법 응용 실전 프로젝트(myapp)
         - 39.멀티 스레드와 DB 커넥션 관리
         - 40.DB 커넥션 풀을 이용한 Connection 재사용
         - 41.PreparedStatement를 이용한 SQL 삽입 공격 막기
-        - 42.Mybatis SQL 매퍼 사용하기
+        - 42.Mybatis SQL 매퍼 사용하기(트랜잭션 제어 포함)
+
+## 71일차(2023-02-15,수)
+
+- 자바(계속)
+    - 문법 응용 실전 프로젝트(myapp)
+        - 42.Mybatis SQL 매퍼 사용하기(트랜잭션 제어 포함)(계속)
+
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr

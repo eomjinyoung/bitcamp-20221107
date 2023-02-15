@@ -16,16 +16,10 @@ import bitcamp.myapp.handler.HelloHandler;
 import bitcamp.myapp.handler.StudentHandler;
 import bitcamp.myapp.handler.TeacherHandler;
 import bitcamp.util.BitcampSqlSessionFactory;
-import bitcamp.util.ConnectionFactory;
-import bitcamp.util.ConnectionPool;
 import bitcamp.util.StreamTool;
 import bitcamp.util.TransactionManager;
 
 public class ServerApp {
-
-  ConnectionPool connectionPool = new ConnectionPool(
-      "jdbc:mariadb://localhost:3306/studydb", "study", "1111");
-  ConnectionFactory conFactory = new ConnectionFactory(connectionPool);
 
   StudentHandler studentHandler;
   TeacherHandler teacherHandler;
@@ -68,10 +62,10 @@ public class ServerApp {
     BoardDaoImpl boardDao = new BoardDaoImpl(sqlSessionFactory);
     MemberDaoImpl memberDao = new MemberDaoImpl(sqlSessionFactory);
     StudentDaoImpl studentDao = new StudentDaoImpl(sqlSessionFactory);
-    TeacherDaoImpl teacherDao = new TeacherDaoImpl(conFactory);
+    TeacherDaoImpl teacherDao = new TeacherDaoImpl(sqlSessionFactory);
 
     this.studentHandler = new StudentHandler("학생", txManager, memberDao, studentDao);
-    this.teacherHandler = new TeacherHandler("강사", conFactory, memberDao, teacherDao);
+    this.teacherHandler = new TeacherHandler("강사", txManager, memberDao, teacherDao);
     this.boardHandler = new BoardHandler("게시판", boardDao);
   }
 
@@ -181,10 +175,6 @@ public class ServerApp {
     } catch (Exception e) {
       System.out.println("클라이언트 요청 처리 오류!");
       e.printStackTrace();
-
-    } finally {
-      // 현재 스레드가 갖고 있는 커넥션 객체를 ConnectionPool에 반납시킨다.
-      conFactory.closeConnection();
     }
   }
 }

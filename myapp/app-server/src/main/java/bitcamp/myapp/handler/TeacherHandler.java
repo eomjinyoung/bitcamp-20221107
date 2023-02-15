@@ -1,23 +1,22 @@
 package bitcamp.myapp.handler;
 
-import java.sql.Connection;
 import java.util.List;
 import bitcamp.myapp.dao.MemberDao;
 import bitcamp.myapp.dao.TeacherDao;
 import bitcamp.myapp.vo.Teacher;
-import bitcamp.util.ConnectionFactory;
 import bitcamp.util.StreamTool;
+import bitcamp.util.TransactionManager;
 
 public class TeacherHandler {
 
-  private ConnectionFactory conFactory;
+  private TransactionManager txManager;
   private MemberDao memberDao;
   private TeacherDao teacherDao;
   private String title;
 
-  public TeacherHandler(String title, ConnectionFactory conFactory, MemberDao memberDao, TeacherDao teacherDao) {
+  public TeacherHandler(String title, TransactionManager txManager, MemberDao memberDao, TeacherDao teacherDao) {
     this.title = title;
-    this.conFactory = conFactory;
+    this.txManager = txManager;
     this.memberDao = memberDao;
     this.teacherDao = teacherDao;
   }
@@ -33,22 +32,17 @@ public class TeacherHandler {
     m.setMajor(streamTool.promptString("전공? "));
     m.setWage(streamTool.promptInt("강의료(시급)? "));
 
-    // 현재 스레드에 보관된 Connection 객체를 리턴 받는다.
-    Connection con = conFactory.getConnection();
-    con.setAutoCommit(false);
+    txManager.startTransaction();
     try {
       memberDao.insert(m);
       teacherDao.insert(m);
-      con.commit();
+      txManager.commit();
       streamTool.println("입력했습니다!").send();
 
     } catch (Exception e) {
-      con.rollback();
+      txManager.rollback();
       streamTool.println("입력 실패했습니다!").send();
       e.printStackTrace();
-
-    } finally {
-      con.setAutoCommit(true);
     }
   }
 
@@ -122,22 +116,17 @@ public class TeacherHandler {
 
     String str = streamTool.promptString("정말 변경하시겠습니까?(y/N) ");
     if (str.equalsIgnoreCase("Y")) {
-      // 현재 스레드에 보관된 Connection 객체를 리턴 받는다.
-      Connection con = conFactory.getConnection();
-      con.setAutoCommit(false);
+      txManager.startTransaction();
       try {
         memberDao.update(m);
         teacherDao.update(m);
-        con.commit();
+        txManager.commit();
         streamTool.println("변경했습니다.");
 
       } catch (Exception e) {
-        con.rollback();
+        txManager.rollback();
         streamTool.println("변경 실패했습니다.");
         e.printStackTrace();
-
-      } finally {
-        con.setAutoCommit(true);
       }
     } else {
       streamTool.println("변경 취소했습니다.");
@@ -161,21 +150,17 @@ public class TeacherHandler {
       return;
     }
 
-    // 현재 스레드에 보관된 Connection 객체를 리턴 받는다.
-    Connection con = conFactory.getConnection();
-    con.setAutoCommit(false);
+    txManager.startTransaction();
     try {
       teacherDao.delete(teacherNo);
       memberDao.delete(teacherNo);
+      txManager.commit();
       streamTool.println("삭제했습니다.").send();
 
     } catch (Exception e) {
-      con.rollback();
+      txManager.rollback();
       streamTool.println("삭제 실패했습니다.").send();
       e.printStackTrace();
-
-    } finally {
-      con.setAutoCommit(true);
     }
   }
 
