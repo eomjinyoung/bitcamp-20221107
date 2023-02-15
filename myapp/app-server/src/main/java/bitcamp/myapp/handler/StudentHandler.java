@@ -1,18 +1,15 @@
 package bitcamp.myapp.handler;
 
-import java.sql.Connection;
 import java.util.List;
 import bitcamp.myapp.dao.MemberDao;
 import bitcamp.myapp.dao.StudentDao;
 import bitcamp.myapp.vo.Student;
-import bitcamp.util.ConnectionFactory;
 import bitcamp.util.StreamTool;
 import bitcamp.util.TransactionManager;
 
 public class StudentHandler {
 
   private TransactionManager txManager;
-  private ConnectionFactory conFactory;
   private MemberDao memberDao;
   private StudentDao studentDao;
   private String title;
@@ -131,22 +128,17 @@ public class StudentHandler {
 
     String str = streamTool.promptString("정말 변경하시겠습니까?(y/N) ");
     if (str.equalsIgnoreCase("Y")) {
-      // 현재 스레드가 갖고 있는 Connection 객체를 리턴 받는다.
-      Connection con = conFactory.getConnection();
-      con.setAutoCommit(false);
+      txManager.startTransaction();
       try {
         memberDao.update(m);
         studentDao.update(m);
-        con.commit();
+        txManager.commit();
         streamTool.println("변경했습니다.");
 
       } catch (Exception e) {
-        con.rollback();
+        txManager.rollback();
         streamTool.println("변경 실패했습니다!");
         e.printStackTrace();
-
-      } finally {
-        con.setAutoCommit(true);
       }
     } else {
       streamTool.println("변경 취소했습니다.");
@@ -170,21 +162,16 @@ public class StudentHandler {
       return;
     }
 
-    // 현재 스레드가 갖고 있는 Connection 객체를 리턴 받는다.
-    Connection con = conFactory.getConnection();
-    con.setAutoCommit(false);
+    txManager.startTransaction();
     try {
       studentDao.delete(memberNo);
       memberDao.delete(memberNo);
-      con.commit();
+      txManager.commit();
       streamTool.println("삭제했습니다.").send();
 
     } catch (Exception e) {
-      con.rollback();
+      txManager.rollback();
       streamTool.println("삭제 실패했습니다.").send();
-
-    } finally {
-      con.setAutoCommit(true);
     }
   }
 

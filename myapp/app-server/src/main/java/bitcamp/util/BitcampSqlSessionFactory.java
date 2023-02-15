@@ -16,11 +16,13 @@ public class BitcampSqlSessionFactory implements SqlSessionFactory {
   public void prepareSqlSessionForThread() {
     SqlSession sqlSession = sqlSessionLocal.get();
     if (sqlSession == null) {
-      sqlSessionLocal.set(original.openSession(false));
+      sqlSessionLocal.set(new BitcampSqlSession(original.openSession(false)));
     }
   }
 
   public void clearSqlSessionForThread() {
+    BitcampSqlSession sqlSession = (BitcampSqlSession) sqlSessionLocal.get();
+    sqlSession.closeOriginal();
     sqlSessionLocal.set(null);
   }
 
