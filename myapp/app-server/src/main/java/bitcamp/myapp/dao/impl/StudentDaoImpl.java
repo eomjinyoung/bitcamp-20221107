@@ -41,7 +41,7 @@ public class StudentDaoImpl implements StudentDao {
   @Override
   public List<Student> findByKeyword(String keyword) {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      return sqlSession.selectList("StudentMapper.findAll");
+      return sqlSession.selectList("StudentMapper.findByKeyword");
     }
   }
 
@@ -71,16 +71,16 @@ public class StudentDaoImpl implements StudentDao {
     StudentDaoImpl studentDao = new StudentDaoImpl(sqlSessionFactory);
 
     //    Student m = new Student();
-    //    m.setName("x1");
-    //    m.setEmail("x1@test.com");
-    //    m.setPassword("1111");
-    //    m.setTel("010-1111-1111");
-    //    m.setPostNo("11001");
-    //    m.setBasicAddress("강남대로");
-    //    m.setDetailAddress("101호");
-    //    m.setWorking(true);
-    //    m.setGender('W');
-    //    m.setLevel((byte)2);
+    //    m.setName("x2");
+    //    m.setEmail("x2@test.com");
+    //    m.setPassword("1112");
+    //    m.setTel("010-1111-1112");
+    //    m.setPostNo("11002");
+    //    m.setBasicAddress("강남대로2");
+    //    m.setDetailAddress("102호");
+    //    m.setWorking(false);
+    //    m.setGender('M');
+    //    m.setLevel((byte)1);
     //
     //    memberDao.insert(m);
     //    studentDao.insert(m);
