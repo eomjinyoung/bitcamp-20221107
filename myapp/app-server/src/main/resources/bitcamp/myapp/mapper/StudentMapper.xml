@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="StudentMapper">
+
+  <insert id="insert" parameterType="bitcamp.myapp.vo.Student" >
+    insert into app_student(
+      member_id,
+      pst_no,
+      bas_addr,
+      det_addr,
+      work,
+      gender,
+      level)
+    values(#{no},#{postNo},#{basicAddress},#{detailAddress},#{working},#{gender},#{level})
+  </insert>
+
+  <select id="findAll" resultType="bitcamp.myapp.vo.Student">
+    select
+      m.member_id as no,
+      m.name,
+      m.email,
+      m.tel,
+      s.work as working,
+      s.level
+    from 
+      app_student s
+      inner join app_member m on s.member_id = m.member_id
+    order by
+      m.name asc
+  </select>
+
+  <select id="findByNo" parameterType="int" resultType="bitcamp.myapp.vo.Student">
+    select
+      m.member_id as no,
+      m.name,
+      m.email,
+      m.tel,
+      m.created_date as createdDate,
+      s.pst_no as postNo,
+      s.bas_addr as basicAddress,
+      s.det_addr as detailAddress,
+      s.work as working,
+      s.gender,
+      s.level
+    from 
+      app_student s
+      inner join app_member m on s.member_id = m.member_id
+    where 
+      m.member_id=#{no}
+  </select>
+  
+  <select id="findByKeyword" parameterType="string" resultType="bitcamp.myapp.vo.Student">
+    select
+      m.member_id as no,
+      m.name,
+      m.email,
+      m.tel,
+      s.work as working,
+      s.level
+    from 
+      app_student s
+      inner join app_member m on s.member_id = m.member_id
+    where
+      m.name like(concat('%', #{keyword}, '%'))
+      or m.email like(concat('%', #{keyword}, '%'))
+      or m.tel like(concat('%', #{keyword}, '%'))
+      or s.bas_addr like(concat('%', #{keyword}, '%'))
+      or s.det_addr like(concat('%', #{keyword}, '%'))
+    order by
+      m.name asc
+  </select>
+  
+  <update id="update" parameterType="bitcamp.myapp.vo.Student">
+    update app_student set
+      pst_no=#{postNo},
+      bas_addr=#{basicAddress},
+      det_addr=#{detailAddress},
+      work=#{working},
+      gender=#{gender},
+      level=#{level} 
+    where member_id=#{no}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    delete from app_student
+    where member_id=#{no}
+  </delete>
+</mapper>
+
+
+
+
+

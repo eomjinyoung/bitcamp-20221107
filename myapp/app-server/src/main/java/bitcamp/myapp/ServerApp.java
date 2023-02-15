@@ -61,7 +61,7 @@ public class ServerApp {
 
     BoardDaoImpl boardDao = new BoardDaoImpl(sqlSessionFactory);
     MemberDaoImpl memberDao = new MemberDaoImpl(sqlSessionFactory);
-    StudentDaoImpl studentDao = new StudentDaoImpl(conFactory);
+    StudentDaoImpl studentDao = new StudentDaoImpl(sqlSessionFactory);
     TeacherDaoImpl teacherDao = new TeacherDaoImpl(conFactory);
 
     this.studentHandler = new StudentHandler("학생", conFactory, memberDao, studentDao);
