@@ -37,42 +37,16 @@ public class BoardDaoImpl implements BoardDao {
 
   @Override
   public Board findByNo(int no) {
-    try (PreparedStatement stmt = conFactory.getConnection().prepareStatement(
-        "select board_id, title, content, pwd, created_date, view_cnt from app_board where board_id=?")) {
-
-      stmt.setInt(1, no);
-
-      try (ResultSet rs = stmt.executeQuery()) {
-        if (rs.next()) {
-          Board b = new Board();
-          b.setNo(rs.getInt("board_id"));
-          b.setTitle(rs.getString("title"));
-          b.setContent(rs.getString("content"));
-          b.setPassword(rs.getString("pwd"));
-          //b.setCreatedDate(rs.getString("created_date"));
-          b.setViewCount(rs.getInt("view_cnt"));
-          return b;
-        }
-        return null;
-      }
-
-    } catch (Exception e) {
-      throw new DaoException(e);
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+      return sqlSession.selectOne("BoardMapper.findByNo", no);
     }
   }
 
   @Override
   public void increaseViewCount(int no) {
-    try (PreparedStatement stmt = conFactory.getConnection().prepareStatement(
-        "update app_board set"
-            + " view_cnt = view_cnt + 1"
-            + " where board_id=?")) {
-
-      stmt.setInt(1, no);
-      stmt.executeUpdate();
-
-    } catch (Exception e) {
-      throw new DaoException(e);
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+      sqlSession.update("BoardMapper.increaseViewCount", no);
+      sqlSession.commit();
     }
   }
 

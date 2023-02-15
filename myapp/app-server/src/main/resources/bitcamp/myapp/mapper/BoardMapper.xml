@@ -21,5 +21,29 @@
       board_id desc
   </select>
 
+  <select id="findByNo" parameterType="int" resultType="bitcamp.myapp.vo.Board">
+    select 
+      board_id as no, 
+      title, 
+      content, 
+      pwd as password, 
+      created_date as createdDate, 
+      view_cnt as viewCount
+    from 
+      app_board 
+    where 
+      board_id=#{no}
+  </select>
+  
+  <update id="increaseViewCount" parameterType="int">
+    update app_board set
+      view_cnt = view_cnt + 1
+    where board_id=#{maumdaerohaedodoi}
+  </update>
   
 </mapper>
+
+
+
+
+
