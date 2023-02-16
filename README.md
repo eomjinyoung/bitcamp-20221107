@@ -736,5 +736,12 @@
         - 42.Mybatis SQL 매퍼 사용하기(트랜잭션 제어 포함)(계속)
         - 43.Mybatis SQL 매퍼 사용하기 II(DAO 구현 자동화 포함)
 
+## 72일차(2023-02-16,목)
+
+- 자바(계속)
+    - 문법 응용 실전 프로젝트(myapp)
+        - 43.Mybatis SQL 매퍼 사용하기 II(DAO 구현 자동화 포함)(계속)
+        
+
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr

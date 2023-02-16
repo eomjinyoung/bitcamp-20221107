@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="TeacherMapper">
+<mapper namespace="TeacherDao">
 
   <resultMap type="teacher" id="teacherMap">
     <id column="member_id" property="no"/>
