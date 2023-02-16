@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BoardDao">
+
+  <resultMap type="board" id="boardMap">
+    <id column="board_id" property="no"/>
+    <result column="title" property="title"/>
+    <result column="content" property="content"/>
+    <result column="pwd" property="password"/>
+    <result column="created_date" property="createdDate"/>
+    <result column="view_cnt" property="viewCount"/>
+  </resultMap>
+
+  <insert id="insert" parameterType="board">
+    insert into app_board(title, content, pwd) 
+    values(#{title}, #{content}, #{password})
+  </insert>
+
+  <select id="findAll" resultMap="boardMap">
+    select 
+      board_id, 
+      title, 
+      created_date, 
+      view_cnt 
+    from 
+      app_board 
+    order by 
+      board_id desc
+  </select>
+
+  <select id="findByNo" parameterType="int" resultMap="boardMap">
+    select 
+      board_id, 
+      title, 
+      content, 
+      pwd, 
+      created_date, 
+      view_cnt
+    from 
+      app_board 
+    where 
+      board_id=#{no}
+  </select>
+  
+  <update id="increaseViewCount" parameterType="int">
+    update app_board set
+      view_cnt = view_cnt + 1
+    where board_id=#{maumdaerohaedodoi}
+  </update>
+  
+  <select id="findByKeyword" parameterType="string" resultMap="boardMap">
+    select 
+      board_id, 
+      title, 
+      created_date, 
+      view_cnt
+    from 
+      app_board 
+    where 
+      title like(concat('%',#{keyword},'%'))
+      or content like(concat('%',#{keyword},'%'))
+    order by 
+      board_id desc
+  </select>
+  
+  <update id="update" parameterType="board">
+    update app_board set 
+      title=#{title}, 
+      content=#{content} 
+    where board_id=#{no}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    delete from app_board 
+    where board_id=#{no}
+  </delete>
+</mapper>
+
+
+
+
+

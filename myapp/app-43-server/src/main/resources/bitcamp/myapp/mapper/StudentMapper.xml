@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="StudentDao">
+
+  <resultMap type="student" id="studentMap">
+    <id column="member_id" property="no"/>
+    <result column="name" property="name"/>
+    <result column="email" property="email"/>
+    <result column="tel" property="tel"/>
+    <result column="created_date" property="createdDate"/>
+    <result column="pst_no" property="postNo"/>
+    <result column="bas_addr" property="basicAddress"/>
+    <result column="det_addr" property="detailAddress"/>
+    <result column="work" property="working"/>
+    <result column="gender" property="gender"/>
+    <result column="level" property="level"/>
+  </resultMap>
+
+  <insert id="insert" parameterType="student" >
+    insert into app_student(
+      member_id,
+      pst_no,
+      bas_addr,
+      det_addr,
+      work,
+      gender,
+      level)
+    values(#{no},#{postNo},#{basicAddress},#{detailAddress},#{working},#{gender},#{level})
+  </insert>
+
+  <select id="findAll" resultMap="studentMap">
+    select
+      m.member_id,
+      m.name,
+      m.email,
+      m.tel,
+      s.work,
+      s.level
+    from 
+      app_student s
+      inner join app_member m on s.member_id = m.member_id
+    order by
+      m.name asc
+  </select>
+
+  <select id="findByNo" parameterType="int" resultMap="studentMap">
+    select
+      m.member_id,
+      m.name,
+      m.email,
+      m.tel,
+      m.created_date,
+      s.pst_no,
+      s.bas_addr,
+      s.det_addr,
+      s.work,
+      s.gender,
+      s.level
+    from 
+      app_student s
+      inner join app_member m on s.member_id = m.member_id
+    where 
+      m.member_id=#{no}
+  </select>
+  
+  <select id="findByKeyword" parameterType="string" resultMap="studentMap">
+    select
+      m.member_id,
+      m.name,
+      m.email,
+      m.tel,
+      s.work,
+      s.level
+    from 
+      app_student s
+      inner join app_member m on s.member_id = m.member_id
+    where
+      m.name like(concat('%', #{keyword}, '%'))
+      or m.email like(concat('%', #{keyword}, '%'))
+      or m.tel like(concat('%', #{keyword}, '%'))
+      or s.bas_addr like(concat('%', #{keyword}, '%'))
+      or s.det_addr like(concat('%', #{keyword}, '%'))
+    order by
+      m.name asc
+  </select>
+  
+  <update id="update" parameterType="student">
+    update app_student set
+      pst_no=#{postNo},
+      bas_addr=#{basicAddress},
+      det_addr=#{detailAddress},
+      work=#{working},
+      gender=#{gender},
+      level=#{level} 
+    where member_id=#{no}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    delete from app_student
+    where member_id=#{no}
+  </delete>
+</mapper>
+
+
+
+
+
