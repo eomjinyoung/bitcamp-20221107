@@ -17,7 +17,7 @@ import bitcamp.util.BitcampSqlSessionFactory;
 import bitcamp.util.DaoGenerator;
 import bitcamp.util.StreamTool;
 
-@WebServlet("/board")
+@WebServlet("/board/*")
 public class BoardServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
@@ -40,14 +40,20 @@ public class BoardServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    String menu = request.getParameter("menu");
-    if (menu == null) {
+
+    String pathInfo = request.getPathInfo();
+
+    if (pathInfo == null) {
       menu(request, response);
+      return;
     }
 
-    switch (menu) {
-      case "2":
+    switch (pathInfo) {
+      case "/list":
         printBoards(request, response);
+        break;
+      case "/view":
+        printBoard(request, response);
         break;
     }
   }
@@ -85,8 +91,8 @@ public class BoardServlet extends HttpServlet {
     List<Board> boards = this.boardDao.findAll();
     for (Board b : boards) {
       out.println("<tr>");
-      out.printf("  <td>%d</td> <td>%s</td> <td>%s</td> <td>%d</td>\n",
-          b.getNo(), b.getTitle(), b.getCreatedDate(), b.getViewCount());
+      out.printf("  <td>%d</td> <td><a href='view?no=%d'>%s</a></td> <td>%s</td> <td>%d</td>\n",
+          b.getNo(), b.getNo(), b.getTitle(), b.getCreatedDate(), b.getViewCount());
       out.println("</tr>");
     }
     out.println("</table>");
@@ -95,24 +101,46 @@ public class BoardServlet extends HttpServlet {
     out.println("</html>");
   }
 
-  private void printBoard(StreamTool streamTool) throws Exception {
-    int boardNo = streamTool.promptInt("게시글 번호? ");
+  private void printBoard(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
+
+    int boardNo = Integer.parseInt(request.getParameter("no"));
+
+    response.setContentType("text/html;charset=UTF-8");
+    PrintWriter out = response.getWriter();
+
+    out.println("<!DOCTYPE html>");
+    out.println("<html>");
+    out.println("<head>");
+    out.println("<meta charset='UTF-8'>");
+    out.println("<title>비트캠프 - NCP 1기</title>");
+    out.println("</head>");
+    out.println("<body>");
+    out.println("<h1>게시판</h1>");
 
     Board b = this.boardDao.findByNo(boardNo);
 
     if (b == null) {
-      streamTool.println("해당 번호의 게시글 없습니다.").send();
-      return;
+      out.println("<p>해당 번호의 게시글 없습니다.</p>");
+
+    } else {
+      this.boardDao.increaseViewCount(boardNo);
+
+      out.println("<table border='1'>");
+
+      out.println("<tr>");
+      out.println("  <th>제목</th>");
+      out.printf("  <td><input type='text' value='%s'></td>\n",  b.getTitle());
+      out.println("</tr>");
+
+      out.printf("    내용: %s<br>\n", b.getContent());
+      out.printf("  등록일: %s<br>\n", b.getCreatedDate());
+      out.printf("  조회수: %d<br>\n", b.getViewCount());
+      out.println("</table>");
     }
 
-    this.boardDao.increaseViewCount(boardNo);
-
-    streamTool
-    .printf("    제목: %s\n", b.getTitle())
-    .printf("    내용: %s\n", b.getContent())
-    .printf("  등록일: %s\n", b.getCreatedDate())
-    .printf("  조회수: %d\n", b.getViewCount())
-    .send();
+    out.println("</body>");
+    out.println("</html>");
   }
 
   private void modifyBoard(StreamTool streamTool) throws Exception {
@@ -202,12 +230,12 @@ public class BoardServlet extends HttpServlet {
     out.println("<body>");
     out.println("<h1>게시판</h1>");
     out.println("<ul>");
-    out.println("  <li><a href='?menu=1'>등록</a></li>");
-    out.println("  <li><a href='?menu=2'>목록</a></li>");
-    out.println("  <li><a href='?menu=3'>조회</a></li>");
-    out.println("  <li><a href='?menu=4'>변경</a></li>");
-    out.println("  <li><a href='?menu=5'>삭제</a></li>");
-    out.println("  <li><a href='?menu=6'>검색</a></li>");
+    out.println("  <li><a href='board/add'>등록</a></li>");
+    out.println("  <li><a href='board/list'>목록</a></li>");
+    out.println("  <li><a href='board/view'>조회</a></li>");
+    out.println("  <li><a href='board/update'>변경</a></li>");
+    out.println("  <li><a href='board/delete'>삭제</a></li>");
+    out.println("  <li><a href='board/search'>검색</a></li>");
     out.println("</ul>");
     out.println("</body>");
     out.println("</html>");
