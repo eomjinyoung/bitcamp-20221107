@@ -38,7 +38,7 @@ public class BoardServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+  protected void service(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
     String pathInfo = request.getPathInfo();
@@ -54,6 +54,9 @@ public class BoardServlet extends HttpServlet {
         break;
       case "/view":
         printBoard(request, response);
+        break;
+      case "/update":
+        modifyBoard(request, response);
         break;
     }
   }
@@ -126,55 +129,102 @@ public class BoardServlet extends HttpServlet {
     } else {
       this.boardDao.increaseViewCount(boardNo);
 
+      out.println("<form action='update' method='post'>");
+
       out.println("<table border='1'>");
 
       out.println("<tr>");
-      out.println("  <th>제목</th>");
-      out.printf("  <td><input type='text' value='%s'></td>\n",  b.getTitle());
+      out.println("  <th>번호</th>");
+      out.printf("  <td><input type='text' name='no' value='%d' readonly></td>\n",  b.getNo());
       out.println("</tr>");
 
-      out.printf("    내용: %s<br>\n", b.getContent());
-      out.printf("  등록일: %s<br>\n", b.getCreatedDate());
-      out.printf("  조회수: %d<br>\n", b.getViewCount());
+      out.println("<tr>");
+      out.println("  <th>제목</th>");
+      out.printf("  <td><input type='text' name='title' value='%s'></td>\n",  b.getTitle());
+      out.println("</tr>");
+
+      out.println("<tr>");
+      out.println("  <th>내용</th>");
+      out.printf("  <td><textarea name='content' rows='10' cols='60'>%s</textarea></td>\n",  b.getContent());
+      out.println("</tr>");
+
+      out.println("<tr>");
+      out.println("  <th>암호</th>");
+      out.println("  <td><input type='password' name='password'></td>");
+      out.println("</tr>");
+
+      out.println("<tr>");
+      out.println("  <th>등록일</th>");
+      out.printf("  <td>%s</td>\n",  b.getCreatedDate());
+      out.println("</tr>");
+
+      out.println("<tr>");
+      out.println("  <th>조회수</th>");
+      out.printf("  <td>%d</td>\n",  b.getViewCount());
+      out.println("</tr>");
+
       out.println("</table>");
+    }
+
+    out.println("<div>");
+    out.println("  <button id='btn-list' type='button'>목록</button>");
+    out.println("  <button>변경</button>");
+    out.println("  <button id='btn-delete' type='button'>삭제</button>");
+    out.println("</div>");
+
+    out.println("</form>");
+
+    out.println("<script>");
+    out.println("document.querySelector('#btn-list').onclick = function() {");
+    out.println("  location.href = 'list';");
+    out.println("}");
+    out.println("</script>");
+
+    out.println("</body>");
+    out.println("</html>");
+
+  }
+
+  private void modifyBoard(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
+
+    Board board = new Board();
+    board.setNo(Integer.parseInt(request.getParameter("no")));
+    board.setTitle(request.getParameter("title"));
+    board.setContent(request.getParameter("content"));
+    board.setPassword(request.getParameter("password"));
+
+    response.setContentType("text/html;charset=UTF-8");
+    PrintWriter out = response.getWriter();
+
+    out.println("<!DOCTYPE html>");
+    out.println("<html>");
+    out.println("<head>");
+    out.println("<meta charset='UTF-8'>");
+    out.println("<title>비트캠프 - NCP 1기</title>");
+    out.println("</head>");
+    out.println("<body>");
+    out.println("<h1>게시판</h1>");
+
+    Board old = boardDao.findByNo(board.getNo());
+
+    if (old == null) {
+      out.println("<p>해당 번호의 게시글이 없습니다.</p>");
+
+    } else if (!old.getPassword().equals(board.getPassword())) {
+      out.println("<p>암호가 맞지 않습니다!</p>");
+
+    } else {
+      this.boardDao.update(board);
+      out.println("<p>변경했습니다.</p>");
     }
 
     out.println("</body>");
     out.println("</html>");
-  }
 
-  private void modifyBoard(StreamTool streamTool) throws Exception {
-    int boardNo = streamTool.promptInt("게시글 번호? ");
-
-    Board old = this.boardDao.findByNo(boardNo);
-
-    if (old == null) {
-      streamTool.println("해당 번호의 게시글이 없습니다.").send();
-      return;
-    }
-
-    // 변경할 데이터를 저장할 인스턴스 준비
-    Board b = new Board();
-    b.setNo(old.getNo());
-    b.setCreatedDate(old.getCreatedDate());
-    b.setTitle(streamTool.promptString(String.format("제목(%s)? ", old.getTitle())));
-    b.setContent(streamTool.promptString(String.format("내용(%s)? ", old.getContent())));
-    b.setPassword(streamTool.promptString("암호? "));
-    b.setViewCount(old.getViewCount());
-
-    if (!old.getPassword().equals(b.getPassword())) {
-      streamTool.println("암호가 맞지 않습니다!").send();
-      return;
-    }
-
-    String str = streamTool.promptString("정말 변경하시겠습니까?(y/N) ");
-    if (str.equalsIgnoreCase("Y")) {
-      this.boardDao.update(b);
-      streamTool.println("변경했습니다.");
-    } else {
-      streamTool.println("변경 취소했습니다.");
-    }
-    streamTool.send();
+    // 웹브라우저가 화면 출력을 완료한 후 1초 후에 다시 목록 화면을 호출하도록 명령한다.
+    // 어떻게? 응답 헤더에 Refresh 를 추가한다.
+    response.setHeader("Refresh", "1;url=list");
   }
 
   private void deleteBoard(StreamTool streamTool) throws Exception {
