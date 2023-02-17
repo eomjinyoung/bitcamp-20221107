@@ -1,6 +1,6 @@
 plugins {
-    id 'war' // 웹 애플리케이션 관련 명령을 사용할 수 있다.
     id 'eclipse-wtp' // 'eclipse' 플러그인이 자동 포함됨
+    id 'war' // 웹 애플리케이션 관련 명령을 사용할 수 있다.
 }
 
 // CLI 환경에서 'build' 작업을 수행할 때 사용하는 설정

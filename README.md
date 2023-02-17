@@ -741,7 +741,14 @@
 - 자바(계속)
     - 문법 응용 실전 프로젝트(myapp)
         - 43.Mybatis SQL 매퍼 사용하기 II(DAO 구현 자동화 포함)(계속)
-        
+        - 44.Web Application Server 구조로 전환하기 - 웹 기술 도입
+
+## 72일차(2023-02-16,목)
+
+- 자바(계속)
+    - 문법 응용 실전 프로젝트(myapp)
+        - 44.Web Application Server 구조로 전환하기 - 웹 기술 도입(계속)
+
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
