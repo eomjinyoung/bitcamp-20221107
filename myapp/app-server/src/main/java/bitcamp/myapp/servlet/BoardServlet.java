@@ -1,18 +1,55 @@
 package bitcamp.myapp.servlet;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.List;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import bitcamp.myapp.dao.BoardDao;
 import bitcamp.myapp.vo.Board;
+import bitcamp.util.BitcampSqlSessionFactory;
+import bitcamp.util.DaoGenerator;
 import bitcamp.util.StreamTool;
 
-public class BoardServlet {
+@WebServlet("/board")
+public class BoardServlet extends HttpServlet {
+  private static final long serialVersionUID = 1L;
 
   private BoardDao boardDao;
-  private String title;
 
-  public BoardServlet(String title, BoardDao boardDao) {
-    this.title = title;
-    this.boardDao = boardDao;
+  public BoardServlet() {
+    try {
+      InputStream mybatisConfigInputStream = Resources.getResourceAsStream(
+          "bitcamp/myapp/config/mybatis-config.xml");
+      SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
+      BitcampSqlSessionFactory sqlSessionFactory = new BitcampSqlSessionFactory(
+          builder.build(mybatisConfigInputStream));
+      boardDao = new DaoGenerator(sqlSessionFactory).getObject(BoardDao.class);
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
+    String menu = request.getParameter("menu");
+    if (menu == null) {
+      menu(request, response);
+    }
+
+    switch (menu) {
+      case "2":
+        printBoards(request, response);
+        break;
+    }
   }
 
   private void inputBoard(StreamTool streamTool) throws Exception {
@@ -26,14 +63,36 @@ public class BoardServlet {
     streamTool.println("입력했습니다!").send();
   }
 
-  private void printBoards(StreamTool streamTool) throws Exception {
+  private void printBoards(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
+    response.setContentType("text/html;charset=UTF-8");
+    PrintWriter out = response.getWriter();
+
+    out.println("<!DOCTYPE html>");
+    out.println("<html>");
+    out.println("<head>");
+    out.println("<meta charset='UTF-8'>");
+    out.println("<title>비트캠프 - NCP 1기</title>");
+    out.println("</head>");
+    out.println("<body>");
+    out.println("<h1>게시판</h1>");
+
+    out.println("<table border='1'>");
+    out.println("<tr>");
+    out.println("  <th>번호</th> <th>제목</th> <th>작성일</th> <th>조회수</th>");
+    out.println("</tr>");
+
     List<Board> boards = this.boardDao.findAll();
-    streamTool.println("번호\t제목\t작성일\t조회수");
     for (Board b : boards) {
-      streamTool.printf("%d\t%s\t%s\t%d\n",
+      out.println("<tr>");
+      out.printf("  <td>%d</td> <td>%s</td> <td>%s</td> <td>%d</td>\n",
           b.getNo(), b.getTitle(), b.getCreatedDate(), b.getViewCount());
+      out.println("</tr>");
     }
-    streamTool.send();
+    out.println("</table>");
+
+    out.println("</body>");
+    out.println("</html>");
   }
 
   private void printBoard(StreamTool streamTool) throws Exception {
@@ -131,57 +190,26 @@ public class BoardServlet {
     streamTool.send();
   }
 
-  public void service(StreamTool streamTool) throws Exception {
-
-    menu(streamTool);
-
-    while (true) {
-      String command = streamTool.readString();
-
-      if (command.equals("menu")) {
-        menu(streamTool);
-        continue;
-      }
-
-      int menuNo;
-      try {
-        menuNo = Integer.parseInt(command);
-      } catch (Exception e) {
-        streamTool.println("메뉴 번호가 옳지 않습니다!").println().send();
-        continue;
-      }
-
-      try {
-        switch (menuNo) {
-          case 0:
-            streamTool.println("메인화면으로 이동!").send();
-            return;
-          case 1: this.inputBoard(streamTool); break;
-          case 2: this.printBoards(streamTool); break;
-          case 3: this.printBoard(streamTool); break;
-          case 4: this.modifyBoard(streamTool); break;
-          case 5: this.deleteBoard(streamTool); break;
-          case 6: this.searchBoard(streamTool); break;
-          default:
-            streamTool.println("잘못된 메뉴 번호 입니다.").send();
-        }
-      } catch (Exception e) {
-        streamTool.printf("명령 실행 중 오류 발생! - %s : %s\n",
-            e.getMessage(),
-            e.getClass().getSimpleName()).send();
-      }
-    }
-  }
-
-  void menu(StreamTool streamTool) throws Exception {
-    streamTool.printf("[%s]\n", this.title)
-    .println("1. 등록")
-    .println("2. 목록")
-    .println("3. 조회")
-    .println("4. 변경")
-    .println("5. 삭제")
-    .println("6. 검색")
-    .println("0. 이전")
-    .send();
+  void menu(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    response.setContentType("text/html;charset=UTF-8");
+    PrintWriter out = response.getWriter();
+    out.println("<!DOCTYPE html>");
+    out.println("<html>");
+    out.println("<head>");
+    out.println("<meta charset='UTF-8'>");
+    out.println("<title>비트캠프 - NCP 1기</title>");
+    out.println("</head>");
+    out.println("<body>");
+    out.println("<h1>게시판</h1>");
+    out.println("<ul>");
+    out.println("  <li><a href='?menu=1'>등록</a></li>");
+    out.println("  <li><a href='?menu=2'>목록</a></li>");
+    out.println("  <li><a href='?menu=3'>조회</a></li>");
+    out.println("  <li><a href='?menu=4'>변경</a></li>");
+    out.println("  <li><a href='?menu=5'>삭제</a></li>");
+    out.println("  <li><a href='?menu=6'>검색</a></li>");
+    out.println("</ul>");
+    out.println("</body>");
+    out.println("</html>");
   }
 }
