@@ -32,8 +32,6 @@ public class StudentInsertServlet extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    request.setCharacterEncoding("UTF-8");
-
     Student student = new Student();
     student.setName(request.getParameter("name"));
     student.setEmail(request.getParameter("email"));
