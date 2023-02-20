@@ -36,7 +36,7 @@
 %>
   <tr>
      <td><%=b.getNo()%></td> 
-     <td><a href='view?no=<%=b.getNo()%>'><%=b.getTitle()%></a></td> 
+     <td><a href='view.jsp?no=<%=b.getNo()%>'><%=b.getTitle()%></a></td> 
      <td><%=b.getCreatedDate()%></td> 
      <td><%=b.getViewCount()%></td>
   </tr>
