@@ -1,4 +1,4 @@
-package bitcamp.myapp.servlet.student;
+package bitcamp.myapp.servlet.teacher;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,25 +10,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import bitcamp.myapp.dao.StudentDao;
-import bitcamp.myapp.vo.Student;
+import bitcamp.myapp.dao.TeacherDao;
+import bitcamp.myapp.vo.Teacher;
 import bitcamp.util.BitcampSqlSessionFactory;
 import bitcamp.util.DaoGenerator;
 
-@WebServlet("/student/view")
-public class StudentViewServlet extends HttpServlet {
+@WebServlet("/teacher/view")
+public class TeacherViewServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
-  private StudentDao studentDao;
+  private TeacherDao teacherDao;
 
-  public StudentViewServlet() {
+  public TeacherViewServlet() {
     try {
       InputStream mybatisConfigInputStream = Resources.getResourceAsStream(
           "bitcamp/myapp/config/mybatis-config.xml");
       SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
       BitcampSqlSessionFactory sqlSessionFactory = new BitcampSqlSessionFactory(
           builder.build(mybatisConfigInputStream));
-      studentDao = new DaoGenerator(sqlSessionFactory).getObject(StudentDao.class);
+      teacherDao = new DaoGenerator(sqlSessionFactory).getObject(TeacherDao.class);
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -39,7 +39,7 @@ public class StudentViewServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
-    int studentNo = Integer.parseInt(request.getParameter("no"));
+    int teacherNo = Integer.parseInt(request.getParameter("no"));
 
     response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
@@ -51,31 +51,31 @@ public class StudentViewServlet extends HttpServlet {
     out.println("<title>비트캠프 - NCP 1기</title>");
     out.println("</head>");
     out.println("<body>");
-    out.println("<h1>학생</h1>");
+    out.println("<h1>강사</h1>");
 
-    Student student = this.studentDao.findByNo(studentNo);
+    Teacher teacher = this.teacherDao.findByNo(teacherNo);
 
-    if (student == null) {
-      out.println("<p>해당 번호의 학생이 없습니다.</p>");
+    if (teacher == null) {
+      out.println("<p>해당 번호의 강사가 없습니다.</p>");
 
     } else {
-      out.println("<form id='student-form' action='update' method='post'>");
+      out.println("<form id='teacher-form' action='update' method='post'>");
 
       out.println("<table border='1'>");
 
       out.println("<tr>");
       out.println("  <th>번호</th>");
-      out.printf("  <td><input type='text' name='no' value='%d'></td>\n",  student.getNo());
+      out.printf("  <td><input type='text' name='no' value='%d'></td>\n",  teacher.getNo());
       out.println("</tr>");
 
       out.println("<tr>");
       out.println("  <th>이름</th>");
-      out.printf("  <td><input type='text' name='name' value='%s'></td>\n",  student.getName());
+      out.printf("  <td><input type='text' name='name' value='%s'></td>\n",  teacher.getName());
       out.println("</tr>");
 
       out.println("<tr>");
       out.println("  <th>이메일</th>");
-      out.printf("  <td><input type='email' name='email' value='%s'></td>\n",  student.getEmail());
+      out.printf("  <td><input type='email' name='email' value='%s'></td>\n",  teacher.getEmail());
       out.println("</tr>");
 
       out.println("<tr>");
@@ -85,52 +85,45 @@ public class StudentViewServlet extends HttpServlet {
 
       out.println("<tr>");
       out.println("  <th>전화</th>");
-      out.printf("  <td><input type='tel' name='tel' value='%s'></td>\n",  student.getTel());
+      out.printf("  <td><input type='tel' name='tel' value='%s'></td>\n",  teacher.getTel());
       out.println("</tr>");
 
       out.println("<tr>");
-      out.println("  <th>우편번호</th>");
-      out.printf("  <td><input type='text' name='postNo' value='%s'></td>\n",  student.getPostNo());
+      out.println("  <th>학위</th>");
+      out.printf("  <td><select name='degree'>\n"
+          + "<option value='1' %s>고졸</option>\n"
+          + "<option value='2' %s>전문학사</option>\n"
+          + "<option value='3' %s>학사</option>\n"
+          + "<option value='4' %s>석사</option>\n"
+          + "<option value='5' %s>박사</option>\n"
+          + "<option value='0' %s>기타</option>\n"
+          + "</select></td>\n"
+          , teacher.getDegree() == 1 ? "selected" : ""
+            , teacher.getDegree() == 2 ? "selected" : ""
+              , teacher.getDegree() == 3 ? "selected" : ""
+                , teacher.getDegree() == 4 ? "selected" : ""
+                  , teacher.getDegree() == 5 ? "selected" : ""
+                    , teacher.getDegree() == 0 ? "selected" : "");
       out.println("</tr>");
 
       out.println("<tr>");
-      out.println("  <th>기본주소</th>");
-      out.printf("  <td><input type='text' name='basicAddress' value='%s'></td>\n",  student.getBasicAddress());
-      out.println("</tr>");
-
-      out.println("<tr>");
-      out.println("  <th>상세주소</th>");
-      out.printf("  <td><input type='tel' name='detailAddress' value='%s'></td>\n",  student.getDetailAddress());
-      out.println("</tr>");
-
-      out.println("<tr>");
-      out.println("  <th>재직여부</th>");
-      out.printf("  <td><input type='checkbox' name='working' %s> 재직중</td>\n",  student.isWorking() ? "checked" : "");
-      out.println("</tr>");
-
-      out.println("<tr>");
-      out.println("  <th>성별</th>");
-      out.printf("  <td><input type='radio' name='gender' value='M' %s> 남\n"
-          + "<input type='radio' name='gender' value='W' %s> 여</td>\n"
-          , student.getGender() == 'M' ? "checked" : ""
-            , student.getGender() == 'W' ? "checked" : "");
+      out.println("  <th>학교</th>");
+      out.printf("  <td><input type='text' name='school' value='%s'></td>\n", teacher.getSchool());
       out.println("</tr>");
 
       out.println("<tr>");
       out.println("  <th>전공</th>");
-      out.printf("  <td><select name='level'>"
-          + "<option value='0' %s>비전공자</option>"
-          + "<option value='1' %s>준전공자</option>"
-          + "<option value='2' %s>전공자</option>"
-          + "</select></td>\n"
-          , student.getLevel() == 0 ? "selected" : ""
-            , student.getLevel() == 1 ? "selected" : ""
-              , student.getLevel() == 2 ? "selected" : "");
+      out.printf("  <td><input type='text' name='major' value='%s'></td>\n", teacher.getMajor());
+      out.println("</tr>");
+
+      out.println("<tr>");
+      out.println("  <th>강의료(시급)</th>");
+      out.printf("  <td><input type='number' name='wage' value='%s'></td>\n", teacher.getWage());
       out.println("</tr>");
 
       out.println("<tr>");
       out.println("  <th>등록일</th>");
-      out.printf("  <td>%s</td>\n",  student.getCreatedDate());
+      out.printf("  <td>%s</td>\n",  teacher.getCreatedDate());
       out.println("</tr>");
 
       out.println("</table>");
@@ -149,7 +142,7 @@ public class StudentViewServlet extends HttpServlet {
     out.println("  location.href = 'list';");
     out.println("}");
     out.println("document.querySelector('#btn-delete').onclick = function() {");
-    out.println("  var form = document.querySelector('#student-form');");
+    out.println("  var form = document.querySelector('#teacher-form');");
     out.println("  form.action = 'delete';");
     out.println("  form.submit();");
     out.println("}");

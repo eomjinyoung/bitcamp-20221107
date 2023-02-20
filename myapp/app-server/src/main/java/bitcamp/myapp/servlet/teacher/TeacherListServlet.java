@@ -1,4 +1,4 @@
-package bitcamp.myapp.servlet.student;
+package bitcamp.myapp.servlet.teacher;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,25 +11,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import bitcamp.myapp.dao.StudentDao;
-import bitcamp.myapp.vo.Student;
+import bitcamp.myapp.dao.TeacherDao;
+import bitcamp.myapp.vo.Teacher;
 import bitcamp.util.BitcampSqlSessionFactory;
 import bitcamp.util.DaoGenerator;
 
-@WebServlet("/student/list")
-public class StudentListServlet extends HttpServlet {
+@WebServlet("/teacher/list")
+public class TeacherListServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
-  private StudentDao studentDao;
+  private TeacherDao teacherDao;
 
-  public StudentListServlet() {
+  public TeacherListServlet() {
     try {
       InputStream mybatisConfigInputStream = Resources.getResourceAsStream(
           "bitcamp/myapp/config/mybatis-config.xml");
       SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
       BitcampSqlSessionFactory sqlSessionFactory = new BitcampSqlSessionFactory(
           builder.build(mybatisConfigInputStream));
-      studentDao = new DaoGenerator(sqlSessionFactory).getObject(StudentDao.class);
+      teacherDao = new DaoGenerator(sqlSessionFactory).getObject(TeacherDao.class);
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -49,45 +49,43 @@ public class StudentListServlet extends HttpServlet {
     out.println("<title>비트캠프 - NCP 1기</title>");
     out.println("</head>");
     out.println("<body>");
-    out.println("<h1>학생</h1>");
+    out.println("<h1>강사</h1>");
 
-    out.println("<div><a href='form'>새 학생</a></div>");
+    out.println("<div><a href='form'>새 강사</a></div>");
 
     out.println("<table border='1'>");
     out.println("<tr>");
-    out.println("  <th>번호</th> <th>이름</th> <th>전화</th> <th>재직</th> <th>전공</th>");
+    out.println("  <th>번호</th> <th>이름</th> <th>전화</th> <th>학위</th> <th>전공</th> <th>시강료</th>");
     out.println("</tr>");
 
-    String keyword = request.getParameter("keyword");
-    List<Student> students = this.studentDao.findAll(keyword);
+    List<Teacher> teachers = this.teacherDao.findAll();
 
-    for (Student student : students) {
+    for (Teacher teacher : teachers) {
       out.println("<tr>");
-      out.printf("  <td>%d</td> <td><a href='view?no=%d'>%s</a></td> <td>%s</td> <td>%s</td> <td>%s</td>\n",
-          student.getNo(),
-          student.getNo(),
-          student.getName(),
-          student.getTel(),
-          student.isWorking() ? "예" : "아니오",
-              getLevelText(student.getLevel())    );
+      out.printf("  <td>%d</td> <td><a href='view?no=%d'>%s</a></td> <td>%s</td> <td>%s</td> <td>%s</td> <td>%d</td>\n",
+          teacher.getNo(),
+          teacher.getNo(),
+          teacher.getName(),
+          teacher.getTel(),
+          getDegreeText(teacher.getDegree()),
+          teacher.getMajor(),
+          teacher.getWage());
       out.println("</tr>");
     }
     out.println("</table>");
-
-    out.println("<form action='list' method='get'>");
-    out.printf("<input type='text' name='keyword' value='%s'>\n", keyword != null ? keyword : "");
-    out.println("<button>검색</button>");
-    out.println("</form>");
 
     out.println("</body>");
     out.println("</html>");
   }
 
-  private static String getLevelText(int level) {
-    switch (level) {
-      case 0: return "비전공자";
-      case 1: return "준전공자";
-      default: return "전공자";
+  private static String getDegreeText(int degree) {
+    switch (degree) {
+      case 1: return "고졸";
+      case 2: return "전문학사";
+      case 3: return "학사";
+      case 4: return "석사";
+      case 5: return "박사";
+      default: return "기타";
     }
   }
 }

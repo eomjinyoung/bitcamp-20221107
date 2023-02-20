@@ -56,7 +56,7 @@ public class StudentDeleteServlet extends HttpServlet {
     out.println("<title>비트캠프 - NCP 1기</title>");
     out.println("</head>");
     out.println("<body>");
-    out.println("<h1>회원</h1>");
+    out.println("<h1>학생</h1>");
 
     txManager.startTransaction();
     try {
@@ -66,7 +66,7 @@ public class StudentDeleteServlet extends HttpServlet {
         out.println("<p>삭제했습니다.</p>");
 
       } else {
-        out.println("<p>해당 번호의 회원이 없습니다.</p>");
+        out.println("<p>해당 번호의 학생이 없습니다.</p>");
       }
     } catch (Exception e) {
       txManager.rollback();

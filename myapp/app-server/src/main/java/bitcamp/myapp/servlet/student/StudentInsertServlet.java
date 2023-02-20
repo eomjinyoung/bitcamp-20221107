@@ -69,7 +69,7 @@ public class StudentInsertServlet extends HttpServlet {
     out.println("<title>비트캠프 - NCP 1기</title>");
     out.println("</head>");
     out.println("<body>");
-    out.println("<h1>회원</h1>");
+    out.println("<h1>학생</h1>");
 
     txManager.startTransaction();
     try {
