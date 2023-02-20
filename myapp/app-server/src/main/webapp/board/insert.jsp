@@ -26,7 +26,7 @@
 <title>비트캠프 - NCP 1기</title>
 </head>
 <body>
-<h1>게시판</h1>
+<h1>게시판(JSP)</h1>
 <% 
     boardDao.insert(board);
 %>
