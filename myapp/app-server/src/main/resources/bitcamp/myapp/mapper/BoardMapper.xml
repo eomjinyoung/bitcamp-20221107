@@ -18,14 +18,19 @@
     values(#{title}, #{content}, #{password})
   </insert>
 
-  <select id="findAll" resultMap="boardMap">
+  <select id="findAll" resultMap="boardMap" parameterType="string">
     select 
       board_id, 
       title, 
       created_date, 
       view_cnt 
     from 
-      app_board 
+      app_board
+    <if test="keyword != '' and keyword != null">
+    where 
+      title like(concat('%',#{keyword},'%'))
+      or content like(concat('%',#{keyword},'%'))
+    </if> 
     order by 
       board_id desc
   </select>
@@ -49,21 +54,6 @@
       view_cnt = view_cnt + 1
     where board_id=#{maumdaerohaedodoi}
   </update>
-  
-  <select id="findByKeyword" parameterType="string" resultMap="boardMap">
-    select 
-      board_id, 
-      title, 
-      created_date, 
-      view_cnt
-    from 
-      app_board 
-    where 
-      title like(concat('%',#{keyword},'%'))
-      or content like(concat('%',#{keyword},'%'))
-    order by 
-      board_id desc
-  </select>
   
   <update id="update" parameterType="board">
     update app_board set 

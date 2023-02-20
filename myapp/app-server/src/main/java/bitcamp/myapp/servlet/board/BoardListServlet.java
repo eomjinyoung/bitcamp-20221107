@@ -58,7 +58,12 @@ public class BoardListServlet extends HttpServlet {
     out.println("  <th>번호</th> <th>제목</th> <th>작성일</th> <th>조회수</th>");
     out.println("</tr>");
 
-    List<Board> boards = this.boardDao.findAll();
+    String keyword = request.getParameter("keyword");
+
+    List<Board> boards = null;
+
+    boards = this.boardDao.findAll(keyword);
+
     for (Board b : boards) {
       out.println("<tr>");
       out.printf("  <td>%d</td> <td><a href='view?no=%d'>%s</a></td> <td>%s</td> <td>%d</td>\n",
@@ -67,7 +72,20 @@ public class BoardListServlet extends HttpServlet {
     }
     out.println("</table>");
 
+    out.println("<form action='list' method='get'>");
+    out.printf("<input type='text' name='keyword' value='%s'>\n", keyword != null ? keyword : "");
+    out.println("<button>검색</button>");
+    out.println("</form>");
+
     out.println("</body>");
     out.println("</html>");
   }
 }
+
+
+
+
+
+
+
+
