@@ -1,20 +1,16 @@
 package bitcamp.myapp.servlet.teacher;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import bitcamp.myapp.dao.MemberDao;
 import bitcamp.myapp.dao.TeacherDao;
 import bitcamp.myapp.vo.Teacher;
-import bitcamp.util.BitcampSqlSessionFactory;
-import bitcamp.util.DaoGenerator;
 import bitcamp.util.TransactionManager;
 
 @WebServlet("/teacher/insert")
@@ -25,20 +21,12 @@ public class TeacherInsertServlet extends HttpServlet {
   private MemberDao memberDao;
   private TeacherDao teacherDao;
 
-  public TeacherInsertServlet() {
-    try {
-      InputStream mybatisConfigInputStream = Resources.getResourceAsStream(
-          "bitcamp/myapp/config/mybatis-config.xml");
-      SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
-      BitcampSqlSessionFactory sqlSessionFactory = new BitcampSqlSessionFactory(
-          builder.build(mybatisConfigInputStream));
-      txManager = new TransactionManager(sqlSessionFactory);
-      memberDao = new DaoGenerator(sqlSessionFactory).getObject(MemberDao.class);
-      teacherDao = new DaoGenerator(sqlSessionFactory).getObject(TeacherDao.class);
-
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+  @Override
+  public void init() {
+    ServletContext ctx = getServletContext();
+    txManager = (TransactionManager) ctx.getAttribute("txManager");
+    memberDao = (MemberDao) ctx.getAttribute("memberDao");
+    teacherDao = (TeacherDao) ctx.getAttribute("teacherDao");
   }
 
   @Override
