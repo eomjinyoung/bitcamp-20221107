@@ -21,7 +21,7 @@
 <body>
 <h1>게시판(JSP)</h1>
 
-<div><a href='form'>새 글</a></div>
+<div><a href='form.jsp'>새 글</a></div>
 
 <table border='1'>
 <tr>
