@@ -763,6 +763,7 @@
     - 문법 응용 실전 프로젝트(myapp)
         - 46.JSP를 이용하여 출력문을 자동으로 생성하기: MVC 모델 II(계속)
         - 47.JSP에 있는 자바 코드를 Servlet으로 분리하기: MVC 모델 II
+        - 48.EL과 JSTL 사용하기: JSP에서 자바 코드 제거하는 방법
         
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr

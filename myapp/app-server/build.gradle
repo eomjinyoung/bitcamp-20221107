@@ -67,6 +67,9 @@ dependencies {
     //   왜? 서블릿 컨테이너에 포함되어 있기 때문이다.
     providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
     
+    // JSTL 라이브러리
+    implementation 'javax.servlet:jstl:1.2'
+    
     implementation 'com.google.guava:guava:31.1-jre'
     testImplementation 'junit:junit:4.13.2'
 }
