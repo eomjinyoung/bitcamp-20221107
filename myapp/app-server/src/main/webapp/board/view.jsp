@@ -1,16 +1,6 @@
 <%@ page import="bitcamp.myapp.vo.Board"%>
-<%@ page import="bitcamp.myapp.dao.BoardDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%! 
-  private BoardDao boardDao;
-
-  @Override
-  public void init() {
-    ServletContext ctx = getServletContext();
-    boardDao = (BoardDao) ctx.getAttribute("boardDao");
-  }
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,19 +8,17 @@
 <title>비트캠프 - NCP 1기</title>
 </head>
 <body>
-<h1>게시판(JSP)</h1>
+<h1>게시판(JSP + MVC2)</h1>
 <% 
-    int boardNo = Integer.parseInt(request.getParameter("no"));
-    Board b = this.boardDao.findByNo(boardNo);
+    Board b = (Board) request.getAttribute("board");
 
     if (b == null) {
 %>
   <p>해당 번호의 게시글 없습니다.</p>
 <% 
     } else {
-      this.boardDao.increaseViewCount(boardNo);
 %>
-  <form id='board-form' action='update.jsp' method='post'>
+  <form id='board-form' action='update' method='post'>
   <table border='1'>
   <tr>
     <th>번호</th>
@@ -69,12 +57,12 @@
 
 <script>
 document.querySelector('#btn-list').onclick = function() {
-  location.href = 'list.jsp';
+  location.href = 'list';
 }
 
 document.querySelector('#btn-delete').onclick = function() {
   var form = document.querySelector('#board-form');
-  form.action = 'delete.jsp';
+  form.action = 'delete';
   form.submit();
 }
 </script>
