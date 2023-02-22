@@ -764,6 +764,12 @@
         - 46.JSP를 이용하여 출력문을 자동으로 생성하기: MVC 모델 II(계속)
         - 47.JSP에 있는 자바 코드를 Servlet으로 분리하기: MVC 모델 II
         - 48.EL과 JSTL 사용하기: JSP에서 자바 코드 제거하는 방법
-        
+
+## 76일차(2023-02-22,수)
+
+- 자바(계속)
+    - 문법 응용 실전 프로젝트(myapp)
+        - 49.로그인, 로그아웃 처리하기: HttpSession, Cookie 사용
+
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr

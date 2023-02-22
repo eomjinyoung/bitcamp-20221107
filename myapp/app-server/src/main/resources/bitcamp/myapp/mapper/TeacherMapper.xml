@@ -58,6 +58,25 @@
     where m.member_id=#{no}
   </select>
   
+  <select id="findByEmailAndPassword" parameterType="map" resultMap="teacherMap">
+    select
+      m.member_id,
+      m.name,
+      m.email,
+      m.tel,
+      m.created_date,
+      t.degree,
+      t.school,
+      t.major,
+      t.wage
+    from 
+      app_teacher t
+      inner join app_member m on t.member_id = m.member_id
+    where 
+      m.email = #{email}
+      and m.pwd = sha2(#{password},256)
+  </select>
+  
   <update id="update" parameterType="teacher">
     update app_teacher set
       degree=#{degree},
