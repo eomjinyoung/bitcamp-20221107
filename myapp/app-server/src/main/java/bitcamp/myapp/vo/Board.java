@@ -12,11 +12,15 @@ public class Board implements java.io.Serializable {
   private String password;
   private Date createdDate;
   private int viewCount;
+  private int writerNo;
+  private String writerName;
+
 
   @Override
   public String toString() {
     return "Board [no=" + no + ", title=" + title + ", content=" + content + ", password="
-        + password + ", createdDate=" + createdDate + ", viewCount=" + viewCount + "]";
+        + password + ", createdDate=" + createdDate + ", viewCount=" + viewCount + ", writerNo="
+        + writerNo + ", writerName=" + writerName + "]";
   }
   @Override
   public int hashCode() {
@@ -70,6 +74,19 @@ public class Board implements java.io.Serializable {
   public void setViewCount(int viewCount) {
     this.viewCount = viewCount;
   }
+  public int getWriterNo() {
+    return writerNo;
+  }
+  public void setWriterNo(int writerNo) {
+    this.writerNo = writerNo;
+  }
+  public String getWriterName() {
+    return writerName;
+  }
+  public void setWriterName(String writerName) {
+    this.writerName = writerName;
+  }
+
 
 
 }

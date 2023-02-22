@@ -18,10 +18,6 @@
   <th>내용</th>
   <td><textarea name='content' rows='10' cols='60'></textarea></td>
 </tr>
-<tr>
-  <th>암호</th>
-  <td><input type='password' name='password'></td>
-</tr>
 </table>
 <div>
   <button>등록</button>

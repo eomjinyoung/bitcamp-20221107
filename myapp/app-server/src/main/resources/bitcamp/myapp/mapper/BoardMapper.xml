@@ -11,28 +11,33 @@
     <result column="pwd" property="password"/>
     <result column="created_date" property="createdDate"/>
     <result column="view_cnt" property="viewCount"/>
+    <result column="writer" property="writerNo"/>
+    <result column="name" property="writerName"/>
   </resultMap>
 
   <insert id="insert" parameterType="board">
-    insert into app_board(title, content, pwd) 
-    values(#{title}, #{content}, #{password})
+    insert into app_board(title, content, writer) 
+    values(#{title}, #{content}, #{writerNo})
   </insert>
 
   <select id="findAll" resultMap="boardMap" parameterType="string">
     select 
-      board_id, 
-      title, 
-      created_date, 
-      view_cnt 
+      b.board_id, 
+      b.title, 
+      b.writer,
+      b.created_date, 
+      b.view_cnt,
+      m.name 
     from 
-      app_board
+      app_board b
+      inner join app_member m on b.writer = m.member_id
     <if test="keyword != '' and keyword != null">
     where 
-      title like(concat('%',#{keyword},'%'))
-      or content like(concat('%',#{keyword},'%'))
+      b.title like(concat('%',#{keyword},'%'))
+      or b.content like(concat('%',#{keyword},'%'))
     </if> 
     order by 
-      board_id desc
+      b.board_id desc
   </select>
 
   <select id="findByNo" parameterType="int" resultMap="boardMap">

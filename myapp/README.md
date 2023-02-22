@@ -240,3 +240,10 @@
 ### 49. 로그인, 로그아웃 처리하기: HttpSession, Cookie 사용
   - HttpSession을 사용하여 로그인, 로그아웃을 처리하는 방법
   - 클라이언트 별로 세션을 구분하는 원리
+  - ddl3.sql 실행: app_board 테이블 변경
+  - 게시글을 입력할 때 로그인 사용자 아이디를 작성자로 설정하는 방법
+
+### 50. 파일을 업로드하기: multipart/form-data MIME 타입 다루기
+  - multipart/form-data 형식으로 파일을 업로드 하는 방법
+  - apache commons-fileupload 라이브러리 사용법 
+  - Servlet에서 제공하는 API(3.0부터 추가됨)를 사용하여 파일 업로드를 처리하는 방법

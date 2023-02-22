@@ -1,50 +1,8 @@
-create table app_board (
-  board_id int not null,
-  title varchar(255) not null,
-  content text not null,
-  pwd varchar(10),
-  created_date datetime default now(),
-  view_cnt int default 0
-);
-
+-- 게시글 작성자의 번호를 저장하는 컬럼 추가한다.
+-- 작성자 번호는 app_member 테이블의 PK 컬럼을 참조하는 FK로 만든다.
 alter table app_board
-  add constraint primary key (board_id),
-  modify column board_id int not null auto_increment;
+  add column writer int,
+  add constraint app_board_fk foreign key (writer) references app_member(member_id);
 
 
-create table app_student(
-  student_id int not null,
-  name varchar(50) not null,
-  tel varchar(20),
-  created_date datetime default now(),
-  pst_no varchar(5),
-  bas_addr varchar(255),
-  det_addr varchar(255),
-  work boolean,
-  gender char(1),
-  level int
-);
-
-alter table app_student
-  add constraint primary key (student_id),
-  modify column student_id int not null auto_increment;
-
-  
-create table app_teacher(
-  teacher_id int not null,
-  name varchar(50) not null,
-  tel varchar(20),
-  created_date datetime default now(),
-  email varchar(50),
-  degree int,
-  school varchar(50),
-  major varchar(50),
-  wage int
-);
-
-alter table app_teacher
-  add constraint primary key (teacher_id),
-  modify column teacher_id int not null auto_increment;
-  
-  
   
