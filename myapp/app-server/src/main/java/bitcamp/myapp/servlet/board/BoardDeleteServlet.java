@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import bitcamp.myapp.dao.BoardDao;
+import bitcamp.myapp.vo.Board;
 import bitcamp.myapp.vo.Member;
 
 @WebServlet("/board/delete")
@@ -28,14 +29,15 @@ public class BoardDeleteServlet extends HttpServlet {
 
     // 로그인 사용자의 정보를 가져온다.
     Member loginUser = (Member) request.getSession().getAttribute("loginUser");
-    if (loginUser == null) {
-      response.sendRedirect("../auth/form");
-      return;
-    }
 
     int boardNo = Integer.parseInt(request.getParameter("no"));
 
-    if (boardDao.delete(boardNo) == 0) {
+    Board old = boardDao.findByNo(boardNo);
+
+    if (old.getWriterNo() != loginUser.getNo()) {
+      response.sendRedirect("../auth/fail");
+      return;
+    } else if (boardDao.delete(boardNo) == 0) {
       request.setAttribute("error", "data");
     }
 

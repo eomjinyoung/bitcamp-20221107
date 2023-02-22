@@ -29,16 +29,15 @@ public class BoardInsertServlet extends HttpServlet {
 
     // 로그인 사용자의 정보를 가져온다.
     Member loginUser = (Member) request.getSession().getAttribute("loginUser");
-    if (loginUser == null) {
-      response.sendRedirect("../auth/form");
-      return;
-    }
 
     Board board = new Board();
     board.setTitle(request.getParameter("title"));
     board.setContent(request.getParameter("content"));
     //    board.setPassword(request.getParameter("password"));
-    board.setWriterNo(loginUser.getNo());
+    //    board.setWriterNo(loginUser.getNo());
+    Member writer = new Member();
+    writer.setNo(loginUser.getNo());
+    board.setWriter(writer);
 
     boardDao.insert(board);
 

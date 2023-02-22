@@ -14,14 +14,16 @@ public class Board implements java.io.Serializable {
   private int viewCount;
   private int writerNo;
   private String writerName;
+  private Member writer;
 
 
   @Override
   public String toString() {
     return "Board [no=" + no + ", title=" + title + ", content=" + content + ", password="
         + password + ", createdDate=" + createdDate + ", viewCount=" + viewCount + ", writerNo="
-        + writerNo + ", writerName=" + writerName + "]";
+        + writerNo + ", writerName=" + writerName + ", writer=" + writer + "]";
   }
+
   @Override
   public int hashCode() {
     return Objects.hash(no);
@@ -85,6 +87,12 @@ public class Board implements java.io.Serializable {
   }
   public void setWriterName(String writerName) {
     this.writerName = writerName;
+  }
+  public Member getWriter() {
+    return writer;
+  }
+  public void setWriter(Member writer) {
+    this.writer = writer;
   }
 
 

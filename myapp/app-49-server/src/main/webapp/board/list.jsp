@@ -14,13 +14,14 @@
 
 <table border='1'>
 <tr>
-  <th>번호</th> <th>제목</th> <th>작성일</th> <th>조회수</th>
+  <th>번호</th> <th>제목</th> <th>작성자</th> <th>작성일</th> <th>조회수</th>
 </tr>
 
 <c:forEach items="${boards}" var="b">
   <tr>
      <td>${b.no}</td> 
      <td><a href='view?no=${b.no}'>${b.title}</a></td> 
+     <td>${b.writer.name}</td>
      <td>${b.createdDate}</td> 
      <td>${b.viewCount} </td>
   </tr>

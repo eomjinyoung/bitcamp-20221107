@@ -17,9 +17,6 @@
   <c:when test="${error == 'data'}">
       <p>해당 번호의 게시글이 없습니다.</p>
   </c:when>
-  <c:when test="${error == 'password'}">
-      <p>암호가 맞지 않습니다!</p>
-  </c:when>
   <c:otherwise>
       <p>삭제 실패입니다.</p>
   </c:otherwise>  

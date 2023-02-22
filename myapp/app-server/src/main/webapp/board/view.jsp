@@ -34,7 +34,7 @@
   </tr>
   <tr>
     <th>작성자</th>
-    <td>${board.writerName}</td>
+    <td>${board.writer.name}</td>
   </tr>
   <tr>
     <th>등록일</th>

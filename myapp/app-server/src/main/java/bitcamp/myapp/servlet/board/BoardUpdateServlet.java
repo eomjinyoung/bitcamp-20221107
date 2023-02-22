@@ -29,10 +29,6 @@ public class BoardUpdateServlet extends HttpServlet {
 
     // 로그인 사용자의 정보를 가져온다.
     Member loginUser = (Member) request.getSession().getAttribute("loginUser");
-    if (loginUser == null) {
-      response.sendRedirect("../auth/form");
-      return;
-    }
 
     Board board = new Board();
     board.setNo(Integer.parseInt(request.getParameter("no")));

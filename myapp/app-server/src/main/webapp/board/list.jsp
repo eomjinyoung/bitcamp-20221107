@@ -21,7 +21,7 @@
   <tr>
      <td>${b.no}</td> 
      <td><a href='view?no=${b.no}'>${b.title}</a></td> 
-     <td>${b.writerName}</td>
+     <td>${b.writer.name}</td>
      <td>${b.createdDate}</td> 
      <td>${b.viewCount} </td>
   </tr>
