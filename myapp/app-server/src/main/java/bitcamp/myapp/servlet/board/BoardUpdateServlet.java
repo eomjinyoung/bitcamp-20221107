@@ -40,7 +40,12 @@ public class BoardUpdateServlet extends HttpServlet {
     board.setContent(request.getParameter("content"));
     //    board.setPassword(request.getParameter("password"));
 
-    if (boardDao.update(board) == 0) {
+    Board old = boardDao.findByNo(board.getNo());
+
+    if (old.getWriterNo() != loginUser.getNo()) {
+      response.sendRedirect("../auth/fail");
+      return;
+    } if (boardDao.update(board) == 0) {
       request.setAttribute("error", "data");
     }
 

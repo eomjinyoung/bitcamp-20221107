@@ -33,6 +33,10 @@
     <td><textarea name='content' rows='10' cols='60'>${board.content}</textarea></td>
   </tr>
   <tr>
+    <th>작성자</th>
+    <td>${board.writerName}</td>
+  </tr>
+  <tr>
     <th>등록일</th>
     <td>${board.createdDate}</td>
   </tr>

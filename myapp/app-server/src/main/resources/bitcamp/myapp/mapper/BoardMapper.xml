@@ -42,16 +42,17 @@
 
   <select id="findByNo" parameterType="int" resultMap="boardMap">
     select 
-      board_id, 
-      title, 
-      content, 
-      pwd, 
-      created_date, 
-      view_cnt
+      b.board_id, 
+      b.title, 
+      b.content,
+      b.writer, 
+      (select name from app_member where member_id = b.writer) name, 
+      b.created_date, 
+      b.view_cnt
     from 
-      app_board 
+      app_board b
     where 
-      board_id=#{no}
+      b.board_id=#{no}
   </select>
   
   <update id="increaseViewCount" parameterType="int">
