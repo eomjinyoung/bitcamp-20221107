@@ -70,6 +70,9 @@ dependencies {
     // JSTL 라이브러리
     implementation 'javax.servlet:jstl:1.2'
     
+    // multipart/form-data 처리 라이브러리
+    implementation 'commons-fileupload:commons-fileupload:1.5'
+    
     implementation 'com.google.guava:guava:31.1-jre'
     testImplementation 'junit:junit:4.13.2'
 }
