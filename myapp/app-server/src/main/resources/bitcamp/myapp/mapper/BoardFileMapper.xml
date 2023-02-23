@@ -8,12 +8,13 @@
     <id column="boardfile_id" property="no"/>
     <result column="filepath" property="filepath"/>
     <result column="origin_filename" property="originalFilename"/>
+    <result column="mime_type" property="mimeType"/>
     <result column="board_id" property="boardNo"/>
   </resultMap>
 
   <insert id="insert" parameterType="boardfile">
-    insert into app_board_file(filepath, origin_filename, board_id) 
-    values(#{filepath}, #{originalFilename}, #{boardNo})
+    insert into app_board_file(filepath, origin_filename, mime_type, board_id) 
+    values(#{filepath}, #{originalFilename}, #{mimeType}, #{boardNo})
   </insert>
 
   <select id="findAllOfBoard" resultMap="boardfileMap" parameterType="int">
@@ -21,6 +22,7 @@
       boardfile_id, 
       filepath, 
       origin_filename,
+      mime_type,
       board_id
     from 
       app_board_file
@@ -32,17 +34,15 @@
 
   <select id="findByNo" parameterType="int" resultMap="boardfileMap">
     select 
-      b.board_id, 
-      b.title, 
-      b.content,
-      b.writer, 
-      (select name from app_member where member_id = b.writer) name, 
-      b.created_date, 
-      b.view_cnt
+      boardfile_id, 
+      filepath, 
+      origin_filename,
+      mime_type,
+      board_id
     from 
-      app_board b
+      app_board_file
     where 
-      b.board_id=#{no}
+      boardfile_id = ${no}
   </select>
   
   <delete id="delete" parameterType="int">

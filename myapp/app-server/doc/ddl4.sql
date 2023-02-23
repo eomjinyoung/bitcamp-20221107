@@ -3,6 +3,7 @@ create table app_board_file (
   boardfile_id int not null,
   filepath varchar(255) not null,
   origin_filename varchar(255) not null,
+  mime_type varchar(30) not null,
   board_id int not null
 );
 

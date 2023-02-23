@@ -21,6 +21,7 @@
       <id column="boardfile_id" property="no"/>
       <result column="filepath" property="filepath"/>
       <result column="origin_filename" property="originalFilename"/>
+      <result column="mime_type" property="mimeType"/>
       <result column="board_id" property="boardNo"/>
     </collection>
   </resultMap>
@@ -62,7 +63,8 @@
       b.view_cnt,
       bf.boardfile_id,
       bf.filepath,
-      bf.origin_filename
+      bf.origin_filename,
+      bf.mime_type
     from 
       app_board b
       left outer join app_board_file bf on b.board_id = bf.board_id

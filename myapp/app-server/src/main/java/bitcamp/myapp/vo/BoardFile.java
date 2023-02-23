@@ -9,6 +9,7 @@ public class BoardFile implements Serializable {
   private int no;
   private String filepath;
   private String originalFilename;
+  private String mimeType;
   private int boardNo;
 
   public int getNo() {
@@ -35,6 +36,12 @@ public class BoardFile implements Serializable {
   public void setBoardNo(int boardNo) {
     this.boardNo = boardNo;
   }
+  public String getMimeType() {
+    return mimeType;
+  }
+  public void setMimeType(String mimeType) {
+    this.mimeType = mimeType;
+  }
   @Override
   public int hashCode() {
     return Objects.hash(no);
@@ -53,8 +60,9 @@ public class BoardFile implements Serializable {
   @Override
   public String toString() {
     return "BoardFile [no=" + no + ", filepath=" + filepath + ", originalFilename="
-        + originalFilename + ", boardNo=" + boardNo + "]";
+        + originalFilename + ", mimeType=" + mimeType + ", boardNo=" + boardNo + "]";
   }
+
 
 
 

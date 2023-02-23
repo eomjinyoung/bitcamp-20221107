@@ -96,6 +96,7 @@ public class BoardInsertServlet extends HttpServlet {
         BoardFile boardFile = new BoardFile();
         boardFile.setOriginalFilename(file.getName());
         boardFile.setFilepath(filename);
+        boardFile.setMimeType(file.getContentType());
         boardFile.setBoardNo(board.getNo());
         boardFileDao.insert(boardFile);
       }
