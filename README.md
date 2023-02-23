@@ -771,6 +771,11 @@
     - 문법 응용 실전 프로젝트(myapp)
         - 49.로그인, 로그아웃 처리하기: HttpSession, Cookie 사용
 
+## 77일차(2023-02-23,목)
+
+- 자바(계속)
+    - 문법 응용 실전 프로젝트(myapp)
+        - 50.파일을 업로드하기: multipart/form-data MIME 타입 다루기
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr

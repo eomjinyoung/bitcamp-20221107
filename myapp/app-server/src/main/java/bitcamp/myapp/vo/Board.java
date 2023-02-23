@@ -1,6 +1,7 @@
 package bitcamp.myapp.vo;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class Board implements java.io.Serializable {
@@ -15,14 +16,7 @@ public class Board implements java.io.Serializable {
   private int writerNo;
   private String writerName;
   private Member writer;
-
-
-  @Override
-  public String toString() {
-    return "Board [no=" + no + ", title=" + title + ", content=" + content + ", password="
-        + password + ", createdDate=" + createdDate + ", viewCount=" + viewCount + ", writerNo="
-        + writerNo + ", writerName=" + writerName + ", writer=" + writer + "]";
-  }
+  private List<BoardFile> attachedFiles;
 
   @Override
   public int hashCode() {
@@ -94,7 +88,18 @@ public class Board implements java.io.Serializable {
   public void setWriter(Member writer) {
     this.writer = writer;
   }
-
-
+  public List<BoardFile> getAttachedFiles() {
+    return attachedFiles;
+  }
+  public void setAttachedFiles(List<BoardFile> attachedFiles) {
+    this.attachedFiles = attachedFiles;
+  }
+  @Override
+  public String toString() {
+    return "Board [no=" + no + ", title=" + title + ", content=" + content + ", password="
+        + password + ", createdDate=" + createdDate + ", viewCount=" + viewCount + ", writerNo="
+        + writerNo + ", writerName=" + writerName + ", writer=" + writer + ", attachedFiles="
+        + attachedFiles + "]";
+  }
 
 }

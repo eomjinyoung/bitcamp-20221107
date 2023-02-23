@@ -247,6 +247,7 @@
   - 게시글 작성자만 자신의 게시글을 변경, 삭제할 수 있게 만드는 방법
 
 ### 50. 파일을 업로드하기: multipart/form-data MIME 타입 다루기
+  - ddl4.sql 실행: app_board_file 테이블 생성
   - multipart/form-data 형식으로 파일을 업로드 하는 방법
   - apache commons-fileupload 라이브러리 사용법 
   - Servlet에서 제공하는 API(3.0부터 추가됨)를 사용하여 파일 업로드를 처리하는 방법
