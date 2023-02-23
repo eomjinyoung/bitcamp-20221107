@@ -1,6 +1,7 @@
 package bitcamp.myapp.servlet.board;
 
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,18 +9,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import bitcamp.myapp.dao.BoardDao;
+import bitcamp.myapp.dao.BoardFileDao;
 import bitcamp.myapp.vo.Board;
+import bitcamp.myapp.vo.BoardFile;
 
 @WebServlet("/board/view")
 public class BoardViewServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
   private BoardDao boardDao;
+  private BoardFileDao boardFileDao;
 
   @Override
   public void init() {
     ServletContext ctx = getServletContext();
     boardDao = (BoardDao) ctx.getAttribute("boardDao");
+    boardFileDao = (BoardFileDao) ctx.getAttribute("boardFileDao");
   }
 
   @Override
@@ -31,6 +36,9 @@ public class BoardViewServlet extends HttpServlet {
     if (b != null) {
       boardDao.increaseViewCount(boardNo);
       request.setAttribute("board", b);
+
+      List<BoardFile> boardFiles = boardFileDao.findAllOfBoard(boardNo);
+      request.setAttribute("boardFiles", boardFiles);
     }
     request.getRequestDispatcher("/board/view.jsp").forward(request, response);
   }

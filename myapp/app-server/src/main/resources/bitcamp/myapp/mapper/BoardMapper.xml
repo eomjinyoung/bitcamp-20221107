@@ -17,7 +17,8 @@
     </association>
   </resultMap>
 
-  <insert id="insert" parameterType="board">
+  <insert id="insert" parameterType="board" 
+          useGeneratedKeys="true" keyColumn="board_id" keyProperty="no">
     insert into app_board(title, content, writer) 
     values(#{title}, #{content}, #{writer.no})
   </insert>

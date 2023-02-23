@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebListener;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import bitcamp.myapp.dao.BoardDao;
+import bitcamp.myapp.dao.BoardFileDao;
 import bitcamp.myapp.dao.MemberDao;
 import bitcamp.myapp.dao.StudentDao;
 import bitcamp.myapp.dao.TeacherDao;
@@ -39,6 +40,7 @@ public class ContextLoaderListener implements ServletContextListener {
       MemberDao memberDao = new DaoGenerator(sqlSessionFactory).getObject(MemberDao.class);
       StudentDao studentDao = new DaoGenerator(sqlSessionFactory).getObject(StudentDao.class);
       TeacherDao teacherDao = new DaoGenerator(sqlSessionFactory).getObject(TeacherDao.class);
+      BoardFileDao boardFileDao = new DaoGenerator(sqlSessionFactory).getObject(BoardFileDao.class);
 
       // 서블릿 컨텍스트 보관소를 알아낸다.
       ServletContext ctx = sce.getServletContext();
@@ -50,6 +52,7 @@ public class ContextLoaderListener implements ServletContextListener {
       ctx.setAttribute("memberDao", memberDao);
       ctx.setAttribute("studentDao", studentDao);
       ctx.setAttribute("teacherDao", teacherDao);
+      ctx.setAttribute("boardFileDao", boardFileDao);
 
     } catch (Exception e) {
       System.out.println("웹 애플리케이션 자원을 준비하는 중에 오류 발생!");

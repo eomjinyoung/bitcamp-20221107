@@ -2,47 +2,35 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="BoardDao">
+<mapper namespace="BoardFileDao">
 
-  <resultMap type="board" id="boardMap">
-    <id column="board_id" property="no"/>
-    <result column="title" property="title"/>
-    <result column="content" property="content"/>
-    <result column="pwd" property="password"/>
-    <result column="created_date" property="createdDate"/>
-    <result column="view_cnt" property="viewCount"/>
-    <association property="writer" javaType="member">
-      <id column="writer" property="no"/>
-      <result column="name" property="name"/>
-    </association>
+  <resultMap type="boardfile" id="boardfileMap">
+    <id column="boardfile_id" property="no"/>
+    <result column="filepath" property="filepath"/>
+    <result column="origin_filename" property="originalFilename"/>
+    <result column="board_id" property="boardNo"/>
   </resultMap>
 
-  <insert id="insert" parameterType="board">
-    insert into app_board(title, content, writer) 
-    values(#{title}, #{content}, #{writer.no})
+  <insert id="insert" parameterType="boardfile">
+    insert into app_board_file(filepath, origin_filename, board_id) 
+    values(#{filepath}, #{originalFilename}, #{boardNo})
   </insert>
 
-  <select id="findAll" resultMap="boardMap" parameterType="string">
+  <select id="findAllOfBoard" resultMap="boardfileMap" parameterType="int">
     select 
-      b.board_id, 
-      b.title, 
-      b.writer,
-      b.created_date, 
-      b.view_cnt,
-      m.name 
+      boardfile_id, 
+      filepath, 
+      origin_filename,
+      board_id
     from 
-      app_board b
-      inner join app_member m on b.writer = m.member_id
-    <if test="keyword != '' and keyword != null">
+      app_board_file
     where 
-      b.title like(concat('%',#{keyword},'%'))
-      or b.content like(concat('%',#{keyword},'%'))
-    </if> 
+      board_id = ${no}
     order by 
-      b.board_id desc
+      origin_filename asc
   </select>
 
-  <select id="findByNo" parameterType="int" resultMap="boardMap">
+  <select id="findByNo" parameterType="int" resultMap="boardfileMap">
     select 
       b.board_id, 
       b.title, 
@@ -56,19 +44,6 @@
     where 
       b.board_id=#{no}
   </select>
-  
-  <update id="increaseViewCount" parameterType="int">
-    update app_board set
-      view_cnt = view_cnt + 1
-    where board_id=#{maumdaerohaedodoi}
-  </update>
-  
-  <update id="update" parameterType="board">
-    update app_board set 
-      title=#{title}, 
-      content=#{content} 
-    where board_id=#{no}
-  </update>
   
   <delete id="delete" parameterType="int">
     delete from app_board 

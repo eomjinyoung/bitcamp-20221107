@@ -44,6 +44,16 @@
     <th>조회수</th>
     <td>${board.viewCount}</td>
   </tr>
+  <tr>
+    <th>첨부파일</th>
+    <td>
+      <ul>
+      <c:forEach items="${boardFiles}" var="boardFile">
+        <li>${boardFile.originalFilename}</li>
+      </c:forEach>
+      </ul>
+    </td>
+  </tr>
   </table>
 	
 	<div>
