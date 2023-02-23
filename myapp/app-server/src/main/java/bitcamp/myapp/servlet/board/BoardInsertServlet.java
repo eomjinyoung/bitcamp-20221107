@@ -1,5 +1,6 @@
 package bitcamp.myapp.servlet.board;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,27 +83,19 @@ public class BoardInsertServlet extends HttpServlet {
       txManager.startTransaction();
       boardDao.insert(board);
 
+      for (FileItem file : files) {
+        String filename = UUID.randomUUID().toString();
 
+        // 임시 저장된 첨부파일을 특정 디렉토리로 옮긴다.
+        // 이때 전체 경로 및 파일명을 File 객체에 담아 넘겨야 한다.
+        // 1) 서블릿 컨테이너가 실행하는 현재 웹 애플리케이션의 실제 경로 알아내기
+        String realPath = this.getServletContext().getRealPath("/board/upload/" + filename);
+        System.out.println(realPath);
+        file.write(new File(realPath));
 
-    } catch (Exception e) {
-
-    }
-
-
-
-    try {
-
-      String[] files = request.getParameterValues("files");
-      for (String file : files) {
-        if (file.length() == 0) {
-          continue;
-        }
         BoardFile boardFile = new BoardFile();
-        // 다른 사람이 올린 파일 이름과 중복되지 않도록 하기 위해 임의의 파일명을 생성한다.
-        boardFile.setFilepath(UUID.randomUUID().toString());
-        // 원래의 파일 이름도 보관
-        boardFile.setOriginalFilename(file);
-        // 게시글 번호 지정
+        boardFile.setOriginalFilename(file.getName());
+        boardFile.setFilepath(filename);
         boardFile.setBoardNo(board.getNo());
         boardFileDao.insert(boardFile);
       }

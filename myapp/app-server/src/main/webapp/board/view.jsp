@@ -50,7 +50,7 @@
       <ul>
       <c:forEach items="${board.attachedFiles}" var="boardFile">
         <c:if test="${boardFile.no != 0}">
-          <li>${boardFile.originalFilename}</li>
+          <li><a href="upload/${boardFile.filepath}">${boardFile.originalFilename}</a></li>
         </c:if>
       </c:forEach>
       </ul>
