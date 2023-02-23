@@ -83,7 +83,12 @@ public class BoardInsertServlet extends HttpServlet {
       txManager.startTransaction();
       boardDao.insert(board);
 
+      List<BoardFile> boardFiles = new ArrayList<>();
       for (FileItem file : files) {
+        if (file.getSize() == 0) {
+          continue;
+        }
+
         String filename = UUID.randomUUID().toString();
 
         // 임시 저장된 첨부파일을 특정 디렉토리로 옮긴다.
@@ -98,8 +103,15 @@ public class BoardInsertServlet extends HttpServlet {
         boardFile.setFilepath(filename);
         boardFile.setMimeType(file.getContentType());
         boardFile.setBoardNo(board.getNo());
-        boardFileDao.insert(boardFile);
+        //boardFileDao.insert(boardFile);
+
+        boardFiles.add(boardFile);
       }
+
+      if (boardFiles.size() > 0) {
+        boardFileDao.insertList(boardFiles);
+      }
+
       txManager.commit();
 
     } catch (Exception e) {

@@ -34,23 +34,23 @@ public class DaoGenerator implements InvocationHandler {
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
-    SqlSession sqlSession = sqlSessionFactory.openSession();
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+      String daoName = proxy.getClass().getInterfaces()[0].getSimpleName();
+      String methodName = method.getName();
+      String sqlStatementName = String.format("%s.%s", daoName, methodName);
+      System.out.printf("%s.%s() 호출!\n", daoName, methodName);
+      Class<?> returnType = method.getReturnType();
 
-    String daoName = proxy.getClass().getInterfaces()[0].getSimpleName();
-    String methodName = method.getName();
-    String sqlStatementName = String.format("%s.%s", daoName, methodName);
-    System.out.printf("%s.%s() 호출!\n", daoName, methodName);
-    Class<?> returnType = method.getReturnType();
-
-    if (returnType == int.class || returnType == void.class) {
-      return args == null ? sqlSession.insert(sqlStatementName) :
-        sqlSession.insert(sqlStatementName, args[0]);
-    } else if (returnType == List.class) {
-      return args == null ? sqlSession.selectList(sqlStatementName) :
-        sqlSession.selectList(sqlStatementName, args[0]);
-    } else {
-      return args == null ? sqlSession.selectOne(sqlStatementName) :
-        sqlSession.selectOne(sqlStatementName, args[0]);
+      if (returnType == int.class || returnType == void.class) {
+        return args == null ? sqlSession.insert(sqlStatementName) :
+          sqlSession.insert(sqlStatementName, args[0]);
+      } else if (returnType == List.class) {
+        return args == null ? sqlSession.selectList(sqlStatementName) :
+          sqlSession.selectList(sqlStatementName, args[0]);
+      } else {
+        return args == null ? sqlSession.selectOne(sqlStatementName) :
+          sqlSession.selectOne(sqlStatementName, args[0]);
+      }
     }
   }
 

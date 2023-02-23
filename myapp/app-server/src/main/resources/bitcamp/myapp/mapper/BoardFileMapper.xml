@@ -16,6 +16,17 @@
     insert into app_board_file(filepath, origin_filename, mime_type, board_id) 
     values(#{filepath}, #{originalFilename}, #{mimeType}, #{boardNo})
   </insert>
+  
+  <!-- SQL을 실행할 때 넘어오는 파라미터 타입이 List일 경우 
+       foreach 태그의 collection 속성에 사용할 수 있는 파라미터 이름은 
+       list 또는 collection 이 가능하다.  -->
+  <insert id="insertList">
+    insert into app_board_file(filepath, origin_filename, mime_type, board_id) 
+    values
+    <foreach collection="list" item="file" separator=",">
+      (#{file.filepath}, #{file.originalFilename}, #{file.mimeType}, #{file.boardNo})
+    </foreach>
+  </insert>
 
   <select id="findAllOfBoard" resultMap="boardfileMap" parameterType="int">
     select 
@@ -46,7 +57,12 @@
   </select>
   
   <delete id="delete" parameterType="int">
-    delete from app_board 
+    delete from app_board_file 
+    where boardfile_id=#{no}
+  </delete>
+  
+  <delete id="deleteOfBoard" parameterType="int">
+    delete from app_board_file 
     where board_id=#{no}
   </delete>
 </mapper>

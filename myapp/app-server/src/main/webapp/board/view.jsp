@@ -18,7 +18,7 @@
 </c:if>
 
 <c:if test="${not empty board}">
-  <form id='board-form' action='update' method='post'>
+  <form id='board-form' action='update' method='post' enctype="multipart/form-data">
   <table border='1'>
   <tr>
     <th>번호</th>
@@ -47,10 +47,14 @@
   <tr>
     <th>첨부파일</th>
     <td>
+      <input type="file" name='files' multiple>
       <ul>
       <c:forEach items="${board.attachedFiles}" var="boardFile">
         <c:if test="${boardFile.no != 0}">
-          <li><a href="../download/boardfile?fileNo=${boardFile.no}">${boardFile.originalFilename}</a></li>
+          <li>
+            <a href="../download/boardfile?fileNo=${boardFile.no}">${boardFile.originalFilename}</a>
+            [<a href="filedelete?boardNo=${board.no}&fileNo=${boardFile.no}">삭제</a>]
+          </li>
         </c:if>
       </c:forEach>
       </ul>
