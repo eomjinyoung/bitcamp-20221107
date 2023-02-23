@@ -65,7 +65,7 @@
       bf.origin_filename
     from 
       app_board b
-      inner join app_board_file bf on b.board_id = bf.board_id
+      left outer join app_board_file bf on b.board_id = bf.board_id
     where 
       b.board_id=#{no}
   </select>

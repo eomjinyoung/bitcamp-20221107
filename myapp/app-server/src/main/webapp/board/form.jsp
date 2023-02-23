@@ -8,7 +8,7 @@
 </head>
 <body>
 <h1>게시판(JSP + MVC2)</h1>
-<form action='insert' method='post'>
+<form action='insert' method='post' enctype="multipart/form-data">
 <table border='1'>
 <tr>
   <th>제목</th>

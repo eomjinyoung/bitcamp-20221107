@@ -49,7 +49,9 @@
     <td>
       <ul>
       <c:forEach items="${board.attachedFiles}" var="boardFile">
-        <li>${boardFile.originalFilename}</li>
+        <c:if test="${boardFile.no != 0}">
+          <li>${boardFile.originalFilename}</li>
+        </c:if>
       </c:forEach>
       </ul>
     </td>
