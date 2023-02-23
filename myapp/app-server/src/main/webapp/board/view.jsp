@@ -48,7 +48,7 @@
     <th>첨부파일</th>
     <td>
       <ul>
-      <c:forEach items="${boardFiles}" var="boardFile">
+      <c:forEach items="${board.attachedFiles}" var="boardFile">
         <li>${boardFile.originalFilename}</li>
       </c:forEach>
       </ul>

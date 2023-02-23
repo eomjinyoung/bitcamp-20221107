@@ -11,10 +11,18 @@
     <result column="pwd" property="password"/>
     <result column="created_date" property="createdDate"/>
     <result column="view_cnt" property="viewCount"/>
+    
     <association property="writer" javaType="member">
       <id column="writer" property="no"/>
       <result column="name" property="name"/>
     </association>
+    
+    <collection property="attachedFiles" ofType="boardfile">
+      <id column="boardfile_id" property="no"/>
+      <result column="filepath" property="filepath"/>
+      <result column="origin_filename" property="originalFilename"/>
+      <result column="board_id" property="boardNo"/>
+    </collection>
   </resultMap>
 
   <insert id="insert" parameterType="board" 
@@ -51,9 +59,13 @@
       b.writer, 
       (select name from app_member where member_id = b.writer) name, 
       b.created_date, 
-      b.view_cnt
+      b.view_cnt,
+      bf.boardfile_id,
+      bf.filepath,
+      bf.origin_filename
     from 
       app_board b
+      inner join app_board_file bf on b.board_id = bf.board_id
     where 
       b.board_id=#{no}
   </select>
