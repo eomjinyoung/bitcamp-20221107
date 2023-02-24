@@ -87,6 +87,12 @@ public class DefaultBoardService implements BoardService {
     }
   }
 
+
+  @Override
+  public BoardFile getFile(int fileNo) {
+    return boardFileDao.findByNo(fileNo);
+  }
+
   @Override
   public void deleteFile(int fileNo) {
     boardFileDao.delete(fileNo);

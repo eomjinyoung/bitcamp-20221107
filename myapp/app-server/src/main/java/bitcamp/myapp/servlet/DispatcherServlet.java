@@ -1,9 +1,11 @@
 package bitcamp.myapp.servlet;
 
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +30,15 @@ public class DispatcherServlet extends HttpServlet {
       return;
     }
     request.getRequestDispatcher(pathInfo).include(request, response);
+
+    // 쿠키 처리
+    @SuppressWarnings("unchecked")
+    List<Cookie> cookies = (List<Cookie>) request.getAttribute("cookies");
+    if (cookies != null) {
+      for (Cookie cookie : cookies) {
+        response.addCookie(cookie);
+      }
+    }
 
     String view = (String) request.getAttribute("view");
 

@@ -1,6 +1,8 @@
 package bitcamp.myapp.servlet.auth;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -33,16 +35,23 @@ public class LoginServlet extends HttpServlet {
     String email = request.getParameter("email");
     String password = request.getParameter("password");
 
+    List<Cookie> cookies = new ArrayList<>();
     if (request.getParameter("saveEmail") != null) {
       Cookie cookie = new Cookie("email", email);
       cookie.setMaxAge(60 * 60 * 24 * 30); // 30일 동안 유지
-      response.addCookie(cookie);
+
+      // include 되는 서블릿에서는 응답 헤더를 변경할 수 없다.
+      // 따라서 응답헤더에 쿠키를 추가할 수 없다.
+      // response.addCookie(cookie);
+      cookies.add(cookie);
 
     } else {
       Cookie cookie = new Cookie("email", "");
       cookie.setMaxAge(0);
-      response.addCookie(cookie);
+      //response.addCookie(cookie);
+      cookies.add(cookie);
     }
+    request.setAttribute("cookies", cookies);
 
     Member member = null;
     switch (usertype) {
