@@ -32,7 +32,7 @@ public class BoardDeleteServlet extends HttpServlet {
 
       Board old = boardService.get(boardNo);
       if (old.getWriter().getNo() != loginUser.getNo()) {
-        response.sendRedirect("../auth/fail");
+        request.setAttribute("view", "redirect:../auth/fail");
         return;
       }
       boardService.delete(boardNo);
@@ -41,7 +41,6 @@ public class BoardDeleteServlet extends HttpServlet {
       e.printStackTrace();
       request.setAttribute("error", "data");
     }
-
-    request.getRequestDispatcher("/board/delete.jsp").forward(request, response);
+    request.setAttribute("view", "/board/delete.jsp");
   }
 }

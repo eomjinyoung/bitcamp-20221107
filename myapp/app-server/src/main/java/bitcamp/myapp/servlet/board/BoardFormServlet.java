@@ -14,8 +14,7 @@ public class BoardFormServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-
-    request.getRequestDispatcher("/board/form.jsp").forward(request, response);
+    request.setAttribute("view", "/board/form.jsp");
   }
 }
 

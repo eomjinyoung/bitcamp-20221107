@@ -27,8 +27,7 @@ public class LoginFormServlet extends HttpServlet {
         }
       }
     }
-
-    request.getRequestDispatcher("/auth/form.jsp").forward(request, response);
+    request.setAttribute("view", "/auth/form.jsp");
   }
 }
 

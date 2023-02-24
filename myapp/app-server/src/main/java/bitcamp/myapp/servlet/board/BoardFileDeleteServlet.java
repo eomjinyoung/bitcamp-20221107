@@ -30,11 +30,10 @@ public class BoardFileDeleteServlet extends HttpServlet {
 
     Board old = boardService.get(boardNo);
     if (old.getWriter().getNo() != loginUser.getNo()) {
-      response.sendRedirect("../auth/fail");
-      return;
+      request.setAttribute("view", "redirect:../auth/fail");
+    } else {
+      boardService.deleteFile(Integer.parseInt(request.getParameter("fileNo")));
+      request.setAttribute("view", "redirect:view?no=" + boardNo);
     }
-
-    boardService.deleteFile(Integer.parseInt(request.getParameter("fileNo")));
-    response.sendRedirect("view?no=" + boardNo);
   }
 }

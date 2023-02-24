@@ -57,10 +57,10 @@ public class LoginServlet extends HttpServlet {
     if (member != null) {
       HttpSession session = request.getSession();
       session.setAttribute("loginUser", member);
-      response.sendRedirect("../"); // ===> http://localhost:8080/web/
+      request.setAttribute("view", "redirect:../");
     } else {
       request.setAttribute("error", "loginfail");
-      request.getRequestDispatcher("/auth/form.jsp").forward(request, response);
+      request.setAttribute("view", "/auth/form.jsp");
     }
 
   }

@@ -14,8 +14,7 @@ public class AuthFailServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-
-    request.getRequestDispatcher("/auth/fail.jsp").forward(request, response);
+    request.setAttribute("view", "/auth/fail.jsp");
   }
 
 }

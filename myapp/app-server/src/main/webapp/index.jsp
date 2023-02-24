@@ -10,16 +10,16 @@
 <body>
 <h1>강의관리시스템!</h1>
 <ul>
-  <li><a href="student/list">학생관리</a></li>
-  <li><a href="teacher/list">강사관리</a></li>
-  <li><a href="board/list">게시판</a></li>
+  <li><a href="app/student/list">학생관리</a></li>
+  <li><a href="app/teacher/list">강사관리</a></li>
+  <li><a href="app/board/list">게시판</a></li>
   
 <c:if test="${empty loginUser}">
-  <li><a href="auth/form">로그인</a></li>
+  <li><a href="app/auth/form">로그인</a></li>
 </c:if>
 
 <c:if test="${not empty loginUser}">
-  <li><a href="auth/logout">로그아웃(${loginUser.name})</a></li>
+  <li><a href="app/auth/logout">로그아웃(${loginUser.name})</a></li>
 </c:if>
 
 </ul>

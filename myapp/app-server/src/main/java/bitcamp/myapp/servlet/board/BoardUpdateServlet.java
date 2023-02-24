@@ -43,7 +43,7 @@ public class BoardUpdateServlet extends HttpServlet {
       Board old = boardService.get(board.getNo());
 
       if (old.getWriter().getNo() != loginUser.getNo()) {
-        response.sendRedirect("../auth/fail");
+        request.setAttribute("view", "redirect:../auth/fail");
         return;
       }
 
@@ -73,7 +73,7 @@ public class BoardUpdateServlet extends HttpServlet {
       request.setAttribute("error", "data");
     }
 
-    request.getRequestDispatcher("/board/update.jsp").forward(request, response);
+    request.setAttribute("view", "/board/update.jsp");
   }
 
 }

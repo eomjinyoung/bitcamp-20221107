@@ -80,8 +80,7 @@ public class BoardInsertServlet extends HttpServlet {
       e.printStackTrace();
       request.setAttribute("error", "data");
     }
-
-    request.getRequestDispatcher("/board/insert.jsp").forward(request, response);
+    request.setAttribute("view", "/board/insert.jsp");
   }
 
 }
