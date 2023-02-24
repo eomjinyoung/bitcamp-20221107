@@ -7,6 +7,13 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import bitcamp.myapp.controller.AuthFailController;
+import bitcamp.myapp.controller.BoardFormController;
+import bitcamp.myapp.controller.BoardInsertController;
+import bitcamp.myapp.controller.BoardListController;
+import bitcamp.myapp.controller.LoginController;
+import bitcamp.myapp.controller.LoginFormController;
+import bitcamp.myapp.controller.LogoutController;
 import bitcamp.myapp.dao.BoardDao;
 import bitcamp.myapp.dao.BoardFileDao;
 import bitcamp.myapp.dao.MemberDao;
@@ -45,13 +52,28 @@ public class ContextLoaderListener implements ServletContextListener {
       StudentService studentService = new DefaultStudentService(txManager, memberDao, studentDao);
       TeacherService teacherService = new DefaultTeacherService(txManager, memberDao, teacherDao);
 
+      LoginFormController loginFormController = new LoginFormController();
+      LoginController loginController = new LoginController(studentService, teacherService);
+      LogoutController logoutController = new LogoutController();
+      AuthFailController authFailController = new AuthFailController();
+
+      BoardListController boardListController = new BoardListController(boardService);
+      BoardFormController boardFormController = new BoardFormController();
+      BoardInsertController boardInsertController = new BoardInsertController(boardService);
+
       // 서블릿 컨텍스트 보관소를 알아낸다.
       ServletContext ctx = sce.getServletContext();
 
-      // 서블릿들이 공유할 객체를 이 보관소에 저장한다.
-      ctx.setAttribute("boardService", boardService);
-      ctx.setAttribute("studentService", studentService);
-      ctx.setAttribute("teacherService", teacherService);
+      // 프론트 컨트롤러가 사용할 페이지 컨트롤러를 보관한다.
+      ctx.setAttribute("/auth/form", loginFormController);
+      ctx.setAttribute("/auth/login", loginController);
+      ctx.setAttribute("/auth/logout", logoutController);
+      ctx.setAttribute("/auth/fail", authFailController);
+
+      ctx.setAttribute("/board/list", boardListController);
+      ctx.setAttribute("/board/form", boardFormController);
+      ctx.setAttribute("/board/insert", boardInsertController);
+
 
     } catch (Exception e) {
       System.out.println("웹 애플리케이션 자원을 준비하는 중에 오류 발생!");

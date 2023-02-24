@@ -260,3 +260,7 @@
 
 ### 52. Front Controller 디자인 패턴 도입하기
   - Front Controller 디자인 패턴의 효과 및 적용 방법
+
+### 53. 페이지 컨트롤러를 POJO로 전환하기
+  - 프론트 컨트롤러 구조에서 페이지 컨트롤러를 POJO로 전환하는 방법
+  - POJO? Plain Old Java Object (그냥 일반 자바 문법으로 만든 클래스)
