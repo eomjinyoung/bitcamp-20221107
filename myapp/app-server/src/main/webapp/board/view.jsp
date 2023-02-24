@@ -64,8 +64,10 @@
 	
 	<div>
 	  <button id='btn-list' type='button'>목록</button>
+	<c:if test="${loginUser.no == board.writer.no}">
 	  <button>변경</button>
 	  <button id='btn-delete' type='button'>삭제</button>
+	</c:if>
 	</div>
 	</form>
 </c:if>
