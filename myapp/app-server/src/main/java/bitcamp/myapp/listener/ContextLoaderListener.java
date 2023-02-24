@@ -15,6 +15,9 @@ import bitcamp.myapp.dao.TeacherDao;
 import bitcamp.myapp.service.BoardService;
 import bitcamp.myapp.service.StudentService;
 import bitcamp.myapp.service.TeacherService;
+import bitcamp.myapp.service.impl.DefaultBoardService;
+import bitcamp.myapp.service.impl.DefaultStudentService;
+import bitcamp.myapp.service.impl.DefaultTeacherService;
 import bitcamp.util.BitcampSqlSessionFactory;
 import bitcamp.util.DaoGenerator;
 import bitcamp.util.TransactionManager;
@@ -38,9 +41,9 @@ public class ContextLoaderListener implements ServletContextListener {
       TeacherDao teacherDao = new DaoGenerator(sqlSessionFactory).getObject(TeacherDao.class);
       BoardFileDao boardFileDao = new DaoGenerator(sqlSessionFactory).getObject(BoardFileDao.class);
 
-      BoardService boardService = new BoardService(txManager, boardDao, boardFileDao);
-      StudentService studentService = new StudentService(txManager, memberDao, studentDao);
-      TeacherService teacherService = new TeacherService(txManager, memberDao, teacherDao);
+      BoardService boardService = new DefaultBoardService(txManager, boardDao, boardFileDao);
+      StudentService studentService = new DefaultStudentService(txManager, memberDao, studentDao);
+      TeacherService teacherService = new DefaultTeacherService(txManager, memberDao, teacherDao);
 
       // 서블릿 컨텍스트 보관소를 알아낸다.
       ServletContext ctx = sce.getServletContext();
