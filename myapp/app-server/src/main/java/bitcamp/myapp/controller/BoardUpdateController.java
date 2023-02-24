@@ -1,14 +1,9 @@
-package bitcamp.myapp.servlet.board;
+package bitcamp.myapp.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
@@ -17,21 +12,16 @@ import bitcamp.myapp.vo.Board;
 import bitcamp.myapp.vo.BoardFile;
 import bitcamp.myapp.vo.Member;
 
-@MultipartConfig(maxFileSize = 1024 * 1024 * 50)
-@WebServlet("/board/update")
-public class BoardUpdateServlet extends HttpServlet {
-  private static final long serialVersionUID = 1L;
+public class BoardUpdateController implements PageController {
 
   private BoardService boardService;
 
-  @Override
-  public void init() {
-    boardService = (BoardService) getServletContext().getAttribute("boardService");
+  public BoardUpdateController(BoardService boardService) {
+    this.boardService = boardService;
   }
 
   @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public String execute(HttpServletRequest request, HttpServletResponse response) {
     try {
       Member loginUser = (Member) request.getSession().getAttribute("loginUser");
 
@@ -41,10 +31,8 @@ public class BoardUpdateServlet extends HttpServlet {
       board.setContent(request.getParameter("content"));
 
       Board old = boardService.get(board.getNo());
-
       if (old.getWriter().getNo() != loginUser.getNo()) {
-        request.setAttribute("view", "redirect:../auth/fail");
-        return;
+        return "redirect:../auth/fail";
       }
 
       Collection<Part> parts = request.getParts();
@@ -55,7 +43,7 @@ public class BoardUpdateServlet extends HttpServlet {
         }
 
         String filename = UUID.randomUUID().toString();
-        part.write(this.getServletContext().getRealPath("/board/upload/" + filename));
+        part.write(request.getServletContext().getRealPath("/board/upload/" + filename));
 
         BoardFile boardFile = new BoardFile();
         boardFile.setOriginalFilename(part.getSubmittedFileName());
@@ -73,7 +61,7 @@ public class BoardUpdateServlet extends HttpServlet {
       request.setAttribute("error", "data");
     }
 
-    request.setAttribute("view", "/board/update.jsp");
+    return "/board/update.jsp";
   }
 
 }

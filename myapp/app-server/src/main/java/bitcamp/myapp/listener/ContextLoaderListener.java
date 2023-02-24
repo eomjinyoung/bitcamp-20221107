@@ -8,9 +8,13 @@ import javax.servlet.annotation.WebListener;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import bitcamp.myapp.controller.AuthFailController;
+import bitcamp.myapp.controller.BoardDeleteController;
+import bitcamp.myapp.controller.BoardFileDeleteController;
 import bitcamp.myapp.controller.BoardFormController;
 import bitcamp.myapp.controller.BoardInsertController;
 import bitcamp.myapp.controller.BoardListController;
+import bitcamp.myapp.controller.BoardUpdateController;
+import bitcamp.myapp.controller.BoardViewController;
 import bitcamp.myapp.controller.LoginController;
 import bitcamp.myapp.controller.LoginFormController;
 import bitcamp.myapp.controller.LogoutController;
@@ -60,6 +64,10 @@ public class ContextLoaderListener implements ServletContextListener {
       BoardListController boardListController = new BoardListController(boardService);
       BoardFormController boardFormController = new BoardFormController();
       BoardInsertController boardInsertController = new BoardInsertController(boardService);
+      BoardViewController boardViewController = new BoardViewController(boardService);
+      BoardUpdateController boardUpdateController = new BoardUpdateController(boardService);
+      BoardDeleteController boardDeleteController = new BoardDeleteController(boardService);
+      BoardFileDeleteController boardFileDeleteController = new BoardFileDeleteController(boardService);
 
       // 서블릿 컨텍스트 보관소를 알아낸다.
       ServletContext ctx = sce.getServletContext();
@@ -73,6 +81,10 @@ public class ContextLoaderListener implements ServletContextListener {
       ctx.setAttribute("/board/list", boardListController);
       ctx.setAttribute("/board/form", boardFormController);
       ctx.setAttribute("/board/insert", boardInsertController);
+      ctx.setAttribute("/board/view", boardViewController);
+      ctx.setAttribute("/board/update", boardUpdateController);
+      ctx.setAttribute("/board/delete", boardDeleteController);
+      ctx.setAttribute("/board/filedelete", boardFileDeleteController);
 
 
     } catch (Exception e) {
