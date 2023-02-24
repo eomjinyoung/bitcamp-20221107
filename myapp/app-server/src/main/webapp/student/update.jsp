@@ -14,9 +14,6 @@
   <c:when test="${empty error}">
       <p>변경했습니다.</p>
   </c:when>
-  <c:when test="${error == 'data'}">
-      <p>해당 번호의 학생이 없습니다.</p>
-  </c:when>
   <c:otherwise>
       <p>변경 실패입니다.</p>
   </c:otherwise>  
