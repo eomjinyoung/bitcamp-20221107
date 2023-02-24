@@ -42,7 +42,7 @@ public class StudentUpdateServlet extends HttpServlet {
       e.printStackTrace();
       request.setAttribute("error", "other");
     }
-    request.getRequestDispatcher("/student/update.jsp").forward(request, response);
+    request.setAttribute("view", "/student/update.jsp");
   }
 
 }

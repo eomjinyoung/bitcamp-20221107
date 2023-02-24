@@ -23,6 +23,6 @@ public class TeacherListServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     request.setAttribute("teachers", teacherService.list());
-    request.getRequestDispatcher("/teacher/list.jsp").forward(request, response);
+    request.setAttribute("view", "/teacher/list.jsp");
   }
 }

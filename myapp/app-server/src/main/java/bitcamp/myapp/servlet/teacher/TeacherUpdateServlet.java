@@ -40,7 +40,7 @@ public class TeacherUpdateServlet extends HttpServlet {
       e.printStackTrace();
       request.setAttribute("error", "other");
     }
-    request.getRequestDispatcher("/teacher/update.jsp").forward(request, response);
+    request.setAttribute("view", "/teacher/update.jsp");
   }
 
 }

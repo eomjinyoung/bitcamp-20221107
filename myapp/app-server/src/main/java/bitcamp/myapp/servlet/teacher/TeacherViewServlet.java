@@ -25,7 +25,7 @@ public class TeacherViewServlet extends HttpServlet {
 
     request.setAttribute("teacher",
         teacherService.get(Integer.parseInt(request.getParameter("no"))));
-    request.getRequestDispatcher("/teacher/view.jsp").forward(request, response);
+    request.setAttribute("view", "/teacher/view.jsp");
   }
 
 }

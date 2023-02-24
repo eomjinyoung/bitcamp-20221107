@@ -25,7 +25,7 @@ public class StudentViewServlet extends HttpServlet {
 
     request.setAttribute("student",
         studentService.get(Integer.parseInt(request.getParameter("no"))));
-    request.getRequestDispatcher("/student/view.jsp").forward(request, response);
+    request.setAttribute("view", "/student/view.jsp");
   }
 
 }

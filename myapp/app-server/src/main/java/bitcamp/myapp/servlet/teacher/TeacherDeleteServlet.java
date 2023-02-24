@@ -29,6 +29,6 @@ public class TeacherDeleteServlet extends HttpServlet {
       e.printStackTrace();
       request.setAttribute("error", "other");
     }
-    request.getRequestDispatcher("/teacher/delete.jsp").forward(request, response);
+    request.setAttribute("view", "/teacher/delete.jsp");
   }
 }

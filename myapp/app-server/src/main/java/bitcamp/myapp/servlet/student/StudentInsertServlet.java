@@ -41,7 +41,7 @@ public class StudentInsertServlet extends HttpServlet {
       e.printStackTrace();
       request.setAttribute("error", "other");
     }
-    request.getRequestDispatcher("/student/insert.jsp").forward(request, response);
+    request.setAttribute("view", "/student/insert.jsp");
   }
 
 }

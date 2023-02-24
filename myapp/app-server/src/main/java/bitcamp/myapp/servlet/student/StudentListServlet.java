@@ -23,7 +23,7 @@ public class StudentListServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     request.setAttribute("students", studentService.list(request.getParameter("keyword")));
-    request.getRequestDispatcher("/student/list.jsp").forward(request, response);
+    request.setAttribute("view", "/student/list.jsp");
   }
 
 }
