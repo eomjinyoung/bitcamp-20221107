@@ -1,4 +1,4 @@
-package bitcamp.myapp.servlet.board;
+package bitcamp.myapp.servlet.student;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -6,32 +6,24 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import bitcamp.myapp.service.BoardService;
+import bitcamp.myapp.service.StudentService;
 
-@WebServlet("/board/list")
-public class BoardListServlet extends HttpServlet {
+@WebServlet("/student/list")
+public class StudentListServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
-  private BoardService boardService;
+  private StudentService studentService;
 
   @Override
   public void init() {
-    boardService = (BoardService) getServletContext().getAttribute("boardService");
+    studentService = (StudentService) getServletContext().getAttribute("studentService");
   }
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    request.setAttribute("boards",
-        boardService.list(request.getParameter("keyword")));
-    request.setAttribute("view", "/board/list.jsp");
+    request.setAttribute("students", studentService.list(request.getParameter("keyword")));
+    request.getRequestDispatcher("/student/list.jsp").forward(request, response);
   }
+
 }
-
-
-
-
-
-
-
-

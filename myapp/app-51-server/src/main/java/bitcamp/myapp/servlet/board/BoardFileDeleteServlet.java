@@ -7,9 +7,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import bitcamp.myapp.service.BoardService;
+import bitcamp.myapp.vo.Board;
+import bitcamp.myapp.vo.Member;
 
-@WebServlet("/board/list")
-public class BoardListServlet extends HttpServlet {
+@WebServlet("/board/filedelete")
+public class BoardFileDeleteServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
   private BoardService boardService;
@@ -22,16 +24,17 @@ public class BoardListServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    request.setAttribute("boards",
-        boardService.list(request.getParameter("keyword")));
-    request.setAttribute("view", "/board/list.jsp");
+
+    Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+    int boardNo = Integer.parseInt(request.getParameter("boardNo"));
+
+    Board old = boardService.get(boardNo);
+    if (old.getWriter().getNo() != loginUser.getNo()) {
+      response.sendRedirect("../auth/fail");
+      return;
+    }
+
+    boardService.deleteFile(Integer.parseInt(request.getParameter("fileNo")));
+    response.sendRedirect("view?no=" + boardNo);
   }
 }
-
-
-
-
-
-
-
-

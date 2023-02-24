@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import bitcamp.myapp.service.BoardService;
 
-@WebServlet("/board/list")
-public class BoardListServlet extends HttpServlet {
+@WebServlet("/board/view")
+public class BoardViewServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
   private BoardService boardService;
@@ -22,12 +22,12 @@ public class BoardListServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    request.setAttribute("boards",
-        boardService.list(request.getParameter("keyword")));
-    request.setAttribute("view", "/board/list.jsp");
+    request.setAttribute("board",
+        boardService.get(Integer.parseInt(request.getParameter("no"))));
+    request.getRequestDispatcher("/board/view.jsp").forward(request, response);
   }
-}
 
+}
 
 
 

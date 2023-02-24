@@ -24,7 +24,7 @@ public class BoardListServlet extends HttpServlet {
       throws ServletException, IOException {
     request.setAttribute("boards",
         boardService.list(request.getParameter("keyword")));
-    request.setAttribute("view", "/board/list.jsp");
+    request.getRequestDispatcher("/board/list.jsp").forward(request, response);
   }
 }
 
