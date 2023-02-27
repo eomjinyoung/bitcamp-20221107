@@ -3,6 +3,8 @@ package bitcamp.myapp.servlet;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -15,7 +17,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import bitcamp.util.RequestHandlerMapping;
+import bitcamp.util.RequestParam;
 
 @MultipartConfig(maxFileSize = 1024 * 1024 * 50)
 @WebServlet("/app/*")
@@ -79,7 +83,7 @@ public class DispatcherServlet extends HttpServlet {
   private Object[] prepareRequestHandlerArguments(
       Method method,
       HttpServletRequest request,
-      HttpServletResponse response) {
+      HttpServletResponse response) throws Exception {
 
     Parameter[] params = method.getParameters();
     Object[] arguments = new Object[params.length];
@@ -98,6 +102,35 @@ public class DispatcherServlet extends HttpServlet {
       } else if (paramType  == HttpServletResponse.class || paramType == ServletResponse.class) {
         arguments[i] = response;
         System.out.println("    - 응답 객체 준비");
+      } else {
+        RequestParam anno = params[i].getAnnotation(RequestParam.class);
+        if (anno != null) {
+          String paramName = anno.value();
+          String paramValue = request.getParameter(paramName);
+
+          if (paramType == String.class) {
+            arguments[i] = paramValue;
+          } else if (paramType == int.class || paramType == Integer.class) {
+            arguments[i] = Integer.parseInt(paramValue);
+          } else if (paramType == float.class || paramType == Float.class) {
+            arguments[i] = Float.parseFloat(paramValue);
+          } else if (paramType == Part.class) {
+            arguments[i] = request.getPart(paramName);
+          } else if (paramType == Part[].class) {
+            Collection<Part> parts = request.getParts();
+            List<Part> paramParts = new ArrayList<>();
+            for (Part part : parts) {
+              if (!part.getName().equals(paramName)) {
+                continue;
+              }
+              paramParts.add(part);
+            }
+            arguments[i] = paramParts.toArray(new Part[] {});
+          }
+          System.out.println("    - 요청 파라미터 값 준비");
+        } else {
+          arguments[i] = null;
+        }
       }
     }
     return arguments;
