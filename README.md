@@ -787,5 +787,11 @@
         - 52.Front Controller 디자인 패턴 도입하기
         - 53.페이지 컨트롤러를 POJO로 전환하기
 
+## 79일차(2023-02-27,월)
+
+- 자바(계속)
+    - 문법 응용 실전 프로젝트(myapp)
+        - 53.페이지 컨트롤러를 POJO로 전환하기
+
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
