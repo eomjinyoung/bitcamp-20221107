@@ -5,10 +5,11 @@ import javax.servlet.http.HttpServletResponse;
 import bitcamp.myapp.service.BoardService;
 import bitcamp.myapp.vo.Board;
 import bitcamp.myapp.vo.Member;
+import bitcamp.util.RequestMapping;
 
+@RequestMapping("/board/filedelete")
 public class BoardFileDeleteController implements PageController {
 
-  public static String path = "/board/filedelete";
   private BoardService boardService;
 
   public BoardFileDeleteController(BoardService boardService) {

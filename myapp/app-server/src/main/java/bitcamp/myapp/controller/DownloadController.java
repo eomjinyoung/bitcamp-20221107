@@ -8,10 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import bitcamp.myapp.service.BoardService;
 import bitcamp.myapp.vo.BoardFile;
+import bitcamp.util.RequestMapping;
 
+@RequestMapping("/download/boardfile")
 public class DownloadController implements PageController {
 
-  public static String path = "/download/boardfile";
   private BoardService boardService;
 
   public DownloadController(BoardService boardService) {

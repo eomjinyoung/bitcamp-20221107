@@ -3,10 +3,11 @@ package bitcamp.myapp.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import bitcamp.myapp.service.BoardService;
+import bitcamp.util.RequestMapping;
 
+@RequestMapping("/board/list")
 public class BoardListController implements PageController {
 
-  public static String path = "/board/list";
   private BoardService boardService;
 
   public BoardListController(BoardService boardService) {

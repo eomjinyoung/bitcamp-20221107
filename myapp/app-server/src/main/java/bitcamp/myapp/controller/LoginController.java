@@ -7,10 +7,11 @@ import javax.servlet.http.HttpSession;
 import bitcamp.myapp.service.StudentService;
 import bitcamp.myapp.service.TeacherService;
 import bitcamp.myapp.vo.Member;
+import bitcamp.util.RequestMapping;
 
+@RequestMapping("/auth/login")
 public class LoginController implements PageController {
 
-  public static String path = "/auth/login";
   private StudentService studentService;
   private TeacherService teacherService;
 

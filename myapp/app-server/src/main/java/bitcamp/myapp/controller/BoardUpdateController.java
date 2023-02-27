@@ -11,10 +11,11 @@ import bitcamp.myapp.service.BoardService;
 import bitcamp.myapp.vo.Board;
 import bitcamp.myapp.vo.BoardFile;
 import bitcamp.myapp.vo.Member;
+import bitcamp.util.RequestMapping;
 
+@RequestMapping("/board/update")
 public class BoardUpdateController implements PageController {
 
-  public static String path = "/board/update";
   private BoardService boardService;
 
   public BoardUpdateController(BoardService boardService) {

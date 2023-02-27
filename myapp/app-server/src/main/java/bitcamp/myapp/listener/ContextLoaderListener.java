@@ -3,7 +3,6 @@ package bitcamp.myapp.listener;
 import java.io.File;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +23,7 @@ import bitcamp.myapp.service.impl.DefaultStudentService;
 import bitcamp.myapp.service.impl.DefaultTeacherService;
 import bitcamp.util.BitcampSqlSessionFactory;
 import bitcamp.util.DaoGenerator;
+import bitcamp.util.RequestMapping;
 import bitcamp.util.TransactionManager;
 
 @WebListener
@@ -104,10 +104,10 @@ public class ContextLoaderListener implements ServletContextListener {
       Object[] arguments = prepareArguments(params);
       Object controller = constructor.newInstance(arguments);
 
-      try {
-        Field field = c.getDeclaredField("path");
-        ctx.setAttribute((String) field.get(null), controller);
-      } catch (Exception e) {}
+      RequestMapping anno = c.getAnnotation(RequestMapping.class);
+      if (anno != null) {
+        ctx.setAttribute(anno.value(), controller);
+      }
 
     }
   }

@@ -2,10 +2,10 @@ package bitcamp.myapp.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import bitcamp.util.RequestMapping;
 
+@RequestMapping("/auth/fail")
 public class AuthFailController implements PageController {
-  public static String path = "/auth/fail";
-
   @Override
   public String execute(HttpServletRequest request, HttpServletResponse response) {
     return "/auth/fail.jsp";

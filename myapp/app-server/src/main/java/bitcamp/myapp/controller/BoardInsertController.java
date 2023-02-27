@@ -15,10 +15,11 @@ import bitcamp.myapp.service.BoardService;
 import bitcamp.myapp.vo.Board;
 import bitcamp.myapp.vo.BoardFile;
 import bitcamp.myapp.vo.Member;
+import bitcamp.util.RequestMapping;
 
+@RequestMapping("/board/insert")
 public class BoardInsertController implements PageController {
 
-  public static String path = "/board/insert";
   private BoardService boardService;
 
   public BoardInsertController(BoardService boardService) {
