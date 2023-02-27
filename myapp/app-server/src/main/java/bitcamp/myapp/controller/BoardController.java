@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -30,12 +30,12 @@ public class BoardController {
   }
 
   @RequestMapping("/board/form")
-  public String form(HttpServletRequest request, HttpServletResponse response) {
+  public String form() {
     return "/board/form.jsp";
   }
 
   @RequestMapping("/board/insert")
-  public String insert(HttpServletRequest request, HttpServletResponse response) {
+  public String insert(HttpServletRequest request, HttpSession session) {
     try {
       DiskFileItemFactory factory = new DiskFileItemFactory();
       ServletFileUpload upload = new ServletFileUpload(factory);
@@ -55,7 +55,7 @@ public class BoardController {
       board.setTitle(paramMap.get("title"));
       board.setContent(paramMap.get("content"));
 
-      Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+      Member loginUser = (Member) session.getAttribute("loginUser");
       Member writer = new Member();
       writer.setNo(loginUser.getNo());
       board.setWriter(writer);
@@ -86,23 +86,23 @@ public class BoardController {
   }
 
   @RequestMapping("/board/list")
-  public String list(HttpServletRequest request, HttpServletResponse response) {
+  public String list(HttpServletRequest request) {
     request.setAttribute("boards",
         boardService.list(request.getParameter("keyword")));
     return "/board/list.jsp";
   }
 
   @RequestMapping("/board/view")
-  public String view(HttpServletRequest request, HttpServletResponse response) {
+  public String view(HttpServletRequest request) {
     request.setAttribute("board",
         boardService.get(Integer.parseInt(request.getParameter("no"))));
     return"/board/view.jsp";
   }
 
   @RequestMapping("/board/update")
-  public String update(HttpServletRequest request, HttpServletResponse response) {
+  public String update(HttpServletRequest request, HttpSession session) {
     try {
-      Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+      Member loginUser = (Member) session.getAttribute("loginUser");
 
       Board board = new Board();
       board.setNo(Integer.parseInt(request.getParameter("no")));
@@ -144,9 +144,9 @@ public class BoardController {
   }
 
   @RequestMapping("/board/delete")
-  public String delete(HttpServletRequest request, HttpServletResponse response) {
+  public String delete(HttpServletRequest request, HttpSession session) {
     try {
-      Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+      Member loginUser = (Member) session.getAttribute("loginUser");
       int boardNo = Integer.parseInt(request.getParameter("no"));
 
       Board old = boardService.get(boardNo);
@@ -163,9 +163,9 @@ public class BoardController {
   }
 
   @RequestMapping("/board/filedelete")
-  public String filedelete(HttpServletRequest request, HttpServletResponse response) {
+  public String filedelete(HttpServletRequest request, HttpSession session) {
 
-    Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+    Member loginUser = (Member) session.getAttribute("loginUser");
     int boardNo = Integer.parseInt(request.getParameter("boardNo"));
 
     Board old = boardService.get(boardNo);

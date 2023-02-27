@@ -22,12 +22,15 @@ public class AuthController {
   }
 
   @RequestMapping("/auth/form")
-  public String form(HttpServletRequest request, HttpServletResponse response) {
+  public String form() {
     return "/auth/form.jsp";
   }
 
   @RequestMapping("/auth/login")
-  public String login(HttpServletRequest request, HttpServletResponse response) {
+  public String login(
+      HttpServletRequest request,
+      HttpServletResponse response,
+      HttpSession session) {
 
     String usertype = request.getParameter("usertype");
     String email = request.getParameter("email");
@@ -55,7 +58,6 @@ public class AuthController {
     }
 
     if (member != null) {
-      HttpSession session = request.getSession();
       session.setAttribute("loginUser", member);
       return "redirect:../";
     } else {
@@ -66,13 +68,13 @@ public class AuthController {
   }
 
   @RequestMapping("/auth/logout")
-  public String logout(HttpServletRequest request, HttpServletResponse response) {
-    request.getSession().invalidate();
+  public String logout(HttpSession session) {
+    session.invalidate();
     return "redirect:../";
   }
 
   @RequestMapping("/auth/fail")
-  public String fail(HttpServletRequest request, HttpServletResponse response) {
+  public String fail() {
     return "/auth/fail.jsp";
   }
 
