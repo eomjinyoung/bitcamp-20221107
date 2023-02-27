@@ -10,6 +10,7 @@ import bitcamp.myapp.vo.Member;
 
 public class LoginController implements PageController {
 
+  public static String path = "/auth/login";
   private StudentService studentService;
   private TeacherService teacherService;
 

@@ -2,6 +2,9 @@ package bitcamp.myapp.listener;
 
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletContext;
@@ -10,39 +13,12 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import bitcamp.myapp.controller.AuthFailController;
-import bitcamp.myapp.controller.BoardDeleteController;
-import bitcamp.myapp.controller.BoardFileDeleteController;
-import bitcamp.myapp.controller.BoardFormController;
-import bitcamp.myapp.controller.BoardInsertController;
-import bitcamp.myapp.controller.BoardListController;
-import bitcamp.myapp.controller.BoardUpdateController;
-import bitcamp.myapp.controller.BoardViewController;
-import bitcamp.myapp.controller.DownloadController;
-import bitcamp.myapp.controller.LoginController;
-import bitcamp.myapp.controller.LoginFormController;
-import bitcamp.myapp.controller.LogoutController;
 import bitcamp.myapp.controller.PageController;
-import bitcamp.myapp.controller.StudentDeleteController;
-import bitcamp.myapp.controller.StudentFormController;
-import bitcamp.myapp.controller.StudentInsertController;
-import bitcamp.myapp.controller.StudentListController;
-import bitcamp.myapp.controller.StudentUpdateController;
-import bitcamp.myapp.controller.StudentViewController;
-import bitcamp.myapp.controller.TeacherDeleteController;
-import bitcamp.myapp.controller.TeacherFormController;
-import bitcamp.myapp.controller.TeacherInsertController;
-import bitcamp.myapp.controller.TeacherListController;
-import bitcamp.myapp.controller.TeacherUpdateController;
-import bitcamp.myapp.controller.TeacherViewController;
 import bitcamp.myapp.dao.BoardDao;
 import bitcamp.myapp.dao.BoardFileDao;
 import bitcamp.myapp.dao.MemberDao;
 import bitcamp.myapp.dao.StudentDao;
 import bitcamp.myapp.dao.TeacherDao;
-import bitcamp.myapp.service.BoardService;
-import bitcamp.myapp.service.StudentService;
-import bitcamp.myapp.service.TeacherService;
 import bitcamp.myapp.service.impl.DefaultBoardService;
 import bitcamp.myapp.service.impl.DefaultStudentService;
 import bitcamp.myapp.service.impl.DefaultTeacherService;
@@ -55,6 +31,7 @@ public class ContextLoaderListener implements ServletContextListener {
 
   List<Class<?>> controllerClasses = new ArrayList<>();
 
+  List<Object> servicePool = new ArrayList<>();
 
   @Override
   public void contextInitialized(ServletContextEvent sce) {
@@ -73,76 +50,33 @@ public class ContextLoaderListener implements ServletContextListener {
       TeacherDao teacherDao = new DaoGenerator(sqlSessionFactory).getObject(TeacherDao.class);
       BoardFileDao boardFileDao = new DaoGenerator(sqlSessionFactory).getObject(BoardFileDao.class);
 
-      BoardService boardService = new DefaultBoardService(txManager, boardDao, boardFileDao);
-      StudentService studentService = new DefaultStudentService(txManager, memberDao, studentDao);
-      TeacherService teacherService = new DefaultTeacherService(txManager, memberDao, teacherDao);
-
-      LoginFormController loginFormController = new LoginFormController();
-      LoginController loginController = new LoginController(studentService, teacherService);
-      LogoutController logoutController = new LogoutController();
-      AuthFailController authFailController = new AuthFailController();
-
-      BoardListController boardListController = new BoardListController(boardService);
-      BoardFormController boardFormController = new BoardFormController();
-      BoardInsertController boardInsertController = new BoardInsertController(boardService);
-      BoardViewController boardViewController = new BoardViewController(boardService);
-      BoardUpdateController boardUpdateController = new BoardUpdateController(boardService);
-      BoardDeleteController boardDeleteController = new BoardDeleteController(boardService);
-      BoardFileDeleteController boardFileDeleteController = new BoardFileDeleteController(boardService);
-
-      StudentListController studentListController = new StudentListController(studentService);
-      StudentFormController studentFormController = new StudentFormController();
-      StudentInsertController studentInsertController = new StudentInsertController(studentService);
-      StudentViewController studentViewController = new StudentViewController(studentService);
-      StudentUpdateController studentUpdateController = new StudentUpdateController(studentService);
-      StudentDeleteController studentDeleteController = new StudentDeleteController(studentService);
-
-      TeacherListController teacherListController = new TeacherListController(teacherService);
-      TeacherFormController teacherFormController = new TeacherFormController();
-      TeacherInsertController teacherInsertController = new TeacherInsertController(teacherService);
-      TeacherViewController teacherViewController = new TeacherViewController(teacherService);
-      TeacherUpdateController teacherUpdateController = new TeacherUpdateController(teacherService);
-      TeacherDeleteController teacherDeleteController = new TeacherDeleteController(teacherService);
-
-      DownloadController downloadController = new DownloadController(boardService);
+      servicePool.add(new DefaultBoardService(txManager, boardDao, boardFileDao));
+      servicePool.add(new DefaultStudentService(txManager, memberDao, studentDao));
+      servicePool.add(new DefaultTeacherService(txManager, memberDao, teacherDao));
 
       // 서블릿 컨텍스트 보관소를 알아낸다.
       ServletContext ctx = sce.getServletContext();
 
       // 프론트 컨트롤러가 사용할 페이지 컨트롤러를 보관한다.
-      ctx.setAttribute("/auth/form", loginFormController);
-      ctx.setAttribute("/auth/login", loginController);
-      ctx.setAttribute("/auth/logout", logoutController);
-      ctx.setAttribute("/auth/fail", authFailController);
-
-      ctx.setAttribute("/board/list", boardListController);
-      ctx.setAttribute("/board/form", boardFormController);
-      ctx.setAttribute("/board/insert", boardInsertController);
-      ctx.setAttribute("/board/view", boardViewController);
-      ctx.setAttribute("/board/update", boardUpdateController);
-      ctx.setAttribute("/board/delete", boardDeleteController);
-      ctx.setAttribute("/board/filedelete", boardFileDeleteController);
-
-      ctx.setAttribute("/student/list", studentListController);
-      ctx.setAttribute("/student/form", studentFormController);
-      ctx.setAttribute("/student/insert", studentInsertController);
-      ctx.setAttribute("/student/view", studentViewController);
-      ctx.setAttribute("/student/update", studentUpdateController);
-      ctx.setAttribute("/student/delete", studentDeleteController);
-
-      ctx.setAttribute("/teacher/list", teacherListController);
-      ctx.setAttribute("/teacher/form", teacherFormController);
-      ctx.setAttribute("/teacher/insert", teacherInsertController);
-      ctx.setAttribute("/teacher/view", teacherViewController);
-      ctx.setAttribute("/teacher/update", teacherUpdateController);
-      ctx.setAttribute("/teacher/delete", teacherDeleteController);
-
-      ctx.setAttribute("/download/boardfile", downloadController);
+      //      ctx.setAttribute("/student/list", studentListController);
+      //      ctx.setAttribute("/student/form", studentFormController);
+      //      ctx.setAttribute("/student/insert", studentInsertController);
+      //      ctx.setAttribute("/student/view", studentViewController);
+      //      ctx.setAttribute("/student/update", studentUpdateController);
+      //      ctx.setAttribute("/student/delete", studentDeleteController);
+      //
+      //      ctx.setAttribute("/teacher/list", teacherListController);
+      //      ctx.setAttribute("/teacher/form", teacherFormController);
+      //      ctx.setAttribute("/teacher/insert", teacherInsertController);
+      //      ctx.setAttribute("/teacher/view", teacherViewController);
+      //      ctx.setAttribute("/teacher/update", teacherUpdateController);
+      //      ctx.setAttribute("/teacher/delete", teacherDeleteController);
 
       // 웹 애플리케이션 클래스가 배치되어 있는 폴더 알아내기
       findPageController(new File(ctx.getRealPath("/WEB-INF/classes")), "");
 
-
+      // 페이지 컨트롤러의 인스턴스 생성하기
+      createPageControllers(ctx);
 
     } catch (Exception e) {
       System.out.println("웹 애플리케이션 자원을 준비하는 중에 오류 발생!");
@@ -163,16 +97,49 @@ public class ContextLoaderListener implements ServletContextListener {
         findPageController(file, qName);
       } else {
         Class<?> clazz = Class.forName(qName.replace(".class", ""));
+        if (clazz.isInterface()) { // 인터페이스는 제외
+          continue;
+        }
         Class<?>[] interfaces = clazz.getInterfaces();
         for (Class<?> c : interfaces) {
           if (c == PageController.class) {
-            controllerClasses.add(c);
+            controllerClasses.add(clazz);
             break;
           }
         }
       }
     }
   }
+
+  private void createPageControllers(ServletContext ctx) throws Exception {
+    for (Class<?> c : controllerClasses) {
+      Constructor<?> constructor = c.getConstructors()[0];
+      Parameter[] params = constructor.getParameters();
+      Object[] arguments = prepareArguments(params);
+      Object controller = constructor.newInstance(arguments);
+
+      try {
+        Field field = c.getDeclaredField("path");
+        ctx.setAttribute((String) field.get(null), controller);
+      } catch (Exception e) {}
+
+    }
+  }
+
+  private Object[] prepareArguments(Parameter[] params) {
+    Object[] arguments = new Object[params.length];
+    for (int i = 0; i < params.length; i++) {
+      for (Object obj : servicePool) {
+        if (params[i].getType().isInstance(obj)) {
+          arguments[i] = obj;
+          break;
+        }
+      }
+    }
+    return arguments;
+  }
+
+
 }
 
 

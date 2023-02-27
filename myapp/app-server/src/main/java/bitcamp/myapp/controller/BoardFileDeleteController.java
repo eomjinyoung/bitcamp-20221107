@@ -8,6 +8,7 @@ import bitcamp.myapp.vo.Member;
 
 public class BoardFileDeleteController implements PageController {
 
+  public static String path = "/board/filedelete";
   private BoardService boardService;
 
   public BoardFileDeleteController(BoardService boardService) {

@@ -11,6 +11,7 @@ import bitcamp.myapp.vo.BoardFile;
 
 public class DownloadController implements PageController {
 
+  public static String path = "/download/boardfile";
   private BoardService boardService;
 
   public DownloadController(BoardService boardService) {

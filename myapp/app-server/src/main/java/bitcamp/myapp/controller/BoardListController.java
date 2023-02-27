@@ -6,6 +6,7 @@ import bitcamp.myapp.service.BoardService;
 
 public class BoardListController implements PageController {
 
+  public static String path = "/board/list";
   private BoardService boardService;
 
   public BoardListController(BoardService boardService) {

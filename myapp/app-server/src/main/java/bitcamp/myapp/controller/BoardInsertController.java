@@ -18,6 +18,7 @@ import bitcamp.myapp.vo.Member;
 
 public class BoardInsertController implements PageController {
 
+  public static String path = "/board/insert";
   private BoardService boardService;
 
   public BoardInsertController(BoardService boardService) {

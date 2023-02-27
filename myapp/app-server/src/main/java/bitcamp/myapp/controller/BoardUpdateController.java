@@ -14,6 +14,7 @@ import bitcamp.myapp.vo.Member;
 
 public class BoardUpdateController implements PageController {
 
+  public static String path = "/board/update";
   private BoardService boardService;
 
   public BoardUpdateController(BoardService boardService) {
