@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TeacherDao">
+
+  <resultMap type="teacher" id="teacherMap">
+    <id column="member_id" property="no"/>
+    <result column="name" property="name"/>
+    <result column="email" property="email"/>
+    <result column="tel" property="tel"/>
+    <result column="created_date" property="createdDate"/>
+    <result column="degree" property="degree"/>
+    <result column="school" property="school"/>
+    <result column="major" property="major"/>
+    <result column="wage" property="wage"/>
+  </resultMap>
+  
+  <insert id="insert" parameterType="teacher" >
+    insert into app_teacher(
+      member_id,
+      degree,
+      school,
+      major,
+      wage)
+    values(#{no},#{degree},#{school},#{major},#{wage})
+  </insert>
+
+  <select id="findAll" resultMap="teacherMap">
+    select
+      m.member_id,
+      m.name,
+      m.tel,
+      t.degree,
+      t.major,
+      t.wage
+    from 
+      app_teacher t
+      inner join app_member m on t.member_id = m.member_id
+    order by
+      m.name asc
+  </select>
+
+  <select id="findByNo" parameterType="int" resultMap="teacherMap">
+    select
+      m.member_id,
+      m.name,
+      m.email,
+      m.tel,
+      m.created_date,
+      t.degree,
+      t.school,
+      t.major,
+      t.wage
+    from 
+      app_teacher t
+      inner join app_member m on t.member_id = m.member_id
+    where m.member_id=#{no}
+  </select>
+  
+  <select id="findByEmailAndPassword" parameterType="map" resultMap="teacherMap">
+    select
+      m.member_id,
+      m.name,
+      m.email,
+      m.tel,
+      m.created_date,
+      t.degree,
+      t.school,
+      t.major,
+      t.wage
+    from 
+      app_teacher t
+      inner join app_member m on t.member_id = m.member_id
+    where 
+      m.email = #{email}
+      and m.pwd = sha2(#{password},256)
+  </select>
+  
+  <update id="update" parameterType="teacher">
+    update app_teacher set
+      degree=#{degree},
+      school=#{school},
+      major=#{major},
+      wage=#{wage}
+    where member_id=#{no}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    delete from app_teacher
+    where member_id=#{no}
+  </delete>
+</mapper>
+
+
+
+
+
