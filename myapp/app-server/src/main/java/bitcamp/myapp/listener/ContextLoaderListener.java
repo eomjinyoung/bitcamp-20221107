@@ -1,6 +1,9 @@
 package bitcamp.myapp.listener;
 
+import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -19,6 +22,7 @@ import bitcamp.myapp.controller.DownloadController;
 import bitcamp.myapp.controller.LoginController;
 import bitcamp.myapp.controller.LoginFormController;
 import bitcamp.myapp.controller.LogoutController;
+import bitcamp.myapp.controller.PageController;
 import bitcamp.myapp.controller.StudentDeleteController;
 import bitcamp.myapp.controller.StudentFormController;
 import bitcamp.myapp.controller.StudentInsertController;
@@ -48,6 +52,10 @@ import bitcamp.util.TransactionManager;
 
 @WebListener
 public class ContextLoaderListener implements ServletContextListener {
+
+  List<Class<?>> controllerClasses = new ArrayList<>();
+
+
   @Override
   public void contextInitialized(ServletContextEvent sce) {
     try {
@@ -131,15 +139,44 @@ public class ContextLoaderListener implements ServletContextListener {
 
       ctx.setAttribute("/download/boardfile", downloadController);
 
+      // 웹 애플리케이션 클래스가 배치되어 있는 폴더 알아내기
+      findPageController(new File(ctx.getRealPath("/WEB-INF/classes")), "");
+
+
+
     } catch (Exception e) {
       System.out.println("웹 애플리케이션 자원을 준비하는 중에 오류 발생!");
       e.printStackTrace();
     }
   }
 
-  @Override
-  public void contextDestroyed(ServletContextEvent sce) {
-    // 웹 애플리케이션이 종료될 때 서블릿 컨테이너가 호출한다.
-    System.out.println("ContextLoaderListener.contextDestroyed() 호출됨!");
+  private void findPageController(File dir, String packageName) throws Exception {
+    File[] files = dir.listFiles(file -> file.isDirectory() || file.getName().endsWith(".class"));
+
+    if (packageName.length() > 0) {
+      packageName += ".";
+    }
+
+    for (File file : files) {
+      String qName = packageName + file.getName(); // 패키지명 + 파일명  예) bitcamp.myapp.vo
+      if (file.isDirectory()) {
+        findPageController(file, qName);
+      } else {
+        Class<?> clazz = Class.forName(qName.replace(".class", ""));
+        Class<?>[] interfaces = clazz.getInterfaces();
+        for (Class<?> c : interfaces) {
+          if (c == PageController.class) {
+            controllerClasses.add(c);
+            break;
+          }
+        }
+      }
+    }
   }
 }
+
+
+
+
+
+
