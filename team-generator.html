@@ -76,6 +76,7 @@ function buildTeam(size) {
         }
 
         var li = document.createElement("li");
+        teamList.appendChild(li);
 
         for (var i = 0; i < size && count < names.length; i++) {
             var student = selectedStudent();
@@ -84,8 +85,6 @@ function buildTeam(size) {
             }
             li.innerHTML += student;
         }
-        teamList.appendChild(li);
-
     }, 1000);
 }
 
