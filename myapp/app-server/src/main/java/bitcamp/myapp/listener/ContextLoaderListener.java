@@ -3,6 +3,7 @@ package bitcamp.myapp.listener;
 import java.io.File;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ import bitcamp.myapp.service.impl.DefaultTeacherService;
 import bitcamp.util.BitcampSqlSessionFactory;
 import bitcamp.util.Controller;
 import bitcamp.util.DaoGenerator;
+import bitcamp.util.RequestHandlerMapping;
 import bitcamp.util.RequestMapping;
 import bitcamp.util.TransactionManager;
 
@@ -101,9 +103,14 @@ public class ContextLoaderListener implements ServletContextListener {
       Object[] arguments = prepareArguments(params);
       Object controller = constructor.newInstance(arguments);
 
-      RequestMapping anno = c.getAnnotation(RequestMapping.class);
-      if (anno != null) {
-        ctx.setAttribute(anno.value(), controller);
+      // 페이지 컨트롤러에서 RequestMapping 애노테이션이 붙은 메서드를 찾아
+      // ServletContext 보관소에 저장한다.
+      Method[] methods = c.getDeclaredMethods();
+      for (Method m : methods) {
+        RequestMapping anno = m.getAnnotation(RequestMapping.class);
+        if (anno == null) continue;
+        ctx.setAttribute(anno.value(), new RequestHandlerMapping(controller, m));
+        System.out.println(c.getName() + "." + m.getName() + "() 요청 핸들러 등록!");
       }
 
     }
