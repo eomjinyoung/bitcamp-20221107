@@ -4,10 +4,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import bitcamp.myapp.service.TeacherService;
 import bitcamp.myapp.vo.Teacher;
+import bitcamp.util.RequestMapping;
 
+@RequestMapping("/teacher/update")
 public class TeacherUpdateController implements PageController {
 
-  public static String path = "/teacher/update";
   private TeacherService teacherService;
 
   public TeacherUpdateController(TeacherService teacherService) {

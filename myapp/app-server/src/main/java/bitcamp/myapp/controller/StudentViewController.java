@@ -3,10 +3,11 @@ package bitcamp.myapp.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import bitcamp.myapp.service.StudentService;
+import bitcamp.util.RequestMapping;
 
+@RequestMapping("/student/view")
 public class StudentViewController implements PageController {
 
-  public static String path = "/student/view";
   private StudentService studentService;
 
   public StudentViewController(StudentService studentService) {

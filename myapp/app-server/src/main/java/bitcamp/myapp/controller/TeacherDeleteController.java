@@ -3,10 +3,11 @@ package bitcamp.myapp.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import bitcamp.myapp.service.TeacherService;
+import bitcamp.util.RequestMapping;
 
+@RequestMapping("/teacher/delete")
 public class TeacherDeleteController implements PageController {
 
-  public static String path = "/teacher/delete";
   private TeacherService teacherService;
 
   public TeacherDeleteController(TeacherService teacherService) {
