@@ -36,6 +36,7 @@ eclipse {
         facet {
             //you can add some extra wtp facets or update existing ones; mandatory keys: 'name', 'version':
             facet name: 'jst.java', version: '17'
+            facet name: 'jst.web', version: '4.0'
         }
         component {
             //you can configure the context path:
