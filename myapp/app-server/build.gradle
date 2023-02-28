@@ -53,7 +53,6 @@ repositories {
 }
 
 dependencies {
-
     // Spring WebMVC 라이브러리
     // => spring-web, spring-context에 의존한다.
     // => JavaEE8(Servlet 4.0.1) 버전의 서블릿 컨테이너를 실행할 경우 5.x 버전을 사용해야 한다.

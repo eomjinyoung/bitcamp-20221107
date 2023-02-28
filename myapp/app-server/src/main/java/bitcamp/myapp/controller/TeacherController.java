@@ -1,113 +1,66 @@
 package bitcamp.myapp.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import bitcamp.myapp.service.TeacherService;
 import bitcamp.myapp.vo.Teacher;
 
 @Controller
+@RequestMapping("/teacher")
 public class TeacherController {
 
   @Autowired private TeacherService teacherService;
 
-  @RequestMapping("/teacher/form")
+  @GetMapping("form")
   public String form() {
     return "/teacher/form.jsp";
   }
 
-  @RequestMapping("/teacher/insert")
-  public String insert(
-      @RequestParam("name") String name,
-      @RequestParam("email") String email,
-      @RequestParam("password") String password,
-      @RequestParam("tel") String tel,
-      @RequestParam("degree") int degree,
-      @RequestParam("school") String school,
-      @RequestParam("major") String major,
-      @RequestParam("wage") int wage,
-      HttpServletRequest request) {
-
-    Teacher teacher = new Teacher();
-    teacher.setName(name);
-    teacher.setEmail(email);
-    teacher.setPassword(password);
-    teacher.setTel(tel);
-    teacher.setDegree(degree);
-    teacher.setSchool(school);
-    teacher.setMajor(major);
-    teacher.setWage(wage);
-
+  @PostMapping("insert")
+  public String insert(Teacher teacher, Model model) {
     try {
       teacherService.add(teacher);
-
     } catch (Exception e) {
       e.printStackTrace();
-      request.setAttribute("error", "other");
+      model.addAttribute("error", "other");
     }
     return "/teacher/insert.jsp";
   }
 
-  @RequestMapping("/teacher/list")
-  public String list(HttpServletRequest request) {
-    request.setAttribute("teachers", teacherService.list());
+  @GetMapping("list")
+  public String list(Model model) {
+    model.addAttribute("teachers", teacherService.list());
     return "/teacher/list.jsp";
   }
 
-  @RequestMapping("/teacher/view")
-  public String view(
-      @RequestParam("no") int no,
-      HttpServletRequest request, HttpServletResponse response) {
-
-    request.setAttribute("teacher", teacherService.get(no));
+  @GetMapping("view")
+  public String view(int no, Model model) {
+    model.addAttribute("teacher", teacherService.get(no));
     return "/teacher/view.jsp";
   }
 
-  @RequestMapping("/teacher/update")
-  public String update(
-      @RequestParam("no") int no,
-      @RequestParam("name") String name,
-      @RequestParam("email") String email,
-      @RequestParam("password") String password,
-      @RequestParam("tel") String tel,
-      @RequestParam("degree") int degree,
-      @RequestParam("school") String school,
-      @RequestParam("major") String major,
-      @RequestParam("wage") int wage,
-      HttpServletRequest request) {
-
-    Teacher teacher = new Teacher();
-    teacher.setNo(no);
-    teacher.setName(name);
-    teacher.setEmail(email);
-    teacher.setPassword(password);
-    teacher.setTel(tel);
-    teacher.setDegree(degree);
-    teacher.setSchool(school);
-    teacher.setMajor(major);
-    teacher.setWage(wage);
-
+  @PostMapping("update")
+  public String update(Teacher teacher, Model model) {
     try {
       teacherService.update(teacher);
     } catch (Exception e) {
       e.printStackTrace();
-      request.setAttribute("error", "other");
+      model.addAttribute("error", "other");
     }
     return "/teacher/update.jsp";
   }
 
-  @RequestMapping("/teacher/delete")
-  public String delete(
-      @RequestParam("no") int no,
-      HttpServletRequest request) {
+  @PostMapping("delete")
+  public String delete(int no, Model model) {
     try {
-      teacherService.delete(Integer.parseInt(request.getParameter("no")));
+      teacherService.delete(no);
     } catch (Exception e) {
       e.printStackTrace();
-      request.setAttribute("error", "other");
+      model.addAttribute("error", "other");
     }
     return "/teacher/delete.jsp";
   }

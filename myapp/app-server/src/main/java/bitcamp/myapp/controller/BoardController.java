@@ -33,8 +33,10 @@ public class BoardController {
 
   @PostMapping("insert")
   public String insert(
-      Board board,
-      //Part[] files,
+      //      Board board,
+      String title,
+      String content,
+      Part[] files,
       Model model, // ServletRequest 보관소에 저장할 값을 담는 임시 저장소
       // 이 객체에 값을 담아 두면 프론트 컨트롤러(DispatcherServlet)가
       // ServletRequest 보관소로 옮겨 담을 것이다.
@@ -42,16 +44,15 @@ public class BoardController {
     try {
       Member loginUser = (Member) session.getAttribute("loginUser");
 
-      //      Board board = new Board();
-      //      board.setTitle(title);
-      //      board.setContent(content);
+      Board board = new Board();
+      board.setTitle(title);
+      board.setContent(content);
 
       Member writer = new Member();
       writer.setNo(loginUser.getNo());
       board.setWriter(writer);
 
       List<BoardFile> boardFiles = new ArrayList<>();
-      /*
       for (Part part : files) {
         if (part.getSize() == 0) {
           continue;
@@ -66,7 +67,6 @@ public class BoardController {
         boardFile.setMimeType(part.getContentType());
         boardFiles.add(boardFile);
       }
-       */
       board.setAttachedFiles(boardFiles);
 
       boardService.add(board);
@@ -92,12 +92,20 @@ public class BoardController {
 
   @PostMapping("update")
   public String update(
-      Board board,
+      //      Board board,
+      int no,
+      String title,
+      String content,
       Part[] files,
       Model model,
       HttpSession session) {
     try {
       Member loginUser = (Member) session.getAttribute("loginUser");
+
+      Board board = new Board();
+      board.setNo(no);
+      board.setTitle(title);
+      board.setContent(content);
 
       Board old = boardService.get(board.getNo());
       if (old.getWriter().getNo() != loginUser.getNo()) {
