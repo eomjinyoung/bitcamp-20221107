@@ -52,6 +52,14 @@ repositories {
 }
 
 dependencies {
+
+    // Spring Web 라이브러리
+    implementation 'org.springframework:spring-web:6.0.5'
+
+    // Spring IoC 컨테이너 
+    implementation 'org.springframework:spring-context:6.0.5'
+
+    // Google JSON 라이브러리 
     implementation 'com.google.code.gson:gson:2.10.1'
     
     // MariaDB JDBC 드라이버

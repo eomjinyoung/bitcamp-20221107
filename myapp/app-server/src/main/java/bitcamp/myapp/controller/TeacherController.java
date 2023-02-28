@@ -2,11 +2,11 @@ package bitcamp.myapp.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import bitcamp.myapp.service.TeacherService;
 import bitcamp.myapp.vo.Teacher;
-import bitcamp.util.Controller;
-import bitcamp.util.RequestMapping;
-import bitcamp.util.RequestParam;
 
 @Controller
 public class TeacherController {

@@ -6,13 +6,13 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import bitcamp.myapp.service.BoardService;
 import bitcamp.myapp.vo.Board;
 import bitcamp.myapp.vo.BoardFile;
 import bitcamp.myapp.vo.Member;
-import bitcamp.util.Controller;
-import bitcamp.util.RequestMapping;
-import bitcamp.util.RequestParam;
 
 @Controller
 public class BoardController {

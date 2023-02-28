@@ -5,8 +5,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
-import javax.servlet.ServletContext;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -18,13 +19,45 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import bitcamp.myapp.config.AppConfig;
 import bitcamp.util.RequestHandlerMapping;
-import bitcamp.util.RequestParam;
 
 @MultipartConfig(maxFileSize = 1024 * 1024 * 50)
-@WebServlet("/app/*")
+@WebServlet(
+    value = "/app/*", // 서블릿의 요청 URL
+    loadOnStartup = 1 // 웹애플리케이션이 시작되었을 때 즉시 생성하도록 설정
+    )
 public class DispatcherServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
+
+  ApplicationContext appCtx;
+  Map<String,RequestHandlerMapping> requestHandlerMap = new HashMap<>();
+
+  @Override
+  public void init() throws ServletException {
+    try {
+      // 프론트 컨트롤러가 사용할 페이지 컨트롤러 준비
+      appCtx = new AnnotationConfigApplicationContext(AppConfig.class);
+
+      // 스프링 IoC 컨테이너에 등록된 객체들
+      String[] beanNames = appCtx.getBeanDefinitionNames();
+      for (String beanName : beanNames) {
+        System.out.printf("%s ==> %s\n", beanName, appCtx.getBean(beanName).getClass().getName());
+      }
+
+      // 요청 핸들러 준비하기
+      prepareRequestHandlers();
+
+    } catch (Exception e) {
+      System.out.println("객체 준비 중 오류 발생!");
+      e.printStackTrace();
+    }
+  }
 
   @Override
   public void service(HttpServletRequest request, HttpServletResponse response)
@@ -42,10 +75,8 @@ public class DispatcherServlet extends HttpServlet {
         return;
       }
 
-      ServletContext ctx = getServletContext();
-
       // 클라이언트가 요청한 URL을 가지고 페이지 컨트롤러의 요청 핸들러를 찾는다.
-      RequestHandlerMapping requestHandlerMapping = (RequestHandlerMapping) ctx.getAttribute(pathInfo);
+      RequestHandlerMapping requestHandlerMapping = requestHandlerMap.get(pathInfo);
       if (requestHandlerMapping == null) {
         request.getRequestDispatcher("/NotFoundController.jsp").forward(request, response);
         return;
@@ -140,6 +171,20 @@ public class DispatcherServlet extends HttpServlet {
       }
     }
     return arguments;
+  }
+
+  private void prepareRequestHandlers() throws Exception {
+    String[] controllerNames = appCtx.getBeanNamesForAnnotation(Controller.class);
+    for (String controllerName : controllerNames) {
+      Object controller = appCtx.getBean(controllerName);
+      Method[] methods = controller.getClass().getDeclaredMethods();
+      for (Method m : methods) {
+        RequestMapping anno = m.getAnnotation(RequestMapping.class);
+        if (anno == null) continue;
+        requestHandlerMap.put(anno.value()[0], new RequestHandlerMapping(controller, m));
+        System.out.println(controller.getClass().getName() + "." + m.getName() + "() 요청 핸들러 등록!");
+      }
+    }
   }
 }
 

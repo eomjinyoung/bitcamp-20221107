@@ -1,6 +1,7 @@
 package bitcamp.myapp.service.impl;
 
 import java.util.List;
+import org.springframework.stereotype.Service;
 import bitcamp.myapp.dao.BoardDao;
 import bitcamp.myapp.dao.BoardFileDao;
 import bitcamp.myapp.service.BoardService;
@@ -8,6 +9,7 @@ import bitcamp.myapp.vo.Board;
 import bitcamp.myapp.vo.BoardFile;
 import bitcamp.util.TransactionManager;
 
+@Service
 public class DefaultBoardService implements BoardService {
 
   private TransactionManager txManager;
