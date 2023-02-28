@@ -53,11 +53,16 @@ repositories {
 
 dependencies {
 
+    // Spring WebMVC 라이브러리
+    // => spring-web, spring-context에 의존한다.
+    // => JavaEE8(Servlet 4.0.1) 버전의 서블릿 컨테이너를 실행할 경우 5.x 버전을 사용해야 한다.
+    implementation 'org.springframework:spring-webmvc:5.3.25'
+    
     // Spring Web 라이브러리
-    implementation 'org.springframework:spring-web:6.0.5'
+    //implementation 'org.springframework:spring-web:6.0.5'
 
     // Spring IoC 컨테이너 
-    implementation 'org.springframework:spring-context:6.0.5'
+    //implementation 'org.springframework:spring-context:6.0.5'
 
     // Google JSON 라이브러리 
     implementation 'com.google.code.gson:gson:2.10.1'
