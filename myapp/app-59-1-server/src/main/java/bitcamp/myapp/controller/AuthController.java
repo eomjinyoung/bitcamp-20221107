@@ -4,6 +4,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,13 +15,8 @@ import bitcamp.myapp.vo.Member;
 @Controller
 public class AuthController {
 
-  private StudentService studentService;
-  private TeacherService teacherService;
-
-  public AuthController(StudentService studentService, TeacherService teacherService) {
-    this.studentService = studentService;
-    this.teacherService = teacherService;
-  }
+  @Autowired private StudentService studentService;
+  @Autowired private TeacherService teacherService;
 
   @RequestMapping("/auth/form")
   public String form() {

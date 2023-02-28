@@ -6,6 +6,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,11 +18,7 @@ import bitcamp.myapp.vo.Member;
 @Controller
 public class BoardController {
 
-  private BoardService boardService;
-
-  public BoardController(BoardService boardService) {
-    this.boardService = boardService;
-  }
+  @Autowired private BoardService boardService;
 
   @RequestMapping("/board/form")
   public String form() {

@@ -1,6 +1,7 @@
 package bitcamp.myapp.service.impl;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import bitcamp.myapp.dao.BoardDao;
 import bitcamp.myapp.dao.BoardFileDao;
@@ -12,15 +13,9 @@ import bitcamp.util.TransactionManager;
 @Service
 public class DefaultBoardService implements BoardService {
 
-  private TransactionManager txManager;
-  private BoardDao boardDao;
-  private BoardFileDao boardFileDao;
-
-  public DefaultBoardService(TransactionManager txManager, BoardDao boardDao, BoardFileDao boardFileDao) {
-    this.txManager = txManager;
-    this.boardDao = boardDao;
-    this.boardFileDao = boardFileDao;
-  }
+  @Autowired private TransactionManager txManager;
+  @Autowired private BoardDao boardDao;
+  @Autowired private BoardFileDao boardFileDao;
 
   @Override
   public void add(Board board) {

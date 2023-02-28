@@ -2,6 +2,7 @@ package bitcamp.myapp.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,11 +12,7 @@ import bitcamp.myapp.vo.Teacher;
 @Controller
 public class TeacherController {
 
-  private TeacherService teacherService;
-
-  public TeacherController(TeacherService teacherService) {
-    this.teacherService = teacherService;
-  }
+  @Autowired private TeacherService teacherService;
 
   @RequestMapping("/teacher/form")
   public String form() {
