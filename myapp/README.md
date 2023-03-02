@@ -291,5 +291,6 @@
 
 ### 60. Spring WebMVC 프론트 컨트롤러 도입하기
   - Spring WebMVC 프레임워크에서 제공하는 DispatcherServlet 사용법
-
+  - Spring WebMVC에서 mutipart/form-data 요청 처리를 설정하는 방법
+  - Mybatis와 Spring IoC 컨테이너를 연동하는 방법
   

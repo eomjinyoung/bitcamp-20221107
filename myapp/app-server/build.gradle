@@ -73,6 +73,12 @@ dependencies {
     // Mybatis SQL Mapper 라이브러리
     implementation 'org.mybatis:mybatis:3.5.11'
     
+    // Mybatis-Spring 연동 라이브러리
+    implementation 'org.mybatis:mybatis-spring:3.0.1'
+    
+    // Spring JDBC 연동 라이브러리
+    implementation 'org.springframework:spring-jdbc:5.3.25'
+    
     // Servlet API 라이브러리
     // - 이 라이브러리는 개발하는 동안만 사용한다.
     //   즉 컴파일하거나 빌드할 때만 사용한다.
