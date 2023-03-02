@@ -13,6 +13,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 
@@ -26,6 +27,9 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 
 // Mybatis-Spring 라이브러리에 있는 클래스를 사용하여 DAO 인터페이스의 구현체를 자동 생성하기
 @MapperScan("bitcamp.myapp.dao")
+
+// @Transactional 애노테이션으로 트랜잭션을 제어하려면 다음 애노테이션을 이용하여 설정해야 한다.
+@EnableTransactionManagement
 
 public class AppConfig {
 
