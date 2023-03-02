@@ -4,12 +4,11 @@ import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -34,16 +33,46 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 public class AppConfig {
 
   // 시스템 property 값 가져오기
-  @Autowired Environment env;
+  //  @Autowired Environment env;
 
   // DB 커넥셕풀 객체 준비
+  //  @Bean
+  //  public DataSource dataSource() {
+  //    DriverManagerDataSource ds = new DriverManagerDataSource();
+  //    ds.setDriverClassName(env.getProperty("jdbc.driver"));
+  //    ds.setUrl(env.getProperty("jdbc.url"));
+  //    ds.setUsername(env.getProperty("jdbc.username"));
+  //    ds.setPassword(env.getProperty("jdbc.password"));
+  //    return ds;
+  //  }
+
+  // .properties 파일에 있는 값을 낱개로 주입받기
+  //  @Value("${jdbc.driver}") String jdbcDriver;
+  //  @Value("${jdbc.url}") String url;
+  //  @Value("${jdbc.username}") String username;
+  //  @Value("${jdbc.password}") String password;
+  //
+  //  @Bean
+  //  public DataSource dataSource() {
+  //    DriverManagerDataSource ds = new DriverManagerDataSource();
+  //    ds.setDriverClassName(jdbcDriver);
+  //    ds.setUrl(url);
+  //    ds.setUsername(username);
+  //    ds.setPassword(password);
+  //    return ds;
+  //  }
+
   @Bean
-  public DataSource dataSource() {
+  public DataSource dataSource(
+      @Value("${jdbc.driver}") String jdbcDriver,
+      @Value("${jdbc.url}") String url,
+      @Value("${jdbc.username}") String username,
+      @Value("${jdbc.password}") String password) {
     DriverManagerDataSource ds = new DriverManagerDataSource();
-    ds.setDriverClassName(env.getProperty("jdbc.driver"));
-    ds.setUrl(env.getProperty("jdbc.url"));
-    ds.setUsername(env.getProperty("jdbc.username"));
-    ds.setPassword(env.getProperty("jdbc.password"));
+    ds.setDriverClassName(jdbcDriver);
+    ds.setUrl(url);
+    ds.setUsername(username);
+    ds.setPassword(password);
     return ds;
   }
 

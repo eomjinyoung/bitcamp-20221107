@@ -297,3 +297,7 @@
 
 ### 60-2. Spring WebMVC 프론트 컨트롤러 도입하기
   - 트랜잭션을 다루는 방법(애노테이션으로 제어)
+  - @PropertySource와 @Value 사용법
+  - 프론트 컨트롤러를 등록하는 방법
+    - SevletContextListener 를 이용하여 등록
+    - 
