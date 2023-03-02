@@ -304,4 +304,4 @@
     - AbstractDispatcherServletInitializer 를 이용하여 등록
     - AbstractAnnotationConfigDispatcherServletInitializer 를 이용하여 등록
   - 필터를 삽입하는 방법
-  - JSP 파일의 위치를 변경하는 이유와 방법
+  - JSP 파일의 위치를 변경하는 이유와 방법: InternalResourceViewResolver 사용법
