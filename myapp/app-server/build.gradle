@@ -84,7 +84,8 @@ dependencies {
     implementation 'javax.servlet:jstl:1.2'
     
     // multipart/form-data 처리 라이브러리
-    implementation 'commons-fileupload:commons-fileupload:1.5'
+    // => Servlet 3.0 API에서 제공하는 멀티파트 처리 기능을 사용한다면 이 라이브러리는 필요없다. 
+    //implementation 'commons-fileupload:commons-fileupload:1.5'
     
     implementation 'com.google.guava:guava:31.1-jre'
     testImplementation 'junit:junit:4.13.2'
