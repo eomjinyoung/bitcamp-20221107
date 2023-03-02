@@ -289,8 +289,11 @@
   - @Bean 을 이용하여 메서드 리턴 값을 컨테이너에 보관하는 방법
   - @ComponentScan 을 이용하여 IoC 컨테이너가 관리할 패키지 영역을 지정하는 방법
 
-### 60. Spring WebMVC 프론트 컨트롤러 도입하기
+### 60-1. Spring WebMVC 프론트 컨트롤러 도입하기
   - Spring WebMVC 프레임워크에서 제공하는 DispatcherServlet 사용법
   - Spring WebMVC에서 mutipart/form-data 요청 처리를 설정하는 방법
   - Mybatis와 Spring IoC 컨테이너를 연동하는 방법
-  
+  - 트랜잭션을 다루는 방법(자바 코드로 직접 제어)
+
+### 60-2. Spring WebMVC 프론트 컨트롤러 도입하기
+  - 트랜잭션을 다루는 방법(애노테이션으로 제어)
