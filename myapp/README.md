@@ -305,3 +305,10 @@
     - AbstractAnnotationConfigDispatcherServletInitializer 를 이용하여 등록
   - 필터를 삽입하는 방법
   - JSP 파일의 위치를 변경하는 이유와 방법: InternalResourceViewResolver 사용법
+
+### 60-3. Spring WebMVC 프론트 컨트롤러 도입하기
+  - 공용 객체와 웹 관련 객체를 구분해 관리하는 방법: Root vs Servlet WebApplicationContext
+
+### 61. Tiles와 Thymleaf 뷰 기술 사용하기
+  - JSP에 Tiles 뷰 기술을 적용하는 방법
+  - Thymleaf 뷰 기술을 사용하는 방법
