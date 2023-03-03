@@ -16,53 +16,47 @@ public class TeacherController {
   @Autowired private TeacherService teacherService;
 
   @GetMapping("form")
-  public String form() {
-    return "teacher/form";
+  public void form() {
   }
 
   @PostMapping("insert")
-  public String insert(Teacher teacher, Model model) {
+  public void insert(Teacher teacher, Model model) {
     try {
       teacherService.add(teacher);
     } catch (Exception e) {
       e.printStackTrace();
       model.addAttribute("error", "other");
     }
-    return "teacher/insert";
   }
 
   @GetMapping("list")
-  public String list(Model model) {
+  public void list(Model model) {
     model.addAttribute("teachers", teacherService.list());
-    return "teacher/list";
   }
 
   @GetMapping("view")
-  public String view(int no, Model model) {
+  public void view(int no, Model model) {
     model.addAttribute("teacher", teacherService.get(no));
-    return "teacher/view";
   }
 
   @PostMapping("update")
-  public String update(Teacher teacher, Model model) {
+  public void update(Teacher teacher, Model model) {
     try {
       teacherService.update(teacher);
     } catch (Exception e) {
       e.printStackTrace();
       model.addAttribute("error", "other");
     }
-    return "teacher/update";
   }
 
   @PostMapping("delete")
-  public String delete(int no, Model model) {
+  public void delete(int no, Model model) {
     try {
       teacherService.delete(no);
     } catch (Exception e) {
       e.printStackTrace();
       model.addAttribute("error", "other");
     }
-    return "teacher/delete";
   }
 
 }

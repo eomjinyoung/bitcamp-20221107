@@ -19,8 +19,7 @@ public class AuthController {
   @Autowired private TeacherService teacherService;
 
   @RequestMapping("/auth/form")
-  public String form() {
-    return "auth/form";
+  public void form() {
   }
 
   @RequestMapping("/auth/login")
@@ -71,8 +70,7 @@ public class AuthController {
   }
 
   @RequestMapping("/auth/fail")
-  public String fail() {
-    return "auth/fail";
+  public void fail() {
   }
 
 }

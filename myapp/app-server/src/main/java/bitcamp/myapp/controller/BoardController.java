@@ -1,17 +1,18 @@
 package bitcamp.myapp.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import bitcamp.myapp.service.BoardService;
 import bitcamp.myapp.vo.Board;
 import bitcamp.myapp.vo.BoardFile;
@@ -27,44 +28,35 @@ public class BoardController {
   @Autowired private BoardService boardService;
 
   @GetMapping("form")
-  public String form() {
-    return "board/form";
+  public void form() {
   }
 
   @PostMapping("insert")
-  public String insert(
+  public void insert(
       Board board,
-      //      String title,
-      //      String content,
-      Part[] files,
-      Model model, // ServletRequest 보관소에 저장할 값을 담는 임시 저장소
-      // 이 객체에 값을 담아 두면 프론트 컨트롤러(DispatcherServlet)가
-      // ServletRequest 보관소로 옮겨 담을 것이다.
+      List<MultipartFile> files,
+      Model model,
       HttpSession session) {
     try {
       Member loginUser = (Member) session.getAttribute("loginUser");
-
-      //      Board board = new Board();
-      //      board.setTitle(title);
-      //      board.setContent(content);
 
       Member writer = new Member();
       writer.setNo(loginUser.getNo());
       board.setWriter(writer);
 
       List<BoardFile> boardFiles = new ArrayList<>();
-      for (Part part : files) {
-        if (part.getSize() == 0) {
+      for (MultipartFile file : files) {
+        if (file.isEmpty()) {
           continue;
         }
 
         String filename = UUID.randomUUID().toString();
-        part.write(servletContext.getRealPath("/board/upload/" + filename));
+        file.transferTo(new File(servletContext.getRealPath("/board/upload/" + filename)));
 
         BoardFile boardFile = new BoardFile();
-        boardFile.setOriginalFilename(part.getSubmittedFileName());
+        boardFile.setOriginalFilename(file.getOriginalFilename());
         boardFile.setFilepath(filename);
-        boardFile.setMimeType(part.getContentType());
+        boardFile.setMimeType(file.getContentType());
         boardFiles.add(boardFile);
       }
       board.setAttachedFiles(boardFiles);
@@ -75,37 +67,26 @@ public class BoardController {
       e.printStackTrace();
       model.addAttribute("error", "data");
     }
-    return "board/insert";
   }
 
   @GetMapping("list")
-  public String list(String keyword, Model model) {
+  public void list(String keyword, Model model) {
     model.addAttribute("boards", boardService.list(keyword));
-    return "/board/list";
   }
 
   @GetMapping("view")
-  public String view(int no, Model model) {
+  public void view(int no, Model model) {
     model.addAttribute("board", boardService.get(no));
-    return"board/view";
   }
 
   @PostMapping("update")
   public String update(
       Board board,
-      //      int no,
-      //      String title,
-      //      String content,
-      Part[] files,
+      List<MultipartFile> files,
       Model model,
       HttpSession session) {
     try {
       Member loginUser = (Member) session.getAttribute("loginUser");
-
-      //      Board board = new Board();
-      //      board.setNo(no);
-      //      board.setTitle(title);
-      //      board.setContent(content);
 
       Board old = boardService.get(board.getNo());
       if (old.getWriter().getNo() != loginUser.getNo()) {
@@ -113,18 +94,18 @@ public class BoardController {
       }
 
       List<BoardFile> boardFiles = new ArrayList<>();
-      for (Part part : files) {
-        if (part.getSize() == 0) {
+      for (MultipartFile file : files) {
+        if (file.isEmpty()) {
           continue;
         }
 
         String filename = UUID.randomUUID().toString();
-        part.write(servletContext.getRealPath("/board/upload/" + filename));
+        file.transferTo(new File(servletContext.getRealPath("/board/upload/" + filename)));
 
         BoardFile boardFile = new BoardFile();
-        boardFile.setOriginalFilename(part.getSubmittedFileName());
+        boardFile.setOriginalFilename(file.getOriginalFilename());
         boardFile.setFilepath(filename);
-        boardFile.setMimeType(part.getContentType());
+        boardFile.setMimeType(file.getContentType());
         boardFile.setBoardNo(board.getNo());
         boardFiles.add(boardFile);
       }
