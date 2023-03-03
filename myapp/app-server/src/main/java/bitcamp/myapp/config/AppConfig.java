@@ -13,7 +13,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
-import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
 import bitcamp.myapp.controller.StudentController;
 import bitcamp.myapp.controller.TeacherController;
@@ -62,18 +61,16 @@ public class AppConfig implements WebMvcConfigurer {
   @Bean
   public ViewResolver tilesViewResolver() {
     UrlBasedViewResolver vr = new UrlBasedViewResolver();
+
     // Tiles 설정에 따라 템플릿을 실행할 뷰 처리기를 등록한다.
     vr.setViewClass(TilesView.class);
+
+    // request handler가 리턴한 view name 앞에 일반 페이지임을 표시하기 위해 접두사를 붙인다.
+    vr.setPrefix("app/");
+
     // 뷰리졸버의 우선 순위를 InternalResourceViewResolver 보다 우선하게 한다.
     vr.setOrder(1);
     return vr;
-  }
-
-  @Bean
-  public TilesConfigurer tilesConfigurer() {
-    TilesConfigurer configurer = new TilesConfigurer();
-    configurer.setDefinitions("/WEB-INF/defs/tiles.xml");
-    return configurer;
   }
 
   // WebMvcConfigurer 규칙에 맞춰 인터셉터를 등록한다.

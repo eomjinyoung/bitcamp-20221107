@@ -15,6 +15,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 
 
 @ComponentScan(
@@ -61,6 +62,13 @@ public class RootConfig {
     factoryBean.setTypeAliasesPackage("bitcamp.myapp.vo");
     factoryBean.setMapperLocations(appCtx.getResources("classpath*:bitcamp/myapp/mapper/*Mapper.xml"));
     return factoryBean.getObject();
+  }
+
+  @Bean
+  public TilesConfigurer tilesConfigurer() {
+    TilesConfigurer configurer = new TilesConfigurer();
+    configurer.setDefinitions("/WEB-INF/defs/app-tiles.xml", "/WEB-INF/defs/admin-tiles.xml");
+    return configurer;
   }
 }
 

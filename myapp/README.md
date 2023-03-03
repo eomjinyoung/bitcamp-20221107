@@ -311,6 +311,8 @@
   - 공용 객체와 웹 관련 객체를 구분해 관리하는 방법: Root vs Servlet WebApplicationContext
   - 로그인 여부를 필터 대신 인터셉터로 처리하는 방법
 
-### 61. Tiles와 Thymleaf 뷰 기술 사용하기
-  - JSP에 Tiles 뷰 기술을 적용하는 방법
-  - Thymleaf 뷰 기술을 사용하는 방법
+### 61. Tiles 뷰 기술을 적용하기
+  - JSP에 Tiles 뷰 기술을 적용하여 UI 템플릿을 다루는 방법
+  
+### 62. Thymleaf 뷰 기술 사용하기
+  - JSP 대신에 Thymleaf 뷰 기술을 사용하는 방법

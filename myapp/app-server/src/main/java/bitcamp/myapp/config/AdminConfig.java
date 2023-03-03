@@ -10,6 +10,8 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.servlet.view.UrlBasedViewResolver;
+import org.springframework.web.servlet.view.tiles3.TilesView;
 import bitcamp.myapp.controller.AuthController;
 import bitcamp.myapp.controller.BoardController;
 import bitcamp.myapp.controller.DownloadController;
@@ -38,7 +40,17 @@ public class AdminConfig implements WebMvcConfigurer {
     viewResolver.setViewClass(JstlView.class);
     viewResolver.setPrefix("/WEB-INF/jsp/");
     viewResolver.setSuffix(".jsp");
+    viewResolver.setOrder(2);
     return viewResolver;
+  }
+
+  @Bean
+  public ViewResolver tilesViewResolver() {
+    UrlBasedViewResolver vr = new UrlBasedViewResolver();
+    vr.setViewClass(TilesView.class);
+    vr.setPrefix("admin/");
+    vr.setOrder(1);
+    return vr;
   }
 
   // WebMvcConfigurer 규칙에 맞춰 인터셉터를 등록한다.
