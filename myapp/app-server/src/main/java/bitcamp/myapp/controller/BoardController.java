@@ -66,6 +66,7 @@ public class BoardController {
       board.setAttachedFiles(boardFiles);
 
       boardService.add(board);
+      model.addAttribute("refresh", "list");
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -117,6 +118,7 @@ public class BoardController {
       board.setAttachedFiles(boardFiles);
 
       boardService.update(board);
+      model.addAttribute("refresh", "list");
 
     }  catch (Exception e) {
       e.printStackTrace();
@@ -141,6 +143,7 @@ public class BoardController {
       e.printStackTrace();
       model.addAttribute("error", "data");
     }
+    model.addAttribute("refresh", "list");
     return "board/delete";
   }
 

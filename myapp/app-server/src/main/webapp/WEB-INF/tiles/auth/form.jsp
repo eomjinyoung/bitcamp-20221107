@@ -1,14 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>비트캠프 - NCP 1기</title>
-</head>
-<body>
-<h1>로그인</h1>
+<h1>로그인(Tiles)</h1>
 <form action="login" method="post">
 
 <c:if test="${error == 'loginfail'}">
@@ -37,8 +30,6 @@
   <button>로그인</button>
 </div>
 </form>
-</body>
-</html>
 
 
 

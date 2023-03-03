@@ -1,14 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset='UTF-8'>
-<title>비트캠프 - NCP 1기</title>
-</head>
-<body>
-<h1>게시판(JSP + MVC2 + EL + JSTL)</h1>
+<h1>게시판(Tiles)</h1>
 
 <c:if test="${empty board}">
   <p>해당 번호의 게시글 없습니다.</p>
@@ -86,7 +79,4 @@ document.querySelector('#btn-delete').onclick = function() {
 }
 </c:if>
 </script>
-
-</body>
-</html>
 
