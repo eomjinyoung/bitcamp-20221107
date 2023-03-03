@@ -36,7 +36,6 @@
 
 </body>
 </html>
-<%System.out.println("board/list.jsp 실행!"); %>
 
 
 

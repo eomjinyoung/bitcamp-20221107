@@ -5,11 +5,16 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import bitcamp.myapp.controller.AuthController;
 import bitcamp.myapp.controller.BoardController;
 import bitcamp.myapp.controller.DownloadController;
+import bitcamp.myapp.web.interceptor.AdminCheckInterceptor;
+import bitcamp.myapp.web.interceptor.AuthInterceptor;
 
 //@Configuration
 
@@ -20,7 +25,8 @@ import bitcamp.myapp.controller.DownloadController;
             type = FilterType.ASSIGNABLE_TYPE,
             classes = {AuthController.class, BoardController.class, DownloadController.class})
     })
-public class AdminConfig {
+@EnableWebMvc // 프론트 컨트롤러 각각에 대해 설정해야 한다.
+public class AdminConfig implements WebMvcConfigurer {
 
   {
     System.out.println("AdminConfig 생성됨!");
@@ -33,6 +39,14 @@ public class AdminConfig {
     viewResolver.setPrefix("/WEB-INF/jsp/");
     viewResolver.setSuffix(".jsp");
     return viewResolver;
+  }
+
+  // WebMvcConfigurer 규칙에 맞춰 인터셉터를 등록한다.
+  @Override
+  public void addInterceptors(InterceptorRegistry registry) {
+    System.out.println("AdminConfig.addInterceptors() 호출됨!");
+    registry.addInterceptor(new AuthInterceptor()).addPathPatterns("/**");
+    registry.addInterceptor(new AdminCheckInterceptor()).addPathPatterns("/**");
   }
 }
 
