@@ -15,6 +15,10 @@ import bitcamp.myapp.vo.Member;
 @Controller
 public class AuthController {
 
+  {
+    System.out.println("AuthController 생성됨!");
+  }
+
   @Autowired private StudentService studentService;
   @Autowired private TeacherService teacherService;
 

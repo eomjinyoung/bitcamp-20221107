@@ -13,6 +13,10 @@ import bitcamp.myapp.vo.Teacher;
 @RequestMapping("/teacher")
 public class TeacherController {
 
+  {
+    System.out.println("TeacherController 생성됨!");
+  }
+
   @Autowired private TeacherService teacherService;
 
   @GetMapping("form")

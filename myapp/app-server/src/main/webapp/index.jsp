@@ -10,8 +10,8 @@
 <body>
 <h1>강의관리시스템!</h1>
 <ul>
-  <li><a href="app/student/list">학생관리</a></li>
-  <li><a href="app/teacher/list">강사관리</a></li>
+  <li><a href="admin/student/list">학생관리</a></li>
+  <li><a href="admin/teacher/list">강사관리</a></li>
   <li><a href="app/board/list">게시판</a></li>
   
 <c:if test="${empty loginUser}">

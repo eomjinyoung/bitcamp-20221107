@@ -22,6 +22,10 @@ import bitcamp.myapp.vo.Member;
 @RequestMapping("/board")
 public class BoardController {
 
+  {
+    System.out.println("BoardController 생성됨!");
+  }
+
   // ServletContext 는 요청 핸들러의 파라미터로 주입 받을 수 없다.
   // 객체의 필드로만 주입 받을 수 있다.
   @Autowired private ServletContext servletContext;
