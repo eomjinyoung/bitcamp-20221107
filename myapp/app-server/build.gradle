@@ -89,6 +89,9 @@ dependencies {
     // JSTL 라이브러리
     implementation 'javax.servlet:jstl:1.2'
     
+    // Tiles 라이브러리
+    implementation 'org.apache.tiles:tiles-jsp:3.0.8'
+    
     // multipart/form-data 처리 라이브러리
     // => Servlet 3.0 API에서 제공하는 멀티파트 처리 기능을 사용한다면 이 라이브러리는 필요없다. 
     //implementation 'commons-fileupload:commons-fileupload:1.5'

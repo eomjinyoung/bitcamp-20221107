@@ -828,6 +828,12 @@
         - 60-1.Spring WebMVC 프론트 컨트롤러 도입하기(계속)
         - 60-2. Spring WebMVC 프론트 컨트롤러 도입하기
 
+## 82일차(2023-03-03,금)
+
+- 자바(계속)
+    - 문법 응용 실전 프로젝트(myapp)
+        - 60-2. Spring WebMVC 프론트 컨트롤러 도입하기(계속)
+        - 60-3. Spring WebMVC 프론트 컨트롤러 도입하기
 
 - 구글 미트
     - https://meet.google.com/vpv-ojws-dpr
