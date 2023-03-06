@@ -75,9 +75,10 @@ public class BoardController {
   }
 
   @GetMapping("list")
-  public void list(String keyword, Model model) {
+  public String list(String keyword, Model model) {
     System.out.println("BoardController.list() 호출됨!");
     model.addAttribute("boards", boardService.list(keyword));
+    return "board/list.html";
   }
 
   @GetMapping("view")

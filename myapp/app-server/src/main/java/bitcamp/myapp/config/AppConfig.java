@@ -1,5 +1,6 @@
 package bitcamp.myapp.config;
 
+import java.nio.charset.StandardCharsets;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
@@ -14,6 +15,8 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import org.springframework.web.servlet.view.tiles3.TilesView;
+import org.thymeleaf.spring5.ISpringTemplateEngine;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import bitcamp.myapp.controller.StudentController;
 import bitcamp.myapp.controller.TeacherController;
 import bitcamp.myapp.web.interceptor.AuthInterceptor;
@@ -54,7 +57,7 @@ public class AppConfig implements WebMvcConfigurer {
     viewResolver.setViewClass(JstlView.class);
     viewResolver.setPrefix("/WEB-INF/jsp/");
     viewResolver.setSuffix(".jsp");
-    viewResolver.setOrder(2);
+    viewResolver.setOrder(3);
     return viewResolver;
   }
 
@@ -69,9 +72,29 @@ public class AppConfig implements WebMvcConfigurer {
     vr.setPrefix("app/");
 
     // 뷰리졸버의 우선 순위를 InternalResourceViewResolver 보다 우선하게 한다.
-    vr.setOrder(1);
+    vr.setOrder(2);
     return vr;
   }
+
+  // 실행할 Thymeleaf 템플릿을 결정하는 일을 한다.
+  @Bean
+  public ThymeleafViewResolver viewResolver(ISpringTemplateEngine templateEngine){
+    ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+    viewResolver.setTemplateEngine(templateEngine);
+
+    // Content-Type을 설정한다.
+    // => 만약 설정하지 않는다면 자바의 Uncode2(UTF-16)을 ISO-8859-1로 변환시킨다.
+    //    즉 영어는 제대로 변환되지만 한글을 '?'로 변환된다.
+    viewResolver.setCharacterEncoding(StandardCharsets.UTF_8.name());
+    viewResolver.setOrder(1);
+
+    // 페이지 컨트롤러의 request handler가 무엇을 리턴하든지 간에
+    // Thymeleaf 템플릿 엔진을 사용하겠다는 의미다!
+    viewResolver.setViewNames(new String[] {"*"});
+    //viewResolver.setViewNames(new String[] {".html", ".xhtml"});
+    return viewResolver;
+  }
+
 
   // WebMvcConfigurer 규칙에 맞춰 인터셉터를 등록한다.
   @Override
