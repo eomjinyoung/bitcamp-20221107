@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import bitcamp.myapp.service.StudentService;
 import bitcamp.myapp.service.TeacherService;
 import bitcamp.myapp.vo.Member;
@@ -35,10 +34,10 @@ public class AuthController {
 
   @RequestMapping("/auth/login")
   public String login(
-      @RequestParam("usertype") String usertype,
-      @RequestParam("email") String email,
-      @RequestParam("password") String password,
-      @RequestParam("saveEmail") String saveEmail,
+      String usertype,
+      String email,
+      String password,
+      String saveEmail,
       HttpServletResponse response,
       HttpSession session,
       Model model) {
