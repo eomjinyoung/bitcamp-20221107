@@ -66,8 +66,8 @@
 	
 	<div>
 	  <button id='btn-list' type='button'>목록</button>
-	  <button data-th-if="${loginUser.no == board.writer.no}">변경</button>
-	  <button data-th-if="${loginUser.no == board.writer.no}" id='btn-delete' type='button'>삭제</button>
+	  <button data-th-if="${session.loginUser.no == board.writer.no}">변경</button>
+	  <button data-th-if="${session.loginUser.no == board.writer.no}" id='btn-delete' type='button'>삭제</button>
 	</div>
 	</form>
 </div>
