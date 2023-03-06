@@ -1,11 +1,12 @@
 package bitcamp.myapp.controller;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import bitcamp.myapp.service.StudentService;
@@ -23,7 +24,13 @@ public class AuthController {
   @Autowired private TeacherService teacherService;
 
   @RequestMapping("/auth/form")
-  public void form() {
+  public void form(@CookieValue(required = false) String email,
+      Model model,
+      HttpSession session) {
+    model.addAttribute("email", email);
+    if (session.getAttribute("error") != null) {
+      model.addAttribute("error", session.getAttribute("error"));
+    }
   }
 
   @RequestMapping("/auth/login")
@@ -32,9 +39,9 @@ public class AuthController {
       @RequestParam("email") String email,
       @RequestParam("password") String password,
       @RequestParam("saveEmail") String saveEmail,
-      HttpServletRequest request,
       HttpServletResponse response,
-      HttpSession session) {
+      HttpSession session,
+      Model model) {
 
     if (saveEmail != null) {
       Cookie cookie = new Cookie("email", email);
@@ -59,10 +66,11 @@ public class AuthController {
 
     if (member != null) {
       session.setAttribute("loginUser", member);
+      session.removeAttribute("error");
       return "redirect:../../";
     } else {
-      request.setAttribute("error", "loginfail");
-      return "auth/form";
+      session.setAttribute("error", "loginfail");
+      return "redirect:form";
     }
 
   }
