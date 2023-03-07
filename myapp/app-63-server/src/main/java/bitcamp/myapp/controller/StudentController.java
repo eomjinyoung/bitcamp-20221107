@@ -30,7 +30,6 @@ public class StudentController {
   @PostMapping("insert")
   public void insert(Student student, Model model) {
     studentService.add(student);
-    model.addAttribute("refresh", "list");
   }
 
   @GetMapping("list")
