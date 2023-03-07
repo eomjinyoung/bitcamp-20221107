@@ -1,8 +1,10 @@
 package bitcamp.myapp.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,13 +27,8 @@ public class StudentController {
 
   @PostMapping("insert")
   public void insert(Student student, Model model) {
-    try {
-      studentService.add(student);
-      model.addAttribute("refresh", "list");
-    } catch (Exception e) {
-      e.printStackTrace();
-      model.addAttribute("error", "other");
-    }
+    studentService.add(student);
+    model.addAttribute("refresh", "list");
   }
 
   @GetMapping("list")
@@ -48,23 +45,20 @@ public class StudentController {
 
   @PostMapping("update")
   public void update(Student student, Model model) {
-    try {
-      studentService.update(student);
-      model.addAttribute("refresh", "list");
-    } catch (Exception e) {
-      e.printStackTrace();
-      model.addAttribute("error", "other");
-    }
+    studentService.update(student);
   }
 
   @PostMapping("delete")
   public void delete(int no, Model model) {
-    try {
-      studentService.delete(no);
-      model.addAttribute("refresh", "list");
-    } catch (Exception e) {
-      e.printStackTrace();
-      model.addAttribute("error", "other");
-    }
+    studentService.delete(no);
+  }
+
+  @ExceptionHandler
+  public String handle(Exception e, HttpServletRequest request, Model model) {
+    e.printStackTrace();
+    model.addAttribute("url", request.getRequestURI());
+    model.addAttribute("class", e.getClass().getName());
+    model.addAttribute("message", e.getMessage());
+    return "error";
   }
 }

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+<title>비트캠프 - NCP 1기</title>
+</head>
+<body>
+<h1>강사(Thymeleaf)</h1>
+<div data-th-unless="${teacher}">
+  <p>해당 번호의 강사가 없습니다.</p>
+  <div>
+    <button id='btn-list' type='button'>목록</button>
+  </div>
+</div>
+
+<div data-th-if="${teacher}">
+  <form id='teacher-form' action='update' method='post'>
+
+  <table border='1'>
+
+  <tr>
+    <th>번호</th>
+    <td><input type='text' name='no'
+      value='1'
+      data-th-value='${teacher.no}' 
+      readonly></td>
+  </tr>
+
+  <tr>
+    <th>이름</th>
+    <td><input type='text' name='name' 
+      value='홍길동'
+      data-th-value='${teacher.name}'></td>
+  </tr>
+
+  <tr>
+    <th>이메일</th>
+    <td><input type='email' name='email' 
+      value='user@test.com'
+      data-th-value='${teacher.email}'></td>
+  </tr>
+
+  <tr>
+    <th>암호</th>
+    <td><input type='password' name='password'></td>
+  </tr>
+
+  <tr>
+    <th>전화</th>
+    <td><input type='tel' name='tel' 
+      value='010-1111-2222'
+      data-th-value='${teacher.tel}'></td>
+  </tr>
+
+  <tr>
+    <th>학위</th>
+    <td><select name='degree'>
+        <option value='1' data-th-selected="${teacher.degree == 1}">고졸</option>
+        <option value='2' data-th-selected="${teacher.degree == 2}">전문학사</option>
+        <option value='3' data-th-selected="${teacher.degree == 3}">학사</option>
+        <option value='4' data-th-selected="${teacher.degree == 4}">석사</option>
+        <option value='5' data-th-selected="${teacher.degree == 5}">박사</option>
+        <option value='0' data-th-selected="${teacher.degree == 0}">기타</option>
+        </select></td>
+  </tr>
+
+  <tr>
+    <th>학교</th>
+    <td><input type='text' name='school' 
+      value='비트대학교'
+      data-th-value='${teacher.school}'></td>
+  </tr>
+
+  <tr>
+    <th>전공</th>
+    <td><input type='text' name='major' 
+      value='컴퓨터공학'
+      data-th-value='${teacher.major}'></td>
+  </tr>
+
+  <tr>
+    <th>강의료(시급)</th>
+    <td><input type='number' name='wage' 
+      value='10000'
+      data-th-value='${teacher.wage}'></td>
+  </tr>
+
+  <tr>
+    <th>등록일</th>
+    <td data-th-text='${teacher.createdDate}'>2023-01-01</td>
+  </tr>
+
+  </table>
+	<div>
+	  <button id='btn-list' type='button'>목록</button>
+	  <button>변경</button>
+	  <button id='btn-delete' type='button'>삭제</button>
+	</div>
+	
+	</form>
+</div>
+
+<script>
+document.querySelector('#btn-list').onclick = function() {
+  location.href = 'list';
+}
+
+document.querySelector('#btn-delete').onclick = function() {
+  var form = document.querySelector('#teacher-form');
+  form.action = 'delete';
+  form.submit();
+}
+</script>
+
+</body>
+</html>
+
+
