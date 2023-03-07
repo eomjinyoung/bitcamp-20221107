@@ -39,12 +39,7 @@ public class RootConfig {
   Logger log = LogManager.getLogger(getClass());
 
   {
-    log.trace("RootConfig 생성됨! - TRACE");
-    log.debug("RootConfig 생성됨! - DEBUG");
-    log.info("RootConfig 생성됨! - INFO");
-    log.warn("RootConfig 생성됨! - WARN");
-    log.error("RootConfig 생성됨! - ERROR");
-    log.fatal("RootConfig 생성됨! - FATAL");
+    log.trace("RootConfig 생성됨!");
   }
 
   @Bean
@@ -53,6 +48,7 @@ public class RootConfig {
       @Value("${jdbc.url}") String url,
       @Value("${jdbc.username}") String username,
       @Value("${jdbc.password}") String password) {
+    log.trace("DataSource 생성됨!");
     DriverManagerDataSource ds = new DriverManagerDataSource();
     ds.setDriverClassName(jdbcDriver);
     ds.setUrl(url);
@@ -63,13 +59,13 @@ public class RootConfig {
 
   @Bean
   public PlatformTransactionManager transactionManager(DataSource dataSource) throws Exception {
-    System.out.println("PlatformTransactionManager 객체 생성! ");
+    log.trace("PlatformTransactionManager 객체 생성! ");
     return new DataSourceTransactionManager(dataSource);
   }
 
   @Bean
   public SqlSessionFactory sqlSessionFactory(DataSource dataSource, ApplicationContext appCtx) throws Exception {
-    System.out.println("SqlSessionFactory 객체 생성!");
+    log.trace("SqlSessionFactory 객체 생성!");
     SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
     factoryBean.setDataSource(dataSource);
     factoryBean.setTypeAliasesPackage("bitcamp.myapp.vo");
@@ -79,6 +75,7 @@ public class RootConfig {
 
   @Bean
   public TilesConfigurer tilesConfigurer() {
+    log.trace("TilesConfigurer 객체 생성!");
     TilesConfigurer configurer = new TilesConfigurer();
     configurer.setDefinitions("/WEB-INF/defs/app-tiles.xml", "/WEB-INF/defs/admin-tiles.xml");
     return configurer;
@@ -87,6 +84,7 @@ public class RootConfig {
   // Thymeleaf 템플릿에 관한 정보를 설정한다.
   @Bean
   public SpringResourceTemplateResolver templateResolver(ApplicationContext applicationContext){
+    log.trace("SpringResourceTemplateResolver 객체 생성!");
     SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
     templateResolver.setApplicationContext(applicationContext);
     templateResolver.setPrefix("/WEB-INF/thymeleaf/");
@@ -99,6 +97,7 @@ public class RootConfig {
   // Thymeleaf 템플릿을 실행할 엔진을 만든다.
   @Bean
   public SpringTemplateEngine templateEngine(ITemplateResolver templateResolver){
+    log.trace("SpringTemplateEngine 객체 생성!");
     SpringTemplateEngine templateEngine = new SpringTemplateEngine();
     templateEngine.setTemplateResolver(templateResolver);
     templateEngine.setEnableSpringELCompiler(true);

@@ -1,6 +1,8 @@
 package bitcamp.myapp.config;
 
 import java.nio.charset.StandardCharsets;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
@@ -33,12 +35,15 @@ import bitcamp.myapp.web.interceptor.AuthInterceptor;
 @EnableWebMvc // 프론트 컨트롤러 각각에 대해 설정해야 한다.
 public class AdminConfig implements WebMvcConfigurer {
 
+  Logger log = LogManager.getLogger(getClass());
+
   {
-    System.out.println("AdminConfig 생성됨!");
+    log.trace("AdminConfig 생성됨!");
   }
 
   @Bean
   public ViewResolver viewResolver() {
+    log.trace("InternalResourceViewResolver 생성됨!");
     InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
     viewResolver.setViewClass(JstlView.class);
     viewResolver.setPrefix("/WEB-INF/jsp/");
@@ -49,6 +54,7 @@ public class AdminConfig implements WebMvcConfigurer {
 
   @Bean
   public ViewResolver tilesViewResolver() {
+    log.trace("UrlBasedViewResolver 생성됨!");
     UrlBasedViewResolver vr = new UrlBasedViewResolver();
     vr.setViewClass(TilesView.class);
     vr.setPrefix("admin/");
@@ -58,6 +64,7 @@ public class AdminConfig implements WebMvcConfigurer {
 
   @Bean
   public ThymeleafViewResolver viewResolver(ISpringTemplateEngine templateEngine){
+    log.trace("ThymeleafViewResolver 생성됨!");
     ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
     viewResolver.setTemplateEngine(templateEngine);
     viewResolver.setCharacterEncoding(StandardCharsets.UTF_8.name());
@@ -69,7 +76,7 @@ public class AdminConfig implements WebMvcConfigurer {
   // WebMvcConfigurer 규칙에 맞춰 인터셉터를 등록한다.
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
-    System.out.println("AdminConfig.addInterceptors() 호출됨!");
+    log.trace("AdminConfig.addInterceptors() 호출됨!");
     registry.addInterceptor(new AuthInterceptor()).addPathPatterns("/**");
     registry.addInterceptor(new AdminCheckInterceptor()).addPathPatterns("/**");
   }

@@ -16,7 +16,7 @@
      
   <!-- 로그 출력을 적용할 대상과 로그 출력 레벨을 지정한다. -->
   <Loggers>
-    <Logger name="bitcamp.myapp.config" level="warn" additivity="false">
+    <Logger name="bitcamp.myapp" level="warn" additivity="false">
       <AppenderRef ref="stdout" /> 
     </Logger>          
     
