@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+<title>비트캠프 - NCP 1기</title>
+</head>
+<body>
+<h1>학생(Thymeleaf)</h1>
+<div data-th-unless="${student}">
+  <p>해당 번호의 학생이 없습니다.</p>
+  <div>
+    <button id='btn-list' type='button'>목록</button>
+  </div>
+</div>
+
+<div data-th-if="${student}">
+  <form id='student-form' action='update' method='post'>
+  <table border='1'>
+  <tr>
+    <th>번호</th>
+    <td><input type='text' name='no' 
+      value='1' 
+      data-th-value='${student.no}' 
+      readonly></td>
+  </tr>
+  <tr>
+    <th>이름</th>
+    <td><input type='text' name='name' 
+      value='홍길동'
+      data-th-value='${student.name}'></td>
+  </tr>
+  <tr>
+    <th>이메일</th>
+    <td><input type='email' name='email' 
+      value='user@test.com'
+      data-th-value='${student.email}'></td>
+  </tr>
+  <tr>
+    <th>암호</th>
+    <td><input type='password' name='password'></td>
+  </tr>
+  <tr>
+    <th>전화</th>
+    <td><input type='tel' name='tel' 
+      value='010-1111-2222'
+      data-th-value='${student.tel}'></td>
+  </tr>
+  <tr>
+    <th>우편번호</th>
+    <td><input type='text' name='postNo' 
+      value='33555'
+      data-th-value='${student.postNo}'></td>
+  </tr>
+  <tr>
+    <th>기본주소</th>
+    <td><input type='text' name='basicAddress' 
+      value='강남대로5길'
+      data-th-value='${student.basicAddress}'></td>
+  </tr>
+  <tr>
+    <th>상세주소</th>
+    <td><input type='tel' name='detailAddress' 
+      value='캠프건물 5층'
+      data-th-value='${student.detailAddress}'></td>
+  </tr>
+  <tr>
+    <th>재직여부</th>
+    <td><input type='checkbox' name='working' 
+      data-th-checked="${student.working}"> 재직중</td>
+  </tr>
+  <tr>
+    <th>성별</th>
+    <td><input type='radio' name='gender' value='M' 
+      data-th-checked="${student.gender == 'M'.charAt(0)}">
+    <input type='radio' name='gender' 
+      value='W' 
+      data-th-checked="${student.gender == 'W'.charAt(0)}"> 여</td>
+  </tr>
+  <tr>
+    <th>전공</th>
+    <td><select name='level'>
+	    <option value='0' data-th-selected="${student.level == 0}">비전공자</option>
+	    <option value='1' data-th-selected="${student.level == 1}">준전공자</option>
+	    <option value='2' data-th-selected="${student.level == 2}">전공자</option>
+    </select></td>
+  </tr>
+  <tr>
+    <th>등록일</th>
+    <td data-th-text='${student.createdDate}'>2023-01-01</td>
+  </tr>
+  </table>
+
+	<div>
+	  <button id='btn-list' type='button'>목록</button>
+	  <button>변경</button>
+	  <button id='btn-delete' type='button'>삭제</button>
+	</div>
+	</form>
+</div>
+
+<script>
+document.querySelector('#btn-list').onclick = function() {
+  location.href = 'list';
+}
+
+document.querySelector('#btn-delete').onclick = function() {
+  var form = document.querySelector('#student-form');
+  form.action = 'delete';
+  form.submit();
+}
+</script>
+
+</body>
+</html>
+
+
