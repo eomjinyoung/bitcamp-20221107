@@ -2,14 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset='UTF-8'>
-<title>비트캠프 - NCP 1기</title>
-</head>
-<body>
-<h1>강사(JSP + MVC2 + EL + JSTL)</h1>
+<h1>강사(Tiles)</h1>
 <c:if test="${empty teacher}">
   <p>해당 번호의 강사가 없습니다.</p>
   <div>
@@ -102,8 +95,5 @@ document.querySelector('#btn-delete').onclick = function() {
 }
 </c:if>
 </script>
-
-</body>
-</html>
 
 

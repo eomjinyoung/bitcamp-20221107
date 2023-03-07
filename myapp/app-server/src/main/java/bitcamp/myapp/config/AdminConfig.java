@@ -1,5 +1,6 @@
 package bitcamp.myapp.config;
 
+import java.nio.charset.StandardCharsets;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
@@ -12,6 +13,8 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import org.springframework.web.servlet.view.tiles3.TilesView;
+import org.thymeleaf.spring5.ISpringTemplateEngine;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import bitcamp.myapp.controller.AuthController;
 import bitcamp.myapp.controller.BoardController;
 import bitcamp.myapp.controller.DownloadController;
@@ -40,7 +43,7 @@ public class AdminConfig implements WebMvcConfigurer {
     viewResolver.setViewClass(JstlView.class);
     viewResolver.setPrefix("/WEB-INF/jsp/");
     viewResolver.setSuffix(".jsp");
-    viewResolver.setOrder(2);
+    viewResolver.setOrder(3);
     return viewResolver;
   }
 
@@ -49,8 +52,18 @@ public class AdminConfig implements WebMvcConfigurer {
     UrlBasedViewResolver vr = new UrlBasedViewResolver();
     vr.setViewClass(TilesView.class);
     vr.setPrefix("admin/");
-    vr.setOrder(1);
+    vr.setOrder(2);
     return vr;
+  }
+
+  @Bean
+  public ThymeleafViewResolver viewResolver(ISpringTemplateEngine templateEngine){
+    ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+    viewResolver.setTemplateEngine(templateEngine);
+    viewResolver.setCharacterEncoding(StandardCharsets.UTF_8.name());
+    viewResolver.setOrder(1);
+    viewResolver.setViewNames(new String[] {"*"});
+    return viewResolver;
   }
 
   // WebMvcConfigurer 규칙에 맞춰 인터셉터를 등록한다.

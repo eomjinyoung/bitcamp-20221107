@@ -23,7 +23,7 @@ footer {
   color: white;
 }
 
-a:visited {
+header a:visited {
 	color: white;
 }
 </style>

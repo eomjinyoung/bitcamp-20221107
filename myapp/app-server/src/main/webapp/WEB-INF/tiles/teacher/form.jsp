@@ -1,13 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset='UTF-8'>
-<title>비트캠프 - NCP 1기</title>
-</head>
-<body>
-<h1>강사(JSP + MVC2)</h1>
+<h1>강사(Tiles)</h1>
 <form action='insert' method='post'>
 <table border='1'>
 <tr>
@@ -71,8 +64,5 @@ document.querySelector('#btn-cancel').onclick = function() {
   location.href = 'list';
 }
 </script>
-
-</body>
-</html>
 
 

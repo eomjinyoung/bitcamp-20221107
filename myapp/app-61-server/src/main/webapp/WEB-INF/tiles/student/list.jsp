@@ -1,14 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset='UTF-8'>
-<title>비트캠프 - NCP 1기</title>
-</head>
-<body>
-<h1>학생(JSP + MVC2 + EL + JSTL)</h1>
+<h1>학생(Tiles)</h1>
 
 <div><a href='form'>새 학생</a></div>
 
@@ -39,8 +32,5 @@
   <input type='text' name='keyword' value='${param.keyword}'>
   <button>검색</button>
 </form>
-
-</body>
-</html>
 
 

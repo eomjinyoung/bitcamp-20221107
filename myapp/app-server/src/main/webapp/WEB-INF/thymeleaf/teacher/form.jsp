@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<h1>학생(Tiles)</h1>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+<title>비트캠프 - NCP 1기</title>
+</head>
+<body>
+<h1>강사(JSP + MVC2)</h1>
 <form action='insert' method='post'>
 <table border='1'>
 <tr>
@@ -24,38 +31,30 @@
 </tr>
 
 <tr>
-  <th>우편번호</th>
-  <td><input type='text' name='postNo'></td>
+  <th>학위</th>
+  <td><select name='degree'>
+      <option value='1'>고졸</option>
+      <option value='2'>전문학사</option>
+      <option value='3'>학사</option>
+      <option value='4'>석사</option>
+      <option value='5'>박사</option>
+      <option value='0'>기타</option>
+      </select></td>
 </tr>
 
 <tr>
-  <th>기본주소</th>
-  <td><input type='text' name='basicAddress'></td>
-</tr>
-
-<tr>
-  <th>상세주소</th>
-  <td><input type='tel' name='detailAddress'></td>
-</tr>
-
-<tr>
-  <th>재직여부</th>
-  <td><input type='checkbox' name='working'> 재직중</td>
-</tr>
-
-<tr>
-  <th>성별</th>
-  <td><input type='radio' name='gender' value='M' checked> 남
-      <input type='radio' name='gender' value='W'> 여</td>
+  <th>학교</th>
+  <td><input type='text' name='school'></td>
 </tr>
 
 <tr>
   <th>전공</th>
-  <td><select name='level'>
-    <option value='0'>비전공자</option>
-    <option value='1'>준전공자</option>
-    <option value='2'>전공자</option>
-    </select></td>
+  <td><input type='text' name='major'></td>
+</tr>
+
+<tr>
+  <th>강의료(시급)</th>
+  <td><input type='number' name='wage'></td>
 </tr>
 
 </table>
@@ -72,4 +71,8 @@ document.querySelector('#btn-cancel').onclick = function() {
   location.href = 'list';
 }
 </script>
+
+</body>
+</html>
+
 

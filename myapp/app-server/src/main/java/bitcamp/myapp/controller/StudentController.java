@@ -27,6 +27,7 @@ public class StudentController {
   public void insert(Student student, Model model) {
     try {
       studentService.add(student);
+      model.addAttribute("refresh", "list");
     } catch (Exception e) {
       e.printStackTrace();
       model.addAttribute("error", "other");
@@ -49,6 +50,7 @@ public class StudentController {
   public void update(Student student, Model model) {
     try {
       studentService.update(student);
+      model.addAttribute("refresh", "list");
     } catch (Exception e) {
       e.printStackTrace();
       model.addAttribute("error", "other");
@@ -59,6 +61,7 @@ public class StudentController {
   public void delete(int no, Model model) {
     try {
       studentService.delete(no);
+      model.addAttribute("refresh", "list");
     } catch (Exception e) {
       e.printStackTrace();
       model.addAttribute("error", "other");
