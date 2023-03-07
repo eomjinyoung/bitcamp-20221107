@@ -2,6 +2,8 @@ package bitcamp.myapp.config;
 
 import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,8 +36,15 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 @EnableTransactionManagement
 public class RootConfig {
 
+  Logger log = LogManager.getLogger(getClass());
+
   {
-    System.out.println("RootConfig 생성됨!");
+    log.trace("RootConfig 생성됨! - TRACE");
+    log.debug("RootConfig 생성됨! - DEBUG");
+    log.info("RootConfig 생성됨! - INFO");
+    log.warn("RootConfig 생성됨! - WARN");
+    log.error("RootConfig 생성됨! - ERROR");
+    log.fatal("RootConfig 생성됨! - FATAL");
   }
 
   @Bean
