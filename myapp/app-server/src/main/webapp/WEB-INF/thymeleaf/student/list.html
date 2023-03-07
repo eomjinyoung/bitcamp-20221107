@@ -18,7 +18,7 @@
       <td><a href='view?no=1'
         data-th-href="@{view(no=${student.no})}" 
         data-th-text="${student.name}">홍길동</a></td> 
-      <td data-th-text="${student.tel}"></td> 
+      <td data-th-text="${student.tel}">010-1111-2222</td> 
       <td data-th-text="${student.working ? '예' : '아니오'}">예</td> 
       <td data-th-switch="${student.level}">
         <span data-th-case="0">비전공자</span>
