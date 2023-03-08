@@ -2,7 +2,9 @@ package bitcamp.myapp.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -41,7 +43,8 @@ public class BoardController {
   }
 
   @PostMapping("insert")
-  public void insert(
+  @ResponseBody
+  public Object insert(
       Board board,
       List<MultipartFile> files,
       Model model,
@@ -71,6 +74,11 @@ public class BoardController {
     board.setAttachedFiles(boardFiles);
 
     boardService.add(board);
+
+    Map<String,Object> result = new HashMap<>();
+    result.put("status", "success");
+
+    return result;
   }
 
   @GetMapping("list")

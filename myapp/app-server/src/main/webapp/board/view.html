@@ -24,26 +24,21 @@
   </tr>
   <tr>
     <th>작성자</th>
-    <td></td>
+    <td><span id="f-writer-name"></span></td>
   </tr>
   <tr>
     <th>등록일</th>
-    <td></td>
+    <td><span id="f-created-date"></span></td>
   </tr>
   <tr>
     <th>조회수</th>
-    <td></td>
+    <td><span id="f-view-count"></span></td>
   </tr>
   <tr>
     <th>첨부파일</th>
     <td>
       <input type="file" name='files' multiple>
-      <ul>
-        <li>
-          <a href="../download/boardfile?fileNo=152">비트캠프 취업지원.pdf</a>
-          [<a href="filedelete?boardNo=95&amp;fileNo=152">삭제</a>]
-        </li>
-      </ul>
+      <ul id="f-files"></ul>
     </td>
   </tr>
   </table>
@@ -83,7 +78,28 @@ fetch("../app/board/view?no=" + no)
   return response.json();
 })
 .then(board => {
-  console.log(board);
+	console.log(board);
+  document.querySelector("input[name='no']").value = board.no;
+  document.querySelector("input[name='title']").value = board.title;
+  document.querySelector("textarea[name='content']").value = board.content;
+  document.querySelector("#f-writer-name").innerHTML = board.writer.name;
+  document.querySelector("#f-created-date").innerHTML = board.createdDate;
+  document.querySelector("#f-view-count").innerHTML = board.viewCount;
+  
+  let ul = "";
+  board.attachedFiles.forEach(file => {
+    console.log(file);
+    if (file.no == 0) return;
+    let html = `
+      <li>
+        <a href="../download/boardfile?fileNo=${file.no}">${file.originalFilename}</a>
+        [<a href="filedelete?boardNo=${file.boardNo}&fileNo=${file.no}">삭제</a>]
+      </li>`;
+    ul += html;
+  });
+  document.querySelector("#f-files").innerHTML = ul;
+  
+  
 });
 
 
@@ -91,7 +107,7 @@ fetch("../app/board/view?no=" + no)
 
 
 document.querySelector('#btn-list').onclick = function() {
-  location.href = 'list';
+  location.href = 'list.html';
 }
 
 document.querySelector('#btn-delete').onclick = function() {
