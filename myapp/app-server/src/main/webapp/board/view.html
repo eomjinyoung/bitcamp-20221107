@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+<title>비트캠프 - NCP 1기</title>
+</head>
+<body>
+<h1>게시판</h1>
+
+<div>
+  <form id='board-form' action='update' method='post' enctype="multipart/form-data">
+  <table border='1'>
+  <tr>
+    <th>번호</th>
+    <td><input type='text' name='no' readonly></td>
+  </tr>
+  <tr>
+    <th>제목</th>
+    <td><input type='text' name='title'></td>
+  </tr>
+  <tr>
+    <th>내용</th>
+    <td><textarea name='content' rows='10' cols='60'></textarea></td>
+  </tr>
+  <tr>
+    <th>작성자</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>등록일</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>조회수</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>첨부파일</th>
+    <td>
+      <input type="file" name='files' multiple>
+      <ul>
+        <li>
+          <a href="../download/boardfile?fileNo=152">비트캠프 취업지원.pdf</a>
+          [<a href="filedelete?boardNo=95&amp;fileNo=152">삭제</a>]
+        </li>
+      </ul>
+    </td>
+  </tr>
+  </table>
+  
+  <div>
+    <button id='btn-list' type='button'>목록</button>
+    <button>변경</button>
+    <button id='btn-delete' type='button'>삭제</button>
+  </div>
+  </form>
+</div>
+
+
+<script>
+// http://localhost:8080/web/board/view.html?no=100
+const values = location.href.split('?');
+if (values.length == 1) {
+  alert("URL이 옳지 않습니다.");
+  location.href = "list.html";
+}
+
+// no=100
+const param = values[1].split("=")
+if (param.length == 1 || param[0] != 'no') {
+  alert("URL이 옳지 않습니다.");
+  location.href = "list.html";
+}
+
+let no = parseInt(param[1]);
+if (isNaN(no)) {
+  alert("URL이 옳지 않습니다.");
+  location.href = "list.html";
+}
+
+fetch("../app/board/view?no=" + no)
+.then(response => {
+  return response.json();
+})
+.then(board => {
+  console.log(board);
+});
+
+
+
+
+
+document.querySelector('#btn-list').onclick = function() {
+  location.href = 'list';
+}
+
+document.querySelector('#btn-delete').onclick = function() {
+  var form = document.querySelector('#board-form');
+  form.action = 'delete';
+  form.submit();
+}
+</script>
+
+</body>
+</html>
+

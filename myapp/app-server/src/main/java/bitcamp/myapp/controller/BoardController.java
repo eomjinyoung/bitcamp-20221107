@@ -87,8 +87,9 @@ public class BoardController {
   }
 
   @GetMapping("view")
-  public void view(int no, Model model) {
-    model.addAttribute("board", boardService.get(no));
+  @ResponseBody
+  public Object view(int no, Model model) {
+    return boardService.get(no);
   }
 
   @PostMapping("update")

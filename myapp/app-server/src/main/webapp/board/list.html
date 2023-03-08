@@ -25,7 +25,7 @@
 
 <script>
 fetch("../app/board/list")
-.then((response) => {
+.then(response => {
   return response.json();
   // json()은 Promise 객체를 리턴한다.
   // Promise 객체가 하는 일:
@@ -34,7 +34,7 @@ fetch("../app/board/list")
   //   - resolve()를 호출하여 다음 Promise 객체에 작업이 완료됐음을 통지한다.
   //     이때 변환된 JavaScript를 객체를 파라미터로 전달한다.
 })
-.then((boards) => {
+.then(boards => {
   let tbody = "";
   boards.forEach(board => {
     let html = `
