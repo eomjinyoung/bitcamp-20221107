@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import bitcamp.myapp.service.BoardService;
 import bitcamp.myapp.vo.Board;
@@ -72,10 +73,15 @@ public class BoardController {
     boardService.add(board);
   }
 
-  @GetMapping("list")
-  public void list(String keyword, Model model) {
+  @GetMapping(value = "list", produces = "application/json;charset=UTF-8")
+  @ResponseBody
+  public Object list(String keyword, Model model) {
     log.debug("BoardController.list() 호출됨!");
-    model.addAttribute("boards", boardService.list(keyword));
+    List<Board> boards = boardService.list(keyword);
+
+    // MappingJackson2HttpMessageConverter 가 jackson 라이브러리를 이용해
+    // 자바 객체를 JSON 문자열로 변환하여 클라이언트로 보낸다.
+    return boards;
   }
 
   @GetMapping("view")

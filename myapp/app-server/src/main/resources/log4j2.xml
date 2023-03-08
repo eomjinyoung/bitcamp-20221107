@@ -20,7 +20,7 @@
       <AppenderRef ref="stdout" /> 
     </Logger>          
 
-    <Logger name="bitcamp.myapp" level="trace" additivity="false">
+    <Logger name="bitcamp.myapp" level="debug" additivity="false">
       <AppenderRef ref="stdout" /> 
     </Logger>
         
