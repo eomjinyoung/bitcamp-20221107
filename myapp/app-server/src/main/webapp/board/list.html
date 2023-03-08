@@ -9,17 +9,13 @@
 
 <div><a href='form'>새 글</a></div>
 
-<table border='1'>
+<table id="board-table" border='1'>
+<thead>
   <tr>
     <th>번호</th> <th>제목</th> <th>작성자</th> <th>작성일</th> <th>조회수</th>
   </tr>
-  <tr>
-     <td>95</td> 
-     <td><a href='view?no=95'>오호라</a></td> 
-     <td>admin</td>
-     <td>2023-03-06</td> 
-     <td>19</td>
-  </tr>
+</thead>
+<tbody></tbody>
 </table>
 
 <form action='list' method='get'>
@@ -38,8 +34,21 @@ fetch("../app/board/list")
   //   - resolve()를 호출하여 다음 Promise 객체에 작업이 완료됐음을 통지한다.
   //     이때 변환된 JavaScript를 객체를 파라미터로 전달한다.
 })
-.then((obj) => {
-  console.log(obj);
+.then((boards) => {
+  let tbody = "";
+  boards.forEach(board => {
+    let html = `
+  	  <tr>
+  	     <td>${board.no}</td> 
+  	     <td><a href='view.html?no=${board.no}'>${board.title}</a></td> 
+  	     <td>${board.writer.name}</td>
+  	     <td>${board.createdDate}</td> 
+  	     <td>${board.viewCount}</td>
+  	  </tr>
+  	`;
+  	tbody += html;
+  });
+  document.querySelector("#board-table > tbody").innerHTML = tbody;
 });
 </script>
 </body>

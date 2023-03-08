@@ -73,7 +73,7 @@ public class BoardController {
     boardService.add(board);
   }
 
-  @GetMapping(value = "list", produces = "application/json;charset=UTF-8")
+  @GetMapping("list")
   @ResponseBody
   public Object list(String keyword, Model model) {
     log.debug("BoardController.list() 호출됨!");
@@ -81,6 +81,8 @@ public class BoardController {
 
     // MappingJackson2HttpMessageConverter 가 jackson 라이브러리를 이용해
     // 자바 객체를 JSON 문자열로 변환하여 클라이언트로 보낸다.
+    // 이 컨버터를 사용하면 굳이 UTF-8 변환을 설정할 필요가 없다.
+    // 즉 produces = "application/json;charset=UTF-8" 를 설정하지 않아도 된다.
     return boards;
   }
 
