@@ -5,7 +5,7 @@
 <title>비트캠프 - NCP 1기</title>
 <style>
 .guest {
-  display: none;
+  /*display: none;*/
 }
 </style>
 </head>
@@ -174,9 +174,10 @@ document.querySelector('#btn-update').onclick = function() {
     body: formData
   })
   .then(response => {
-    return response.json();
+    return response.text();
   })
   .then(result => {
+	  console.log(result)
     if (result.status == 'success') {
       location.href = 'list.html';
     } else {
