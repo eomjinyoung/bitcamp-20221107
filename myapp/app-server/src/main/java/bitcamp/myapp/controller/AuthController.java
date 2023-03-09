@@ -1,7 +1,5 @@
 package bitcamp.myapp.controller;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,20 +32,7 @@ public class AuthController {
       String usertype,
       String email,
       String password,
-      String saveEmail,
-      HttpServletResponse response,
       HttpSession session) {
-
-    if (saveEmail != null) {
-      Cookie cookie = new Cookie("email", email);
-      cookie.setMaxAge(60 * 60 * 24 * 30); // 30일 동안 유지
-      response.addCookie(cookie);
-
-    } else {
-      Cookie cookie = new Cookie("email", "");
-      cookie.setMaxAge(0);
-      response.addCookie(cookie);
-    }
 
     Member member = null;
     switch (usertype) {
