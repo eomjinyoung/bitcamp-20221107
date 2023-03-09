@@ -103,9 +103,9 @@ fetch("../app/board/view?no=" + no)
     console.log(file);
     if (file.no == 0) return;
     let html = `
-      <li>
+      <li id="li-${file.no}">
         <a href="../download/boardfile?fileNo=${file.no}">${file.originalFilename}</a>
-        [<a href="filedelete?boardNo=${file.boardNo}&fileNo=${file.no}">삭제</a>]
+        [<a href="#" onclick="deleteFile(${board.no}, ${file.no}); return false;">삭제</a>]
       </li>`;
     ul += html;
   });
@@ -130,6 +130,32 @@ function checkOwner(writerNo) {
   })
   .catch(exception => {
     alert("로그인 사용자 정보 조회 중 오류 발생!");
+    console.log(exception);
+  });
+}
+
+function deleteFile(boardNo, fileNo) {
+  const formData = new FormData();
+  formData.append("boardNo", boardNo);
+  formData.append("fileNo", fileNo);
+  
+  fetch("../app/board/filedelete", {
+    method: "post",
+    body: formData
+  })
+  .then(response => {
+    return response.json();
+  })
+  .then(result => {
+    if (result.status == 'success') {
+      let li = document.querySelector('#li-' + fileNo);
+      document.querySelector("#f-files").removeChild(li);
+    } else {
+      alert('파일 삭제 실패!');
+    }
+  })
+  .catch(exception => {
+    alert('파일 삭제 중 오류 발생!');
     console.log(exception);
   });
 }

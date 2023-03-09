@@ -9,11 +9,10 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import bitcamp.myapp.service.BoardService;
 import bitcamp.myapp.vo.Board;
@@ -23,7 +22,7 @@ import bitcamp.util.ErrorCode;
 import bitcamp.util.RestResult;
 import bitcamp.util.RestStatus;
 
-@Controller
+@RestController
 @RequestMapping("/board")
 public class BoardController {
 
@@ -37,7 +36,6 @@ public class BoardController {
   @Autowired private BoardService boardService;
 
   @PostMapping("insert")
-  @ResponseBody
   public Object insert(
       Board board,
       List<MultipartFile> files,
@@ -73,7 +71,6 @@ public class BoardController {
   }
 
   @GetMapping("list")
-  @ResponseBody
   public Object list(String keyword) {
     log.debug("BoardController.list() 호출됨!");
 
@@ -87,7 +84,6 @@ public class BoardController {
   }
 
   @GetMapping("view")
-  @ResponseBody
   public Object view(int no) {
     Board board = boardService.get(no);
     if (board != null) {
@@ -102,7 +98,6 @@ public class BoardController {
   }
 
   @PostMapping("update")
-  @ResponseBody
   public Object update(
       Board board,
       List<MultipartFile> files,
@@ -143,7 +138,6 @@ public class BoardController {
   }
 
   @PostMapping("delete")
-  @ResponseBody
   public Object delete(int no, HttpSession session) {
     Member loginUser = (Member) session.getAttribute("loginUser");
 
@@ -160,15 +154,21 @@ public class BoardController {
         .setStatus(RestStatus.SUCCESS);
   }
 
-  @GetMapping("filedelete")
-  public String filedelete(int boardNo, int fileNo, HttpSession session) {
+  @PostMapping("filedelete")
+  public Object filedelete(int boardNo, int fileNo, HttpSession session) {
     Member loginUser = (Member) session.getAttribute("loginUser");
     Board old = boardService.get(boardNo);
+
     if (old.getWriter().getNo() != loginUser.getNo()) {
-      return "redirect:../auth/fail";
+      return new RestResult()
+          .setStatus(RestStatus.FAILURE)
+          .setErrorCode(ErrorCode.rest.UNAUTHORIZED)
+          .setData("권한이 없습니다.");
+
     } else {
       boardService.deleteFile(fileNo);
-      return "redirect:view?no=" + boardNo;
+      return new RestResult()
+          .setStatus(RestStatus.SUCCESS);
     }
   }
 
