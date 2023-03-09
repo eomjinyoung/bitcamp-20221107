@@ -10,7 +10,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -144,16 +143,21 @@ public class BoardController {
   }
 
   @PostMapping("delete")
-  public String delete(int no, Model model, HttpSession session) {
+  @ResponseBody
+  public Object delete(int no, HttpSession session) {
     Member loginUser = (Member) session.getAttribute("loginUser");
 
     Board old = boardService.get(no);
     if (old.getWriter().getNo() != loginUser.getNo()) {
-      return "redirect:../auth/fail";
+      return new RestResult()
+          .setStatus(RestStatus.FAILURE)
+          .setErrorCode(ErrorCode.rest.UNAUTHORIZED)
+          .setData("권한이 없습니다.");
     }
     boardService.delete(no);
 
-    return "board/delete";
+    return new RestResult()
+        .setStatus(RestStatus.SUCCESS);
   }
 
   @GetMapping("filedelete")

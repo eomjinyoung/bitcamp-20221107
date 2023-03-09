@@ -8,11 +8,14 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import bitcamp.myapp.service.StudentService;
 import bitcamp.myapp.service.TeacherService;
 import bitcamp.myapp.vo.Member;
+import bitcamp.util.RestResult;
+import bitcamp.util.RestStatus;
 
 @Controller
 public class AuthController {
@@ -26,14 +29,8 @@ public class AuthController {
   @Autowired private StudentService studentService;
   @Autowired private TeacherService teacherService;
 
-  @RequestMapping("/auth/form")
-  public void form(@CookieValue(required = false) String email,
-      Model model,
-      HttpSession session) {
-    model.addAttribute("email", email);
-    if (session.getAttribute("error") != null) {
-      model.addAttribute("error", session.getAttribute("error"));
-    }
+  @GetMapping("/auth/form")
+  public void form() {
   }
 
   @RequestMapping("/auth/login")
@@ -84,8 +81,18 @@ public class AuthController {
     return "redirect:../../";
   }
 
-  @RequestMapping("/auth/fail")
-  public void fail() {
+  @RequestMapping("/auth/user")
+  @ResponseBody
+  public Object user(HttpSession session) {
+    Member loginUser = (Member) session.getAttribute("loginUser");
+    if (loginUser != null) {
+      return new RestResult()
+          .setStatus(RestStatus.SUCCESS)
+          .setData(loginUser);
+    } else {
+      return new RestResult()
+          .setStatus(RestStatus.FAILURE);
+    }
   }
 
 }

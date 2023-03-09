@@ -3,6 +3,11 @@
 <head>
 <meta charset='UTF-8'>
 <title>비트캠프 - NCP 1기</title>
+<style>
+.guest {
+  display: none;
+}
+</style>
 </head>
 <body>
 <h1>게시판</h1>
@@ -45,8 +50,8 @@
   
   <div>
     <button id='btn-list' type='button'>목록</button>
-    <button id="btn-update" type="button">변경</button>
-    <button id='btn-delete' type='button'>삭제</button>
+    <button id="btn-update" type="button" class="guest">변경</button>
+    <button id='btn-delete' type='button' class="guest">삭제</button>
   </div>
   </form>
 </div>
@@ -85,6 +90,7 @@ fetch("../app/board/view?no=" + no)
   }
   
   let board = result.data;
+  //console.log(board);
   document.querySelector("input[name='no']").value = board.no;
   document.querySelector("input[name='title']").value = board.title;
   document.querySelector("textarea[name='content']").value = board.content;
@@ -105,8 +111,28 @@ fetch("../app/board/view?no=" + no)
   });
   document.querySelector("#f-files").innerHTML = ul;
   
-  
+  checkOwner(board.writer.no);
 });
+
+function checkOwner(writerNo) {
+  fetch("../app/auth/user")
+  .then(response => {
+    return response.json();
+  })
+  .then(result => {
+  	console.log(result);
+    if (result.status == 'success') {
+      if (result.data.no == writerNo) {
+        document.querySelector('#btn-update').classList.remove('guest');
+        document.querySelector('#btn-delete').classList.remove('guest');
+      }
+    }
+  })
+  .catch(exception => {
+    alert("로그인 사용자 정보 조회 중 오류 발생!");
+    console.log(exception);
+  });
+}
 
 
 document.querySelector('#btn-list').onclick = function() {
@@ -138,9 +164,27 @@ document.querySelector('#btn-update').onclick = function() {
 }
 	
 document.querySelector('#btn-delete').onclick = function() {
-  var form = document.querySelector('#board-form');
-  form.action = 'delete';
-  form.submit();
+  const formData = new FormData();
+  formData.append("no", document.querySelector('input[name="no"]').value);
+  
+  fetch("../app/board/delete", {
+    method: "post",
+    body: formData
+  })
+  .then(response => {
+    return response.json();
+  })
+  .then(result => {
+    if (result.status == 'success') {
+      location.href = 'list.html';
+    } else {
+      alert('삭제 실패!');
+    }
+  })
+  .catch(exception => {
+    alert('삭제 중 오류 발생!');
+    console.log(exception);
+  });
 }
 </script>
 
