@@ -18,7 +18,8 @@ public class AuthInterceptor implements HandlerInterceptor {
     log.trace("preHandle() 호출됨!");
     Member loginUser = (Member) request.getSession().getAttribute("loginUser");
     if (loginUser == null) {
-      response.sendRedirect(request.getContextPath() + "/app/auth/form");
+      response.setContentType("application/json;charset=UTF-8");
+      //response.getWriter().print(false);
       return false;
     }
     return true;
