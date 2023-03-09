@@ -34,9 +34,9 @@ fetch("../app/board/list")
   //   - resolve()를 호출하여 다음 Promise 객체에 작업이 완료됐음을 통지한다.
   //     이때 변환된 JavaScript를 객체를 파라미터로 전달한다.
 })
-.then(boards => {
+.then(result => {
   let tbody = "";
-  boards.forEach(board => {
+  result.data.forEach(board => {
     let html = `
   	  <tr>
   	     <td>${board.no}</td> 

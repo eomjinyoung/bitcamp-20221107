@@ -45,7 +45,7 @@
   
   <div>
     <button id='btn-list' type='button'>목록</button>
-    <button>변경</button>
+    <button id="btn-update" type="button">변경</button>
     <button id='btn-delete' type='button'>삭제</button>
   </div>
   </form>
@@ -77,8 +77,14 @@ fetch("../app/board/view?no=" + no)
 .then(response => {
   return response.json();
 })
-.then(board => {
-	console.log(board);
+.then(result => {
+  if (result.status == 'failure') {
+    alert('게시글을 조회할 수 없습니다.');
+    location.href = "list.html";
+    return;
+  }
+  
+  let board = result.data;
   document.querySelector("input[name='no']").value = board.no;
   document.querySelector("input[name='title']").value = board.title;
   document.querySelector("textarea[name='content']").value = board.content;
@@ -103,13 +109,34 @@ fetch("../app/board/view?no=" + no)
 });
 
 
-
-
-
 document.querySelector('#btn-list').onclick = function() {
   location.href = 'list.html';
 }
 
+document.querySelector('#btn-update').onclick = function() {
+  const form = document.querySelector('#board-form');
+  const formData = new FormData(form);
+  
+  fetch("../app/board/update", {
+    method: "post",
+    body: formData
+  })
+  .then(response => {
+    return response.json();
+  })
+  .then(result => {
+    if (result.status == 'success') {
+      location.href = 'list.html';
+    } else {
+      alert('변경 실패!');
+    }
+  })
+  .catch(exception => {
+	  alert('변경 중 오류 발생!');
+	  console.log(exception);
+  });
+}
+	
 document.querySelector('#btn-delete').onclick = function() {
   var form = document.querySelector('#board-form');
   form.action = 'delete';

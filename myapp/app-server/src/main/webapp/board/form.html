@@ -52,6 +52,10 @@ document.querySelector('#btn-insert').onclick = function() {
     } else {
       alert('입력 실패!');
     }
+  })
+  .catch(exception => {
+	  alert("입력 오류!");
+	  console.log(exception);
   });
   
 }
