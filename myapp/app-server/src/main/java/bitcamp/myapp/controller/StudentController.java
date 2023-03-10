@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import bitcamp.myapp.service.StudentService;
@@ -35,17 +36,18 @@ public class StudentController {
 
   @GetMapping("/students")
   @ResponseBody
-  public Object list(String keyword, Model model) {
+  public Object list(String keyword) {
     return new RestResult()
         .setStatus(RestStatus.SUCCESS)
         .setData(studentService.list(keyword));
   }
 
-  @GetMapping("/student/view")
-  public void view(
-      int no,
-      Model model) {
-    model.addAttribute("student", studentService.get(no));
+  @GetMapping("/students/{no}")
+  @ResponseBody
+  public Object view(@PathVariable int no) {
+    return new RestResult()
+        .setStatus(RestStatus.SUCCESS)
+        .setData(studentService.get(no));
   }
 
   @PostMapping("/student/update")

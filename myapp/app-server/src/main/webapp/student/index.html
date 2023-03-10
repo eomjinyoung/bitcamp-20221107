@@ -17,6 +17,11 @@ article {
   box-sizing: border-box;
   margin-left: 210px;
 }
+
+#student-table > tbody > tr:hover { 
+  background-color: navy;
+  color: white;
+}
 </style>
 </head>
 <body>
@@ -43,65 +48,56 @@ article {
   <table border='1'>
   <tr>
     <th>번호</th>
-    <td><input type='text' name='no' 
-      value='50' 
-      readonly></td>
+    <td><input id="f-no" type='text' name='no' readonly></td>
   </tr>
   <tr>
     <th>이름</th>
-    <td><input type='text' name='name' 
-      value='a'></td>
+    <td><input id="f-name" type='text' name='name'></td>
   </tr>
   <tr>
     <th>이메일</th>
-    <td><input type='email' name='email' 
-      value='a@test.com'></td>
+    <td><input id="f-email" type='email' name='email'></td>
   </tr>
   <tr>
     <th>암호</th>
-    <td><input type='password' name='password'></td>
+    <td><input id="f-password" type='password' name='password'></td>
   </tr>
   <tr>
     <th>전화</th>
-    <td><input type='tel' name='tel' 
-      value='a'></td>
+    <td><input id="f-tel" type='tel' name='tel'></td>
   </tr>
   <tr>
     <th>우편번호</th>
-    <td><input type='text' name='postNo' 
-      value='a'></td>
+    <td><input id="f-postNo" type='text' name='postNo'></td>
   </tr>
   <tr>
     <th>기본주소</th>
-    <td><input type='text' name='basicAddress' 
-      value='a'></td>
+    <td><input id="f-basicAddress" type='text' name='basicAddress'></td>
   </tr>
   <tr>
     <th>상세주소</th>
-    <td><input type='tel' name='detailAddress' 
-      value='a'></td>
+    <td><input id="f-detailAddress" type='text' name='detailAddress'></td>
   </tr>
   <tr>
     <th>재직여부</th>
-    <td><input type='checkbox' name='working'> 재직중</td>
+    <td><input id="f-working" type='checkbox' name='working'> 재직중</td>
   </tr>
   <tr>
     <th>성별</th>
-    <td><input type='radio' name='gender' value='M'>
-    <input type='radio' name='gender' 
-      value='W' checked="checked"> 여</td>
+    <td><input type='radio' name='gender' value='M'> 남
+    <input type='radio' name='gender' value='W' checked> 여</td>
   </tr>
   <tr>
     <th>전공</th>
-    <td><select name='level'>
-      <option value='0' selected="selected">비전공자</option>
+    <td><select id="f-level" name='level'>
+      <option value='0'>비전공자</option>
       <option value='1'>준전공자</option>
       <option value='2'>전공자</option>
     </select></td>
   </tr>
   <tr>
     <th>등록일</th>
-    <td>2023-02-20</td>
+    <td><span id="f-createdDate"></span></td>
   </tr>
   </table>
 
@@ -122,9 +118,9 @@ fetch("../admin/students")
   let tbody = "";
   result.data.forEach(student => {
     let html = `
-      <tr>
+      <tr data-no="${student.no}" onclick="getStudent(event)">
          <td>${student.no}</td> 
-         <td><a href='view.html?no=${student.no}'>${student.name}</a></td> 
+         <td>${student.name}</td> 
          <td>${student.working ? '예' : '아니오'}</td> 
       </tr>
     `;
@@ -140,6 +136,35 @@ function getLevelTitle(level) {
     case 2: return "전공자";
     default: return "기타";
   }
+}
+
+function getStudent(e) {
+  let no = e.currentTarget.getAttribute('data-no');
+  
+  fetch('../admin/students/' + no)
+  .then(response => {
+    return response.json();
+  })
+  .then(result => {
+    if (result.status == 'failure') {
+      alert('학생을 조회할 수 없습니다.');
+      return;
+    }
+    
+    let student = result.data;
+    console.log(student);
+    document.querySelector('#f-no').value = student.no;
+    document.querySelector('#f-name').value = student.name;
+    document.querySelector('#f-email').value = student.email;
+    document.querySelector('#f-tel').value = student.tel;
+    document.querySelector('#f-postNo').value = student.postNo;
+    document.querySelector('#f-basicAddress').value = student.basicAddress;
+    document.querySelector('#f-detailAddress').value = student.detailAddress;
+    document.querySelector('#f-working').checked = student.working;
+    document.querySelector(`input[name="gender"][value="${student.gender}"]`).checked = true;
+    document.querySelector('#f-level').value = student.level;
+    document.querySelector('#f-createdDate').innerHTML = student.createdDate;
+  });
 }
 </script>
 
