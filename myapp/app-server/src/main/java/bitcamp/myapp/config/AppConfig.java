@@ -108,8 +108,7 @@ public class AppConfig implements WebMvcConfigurer {
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     log.trace("AppConfig.addInterceptors() 호출됨!");
-    registry.addInterceptor(
-        new AuthInterceptor()).addPathPatterns("/**/*insert", "/**/*update", "/**/*delete");
+    registry.addInterceptor(new AuthInterceptor()).excludePathPatterns("/auth/**");
   }
 }
 

@@ -39,8 +39,8 @@ document.querySelector('#btn-insert').onclick = function() {
   const form = document.querySelector('#board-form');
   const formData = new FormData(form);
   
-  fetch("../app/board/insert", {
-    method: "post",
+  fetch("../app/boards", {
+    method: "POST",
     body: formData
   })
   .then(response => {
@@ -49,6 +49,8 @@ document.querySelector('#btn-insert').onclick = function() {
   .then(result => {
     if (result.status == 'success') {
       location.href = 'list.html';
+    } else if (result.errorCode == '401') {
+    	location.href = '../auth/form.html';
     } else {
       alert('입력 실패!');
     }

@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import bitcamp.myapp.service.BoardService;
@@ -23,7 +22,6 @@ import bitcamp.util.RestResult;
 import bitcamp.util.RestStatus;
 
 @RestController
-@RequestMapping("/board")
 public class BoardController {
 
   Logger log = LogManager.getLogger(getClass());
@@ -35,7 +33,7 @@ public class BoardController {
   @Autowired private ServletContext servletContext;
   @Autowired private BoardService boardService;
 
-  @PostMapping("insert")
+  @PostMapping("/boards")
   public Object insert(
       Board board,
       List<MultipartFile> files,
@@ -70,7 +68,7 @@ public class BoardController {
         .setStatus(RestStatus.SUCCESS);
   }
 
-  @GetMapping("list")
+  @GetMapping("/boards")
   public Object list(String keyword) {
     log.debug("BoardController.list() 호출됨!");
 

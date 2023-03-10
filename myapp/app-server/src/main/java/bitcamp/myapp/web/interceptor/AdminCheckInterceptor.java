@@ -21,6 +21,11 @@ public class AdminCheckInterceptor implements HandlerInterceptor {
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
       throws Exception {
     log.trace("preHandle() 호출됨!");
+
+    if (request.getMethod().equals("GET")) {
+      return true;
+    }
+
     Member loginUser = (Member) request.getSession().getAttribute("loginUser");
     if (!loginUser.getEmail().equals("admin@test.com")) {
       response.setContentType("application/json;charset=UTF-8");

@@ -77,8 +77,8 @@ public class AdminConfig implements WebMvcConfigurer {
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     log.trace("AdminConfig.addInterceptors() 호출됨!");
-    registry.addInterceptor(new AuthInterceptor()).addPathPatterns("/**");
-    registry.addInterceptor(new AdminCheckInterceptor()).addPathPatterns("/**");
+    registry.addInterceptor(new AuthInterceptor());
+    registry.addInterceptor(new AdminCheckInterceptor());
   }
 }
 
