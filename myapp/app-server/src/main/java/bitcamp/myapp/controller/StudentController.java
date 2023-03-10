@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import bitcamp.myapp.service.StudentService;
 import bitcamp.myapp.vo.Student;
@@ -50,9 +52,13 @@ public class StudentController {
         .setData(studentService.get(no));
   }
 
-  @PostMapping("/student/update")
-  public void update(Student student, Model model) {
+  @PutMapping("/students")
+  @ResponseBody
+  public Object update(@RequestBody Student student) {
+    System.out.println(student);
     studentService.update(student);
+    return new RestResult()
+        .setStatus(RestStatus.SUCCESS);
   }
 
   @PostMapping("/student/delete")
