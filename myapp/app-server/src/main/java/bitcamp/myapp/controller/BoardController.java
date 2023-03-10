@@ -9,8 +9,11 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import bitcamp.myapp.service.BoardService;
@@ -81,8 +84,8 @@ public class BoardController {
         .setData(boardService.list(keyword));
   }
 
-  @GetMapping("view")
-  public Object view(int no) {
+  @GetMapping("/boards/{no}")
+  public Object view(@PathVariable int no) {
     Board board = boardService.get(no);
     if (board != null) {
       return new RestResult()
@@ -95,7 +98,7 @@ public class BoardController {
     }
   }
 
-  @PostMapping("update")
+  @PutMapping("/boards")
   public Object update(
       Board board,
       List<MultipartFile> files,
@@ -135,8 +138,8 @@ public class BoardController {
         .setStatus(RestStatus.SUCCESS);
   }
 
-  @PostMapping("delete")
-  public Object delete(int no, HttpSession session) {
+  @DeleteMapping("/boards/{no}")
+  public Object delete(@PathVariable int no, HttpSession session) {
     Member loginUser = (Member) session.getAttribute("loginUser");
 
     Board old = boardService.get(no);
@@ -152,8 +155,11 @@ public class BoardController {
         .setStatus(RestStatus.SUCCESS);
   }
 
-  @PostMapping("filedelete")
-  public Object filedelete(int boardNo, int fileNo, HttpSession session) {
+  @DeleteMapping("/boards/{boardNo}/files/{fileNo}")
+  public Object filedelete(
+      @PathVariable int boardNo,
+      @PathVariable int fileNo,
+      HttpSession session) {
     Member loginUser = (Member) session.getAttribute("loginUser");
     Board old = boardService.get(boardNo);
 
