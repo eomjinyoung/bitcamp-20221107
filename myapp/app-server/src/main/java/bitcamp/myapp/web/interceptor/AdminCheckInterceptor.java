@@ -1,12 +1,17 @@
 package bitcamp.myapp.web.interceptor;
 
+import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import bitcamp.myapp.vo.Member;
+import bitcamp.util.ErrorCode;
+import bitcamp.util.RestResult;
+import bitcamp.util.RestStatus;
 
 public class AdminCheckInterceptor implements HandlerInterceptor {
 
@@ -18,7 +23,13 @@ public class AdminCheckInterceptor implements HandlerInterceptor {
     log.trace("preHandle() 호출됨!");
     Member loginUser = (Member) request.getSession().getAttribute("loginUser");
     if (!loginUser.getEmail().equals("admin@test.com")) {
-      response.sendRedirect(request.getContextPath() + "/app/auth/form");
+      response.setContentType("application/json;charset=UTF-8");
+      PrintWriter out = response.getWriter();
+      out.print(new ObjectMapper().writeValueAsString(
+          new RestResult()
+          .setStatus(RestStatus.FAILURE)
+          .setErrorCode(ErrorCode.rest.UNAUTHORIZED)
+          .setData("권한이 없습니다.")));
       return false;
     }
     return true;
