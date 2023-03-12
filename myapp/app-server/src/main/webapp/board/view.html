@@ -164,7 +164,7 @@ document.querySelector('#btn-update').onclick = function() {
   const form = document.querySelector('#board-form');
   const formData = new FormData(form);
   
-  fetch("../app/boards", {
+  fetch("../app/boards/" + document.querySelector("input[name='no']").value, {
     method: "PUT",
     body: formData
   })

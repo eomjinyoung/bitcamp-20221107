@@ -100,8 +100,9 @@ public class BoardController {
     }
   }
 
-  @PutMapping
+  @PutMapping("{no}")
   public Object update(
+      @PathVariable int no,
       Board board,
       List<MultipartFile> files,
       HttpSession session) throws Exception {

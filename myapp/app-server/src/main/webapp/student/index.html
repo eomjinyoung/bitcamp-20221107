@@ -185,7 +185,7 @@ document.querySelector('#btn-update').onclick = () => {
   let json = JSON.stringify(Object.fromEntries(formData)); 
   //console.log(json);
   
-  fetch("../admin/students", {
+  fetch("../admin/students/" + document.querySelector('#f-no').value, {
     method: "PUT",
     headers: {
         "Content-Type": "application/json"

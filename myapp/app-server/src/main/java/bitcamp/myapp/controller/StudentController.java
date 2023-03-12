@@ -52,9 +52,12 @@ public class StudentController {
         .setData(studentService.get(no));
   }
 
-  @PutMapping("/students")
+  @PutMapping("/students/{no}")
   @ResponseBody
-  public Object update(@RequestBody Student student) {
+  public Object update(
+      @PathVariable int no,
+      @RequestBody Student student) {
+
     System.out.println(student);
     studentService.update(student);
     return new RestResult()
