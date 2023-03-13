@@ -189,11 +189,11 @@ document.querySelector("#btn-delete").onclick = () => {
       if (result.status == "success") {
         location.reload();
       } else {
-        alert("파일 삭제 실패!");
+        alert("학생 삭제 실패!");
       }
     })
     .catch((exception) => {
-      alert("파일 삭제 중 오류 발생!");
+      alert("학생 삭제 중 오류 발생!");
       console.log(exception);
     });
 };
