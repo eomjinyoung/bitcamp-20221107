@@ -23,7 +23,28 @@
   <button>검색</button>
 </form>
 
+<script id="tr-template" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+   <td>{{no}}</td> 
+   <td><a href='view.html?no={{no}}'>{{title}}</a></td> 
+   <td>{{writer.name}}</td>
+   <td>{{createdDate}}</td> 
+   <td>{{viewCount}}</td>
+</tr>
+{{/each}}
+</script>
+
+
+<script src="../node_modules/handlebars/dist/handlebars.js"></script>
 <script>
+
+// 템플릿으로 사용할 HTML을 준비한다.
+const html = document.querySelector('#tr-template').innerHTML;
+
+// HTML을 가지고 템플릿 엔진을 생성한다.
+const templateEngine = Handlebars.compile(html);
+
 fetch("../app/boards")
 .then(response => {
   return response.json();
@@ -35,20 +56,7 @@ fetch("../app/boards")
   //     이때 변환된 JavaScript를 객체를 파라미터로 전달한다.
 })
 .then(result => {
-  let tbody = "";
-  result.data.forEach(board => {
-    let html = `
-  	  <tr>
-  	     <td>${board.no}</td> 
-  	     <td><a href='view.html?no=${board.no}'>${board.title == "" ? "제목없음" : board.title}</a></td> 
-  	     <td>${board.writer.name}</td>
-  	     <td>${board.createdDate}</td> 
-  	     <td>${board.viewCount}</td>
-  	  </tr>
-  	`;
-  	tbody += html;
-  });
-  document.querySelector("#board-table > tbody").innerHTML = tbody;
+  document.querySelector("#board-table > tbody").innerHTML = templateEngine(result.data);
 });
 </script>
 </body>

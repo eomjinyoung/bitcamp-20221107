@@ -17,11 +17,6 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
-import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.templatemode.TemplateMode;
-import org.thymeleaf.templateresolver.ITemplateResolver;
 
 
 @ComponentScan(
@@ -76,38 +71,6 @@ public class RootConfig {
     factoryBean.setMapperLocations(appCtx.getResources("classpath*:bitcamp/myapp/mapper/*Mapper.xml"));
     return factoryBean.getObject();
   }
-
-  @Bean
-  public TilesConfigurer tilesConfigurer() {
-    log.trace("TilesConfigurer 객체 생성!");
-    TilesConfigurer configurer = new TilesConfigurer();
-    configurer.setDefinitions("/WEB-INF/defs/app-tiles.xml", "/WEB-INF/defs/admin-tiles.xml");
-    return configurer;
-  }
-
-  // Thymeleaf 템플릿에 관한 정보를 설정한다.
-  @Bean
-  public SpringResourceTemplateResolver templateResolver(ApplicationContext applicationContext){
-    log.trace("SpringResourceTemplateResolver 객체 생성!");
-    SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
-    templateResolver.setApplicationContext(applicationContext);
-    templateResolver.setPrefix("/WEB-INF/thymeleaf/");
-    templateResolver.setSuffix(".html");
-    templateResolver.setTemplateMode(TemplateMode.HTML);
-    templateResolver.setCacheable(false);
-    return templateResolver;
-  }
-
-  // Thymeleaf 템플릿을 실행할 엔진을 만든다.
-  @Bean
-  public SpringTemplateEngine templateEngine(ITemplateResolver templateResolver){
-    log.trace("SpringTemplateEngine 객체 생성!");
-    SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-    templateEngine.setTemplateResolver(templateResolver);
-    templateEngine.setEnableSpringELCompiler(true);
-    return templateEngine;
-  }
-
 }
 
 
