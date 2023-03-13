@@ -1,6 +1,9 @@
 showInput();
 getStudents();
 
+const html = document.querySelector("#tr-template").innerHTML;
+const templateEngine = Handlebars.compile(html);
+
 function showInput() {
   let el = document.querySelectorAll(".input");
   for (let e of el) {
@@ -44,19 +47,8 @@ function getStudents(keyword) {
       return response.json();
     })
     .then((result) => {
-      let tbody = "";
-      result.data.forEach((student) => {
-        let html = `
-<tr data-no="${student.no}" onclick="getStudent(event)">
-   <td>${student.no}</td> 
-   <td>${student.name}</td> 
-   <td>${student.working ? "예" : "아니오"}</td> 
-   <td>${student.tel}</td>
-</tr>
-`;
-        tbody += html;
-      });
-      document.querySelector("#student-table > tbody").innerHTML = tbody;
+      document.querySelector("#student-table > tbody").innerHTML =
+        templateEngine(result.data);
     });
 }
 

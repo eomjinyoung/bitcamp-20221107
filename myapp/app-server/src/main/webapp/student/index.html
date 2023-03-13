@@ -109,6 +109,18 @@
       </form>
     </article>
 
+    <script id="tr-template" type="text/x-handlebars-template">
+      {{#each this}}
+        <tr data-no="{{no}}" onclick="getStudent(event)">
+          <td>{{no}}</td>
+          <td>{{name}}</td>
+          <td>{{#if working}}예{{else}}아니오{{/if}}</td>
+          <td>{{tel}}</td>
+        </tr>
+      {{/each}}
+    </script>
+
+    <script src="../node_modules/handlebars/dist/handlebars.js"></script>
     <script src="index.js"></script>
   </body>
 </html>
