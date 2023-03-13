@@ -29,6 +29,12 @@ import bitcamp.util.RestStatus;
 @RequestMapping("/boards")
 public class BoardController {
 
+  // 입력: POST   => /boards
+  // 목록: GET    => /boards
+  // 조회: GET    => /boards/{no}
+  // 변경: PUT    => /boards/{no}
+  // 삭제: DELETE => /boards/{no}
+
   Logger log = LogManager.getLogger(getClass());
 
   {
@@ -108,6 +114,10 @@ public class BoardController {
       HttpSession session) throws Exception {
 
     Member loginUser = (Member) session.getAttribute("loginUser");
+
+    // URL 의 번호와 요청 파라미터의 번호가 다를 경우를 방지하기 위해
+    // URL의 번호를 게시글 번호로 설정한다.
+    board.setNo(no);
 
     Board old = boardService.get(board.getNo());
     if (old.getWriter().getNo() != loginUser.getNo()) {

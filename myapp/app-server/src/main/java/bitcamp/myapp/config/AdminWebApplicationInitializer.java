@@ -1,6 +1,8 @@
 package bitcamp.myapp.config;
 
 import javax.servlet.Filter;
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletRegistration.Dynamic;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -30,16 +32,16 @@ public class AdminWebApplicationInitializer extends AbstractAnnotationConfigDisp
     return new String[] {"/admin/*"};
   }
 
-  //  @Override
-  //  protected void customizeRegistration(Dynamic registration) {
-  //    registration.setMultipartConfig(new MultipartConfigElement(
-  //        System.getProperty("java.io.tmpdir"), // 클라이언트가 보낸 파일을 임시 보관할 폴더
-  //        1024 * 1024 * 20, // 한 파일의 최대 크기
-  //        1024 * 1024 * 20 * 10, // 한 요청 당 최대 총 파일 크기
-  //        1024 * 1024 * 1 // 클라이언트가 보낸 파일을 메모리에 임시 보관하는 최대 크기.
-  //        // 최대 크기를 초과하면 파일에 내보낸다.
-  //        ));
-  //  }
+  @Override
+  protected void customizeRegistration(Dynamic registration) {
+    registration.setMultipartConfig(new MultipartConfigElement(
+        System.getProperty("java.io.tmpdir"), // 클라이언트가 보낸 파일을 임시 보관할 폴더
+        1024 * 1024 * 20, // 한 파일의 최대 크기
+        1024 * 1024 * 20 * 10, // 한 요청 당 최대 총 파일 크기
+        1024 * 1024 * 1 // 클라이언트가 보낸 파일을 메모리에 임시 보관하는 최대 크기.
+        // 최대 크기를 초과하면 파일에 내보낸다.
+        ));
+  }
 
   @Override
   protected Filter[] getServletFilters() {

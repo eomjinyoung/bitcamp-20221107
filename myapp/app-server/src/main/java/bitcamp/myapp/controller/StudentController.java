@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,15 +59,22 @@ public class StudentController {
       @PathVariable int no,
       @RequestBody Student student) {
 
-    System.out.println(student);
+    log.debug(student);
+
+    // 보안을 위해 URL 번호를 게시글 번호로 설정한다.
+    student.setNo(no);
+
     studentService.update(student);
     return new RestResult()
         .setStatus(RestStatus.SUCCESS);
   }
 
-  @PostMapping("/student/delete")
-  public void delete(int no, Model model) {
+  @DeleteMapping("/students/{no}")
+  @ResponseBody
+  public Object delete(@PathVariable int no) {
     studentService.delete(no);
+    return new RestResult()
+        .setStatus(RestStatus.SUCCESS);
   }
 
 

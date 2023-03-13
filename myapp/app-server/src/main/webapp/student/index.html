@@ -22,6 +22,11 @@ article {
   background-color: navy;
   color: white;
 }
+
+.invisible { 
+  display: none;
+}
+
 </style>
 </head>
 <body>
@@ -80,7 +85,7 @@ article {
   </tr>
   <tr>
     <th>재직여부</th>
-    <td><input id="f-working" type='checkbox' name='working' value="true"> 재직중</td>
+    <td><input id="f-working" type='checkbox' name='working' value='true'> 재직중</td>
   </tr>
   <tr>
     <th>성별</th>
@@ -102,14 +107,42 @@ article {
   </table>
 
   <div>
-    <button id='btn-insert' type='button'>추가</button>
-    <button id="btn-update" type="button">변경</button>
-    <button id='btn-delete' type='button'>삭제</button>
+    <button id='btn-insert' type='button' class='input'>추가</button>
+    <button id="btn-update" type="button" class='edit'>변경</button>
+    <button id='btn-delete' type='button' class='edit'>삭제</button>
+    <button id='btn-cancel' type='button' class='edit'>취소</button>
   </div>
   </form>
 </article>
 
 <script>
+
+showInput();
+
+function showInput() {
+  let el = document.querySelectorAll('.input');
+  for (let e of el) {
+    e.classList.remove('invisible');
+  }
+  
+  el = document.querySelectorAll('.edit');
+  for (let e of el) {
+    e.classList.add('invisible');
+  }
+}
+
+function showEdit() {
+  let el = document.querySelectorAll('.input');
+  for (let e of el) {
+    e.classList.add('invisible');
+  }
+  
+  el = document.querySelectorAll('.edit');
+  for (let e of el) {
+    e.classList.remove('invisible');
+  }
+}
+
 fetch("../admin/students")
 .then(response => {
   return response.json();
@@ -177,7 +210,7 @@ document.querySelector('#btn-update').onclick = () => {
   
   // FormData ==> Query String
   // 방법1) 
-  // let qs = [...formData.entries()].map(x => `${encodeURIComponent(x[0])}=${encodeURIComponent(x[1])}`).join('&');
+  //let qs = [...formData.entries()].map(x => `${encodeURIComponent(x[0])}=${encodeURIComponent(x[1])}`).join('&');
   // 방법2)
   //let qs = new URLSearchParams(formData).toString();
   //console.log(qs);
@@ -196,17 +229,19 @@ document.querySelector('#btn-update').onclick = () => {
     //body: qs
   })
   .then(response => {
-    return response.json();
+    return response.text();
   })
   .then(result => {
-	  //console.log(result);
-    if (result.status == 'success') {
+	  console.log(result);
+    /*
+	  if (result.status == 'success') {
       alert("변경 했습니다.");
       location.reload();
     } else {
       alert('변경 실패!');
       console.log(result.data);
     }
+    */
   })
   .catch(exception => {
     alert('변경 중 오류 발생!');
@@ -216,7 +251,23 @@ document.querySelector('#btn-update').onclick = () => {
 };
 
 document.querySelector('#btn-delete').onclick = () => {
-  console.log('삭제');
+  fetch("../admin/students/" + document.querySelector('#f-no').value, {
+    method: "DELETE"
+  })
+  .then(response => {
+    return response.json();
+  })
+  .then(result => {
+    if (result.status == 'success') {
+      location.reload();
+    } else {
+      alert('파일 삭제 실패!');
+    }
+  })
+  .catch(exception => {
+    alert('파일 삭제 중 오류 발생!');
+    console.log(exception);
+  });
 };
 
 // entries ==> query string
