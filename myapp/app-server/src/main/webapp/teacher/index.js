@@ -1,6 +1,14 @@
 showInput();
 getTeachers();
 
+// handlebars 확장 태그 등록
+Handlebars.registerHelper("degreeLabel", function (options) {
+  return getDegreeLabel(parseInt(options.fn(this)));
+});
+
+const html = document.querySelector("#tr-template").innerHTML;
+const templateEngine = Handlebars.compile(html);
+
 function showInput() {
   let el = document.querySelectorAll(".input");
   for (let e of el) {
@@ -36,21 +44,8 @@ function getTeachers(keyword) {
       return response.json();
     })
     .then((result) => {
-      let tbody = "";
-      result.data.forEach((teacher) => {
-        let html = `
-<tr data-no="${teacher.no}" onclick="getTeacher(event)">
-   <td>${teacher.no}</td> 
-   <td>${teacher.name}</td> 
-   <td>${teacher.tel}</td> 
-   <td>${getDegreeLabel(teacher.degree)}</td> 
-   <td>${teacher.major}</td>
-   <td>${teacher.wage}</td>
-</tr>
-`;
-        tbody += html;
-      });
-      document.querySelector("#teacher-table > tbody").innerHTML = tbody;
+      document.querySelector("#teacher-table > tbody").innerHTML =
+        templateEngine(result.data);
     });
 }
 
@@ -96,6 +91,9 @@ function getTeacher(e) {
       document.querySelector("#f-createdDate").innerHTML = teacher.createdDate;
 
       showEdit();
+
+      const modal = new bootstrap.Modal("#teacherModal", {});
+      modal.show();
     });
 }
 
@@ -130,7 +128,7 @@ document.querySelector("#btn-insert").onclick = () => {
 };
 
 document.querySelector("#btn-update").onclick = () => {
-  const form = document.querySelector("#student-form");
+  const form = document.querySelector("#teacher-form");
   const formData = new FormData(form);
 
   let json = JSON.stringify(Object.fromEntries(formData));
@@ -182,4 +180,9 @@ document.querySelector("#btn-delete").onclick = () => {
 
 document.querySelector("#btn-cancel").onclick = () => {
   showInput();
+};
+
+document.querySelector("#btn-new").onclick = () => {
+  const modal = new bootstrap.Modal("#teacherModal", {});
+  modal.show();
 };
