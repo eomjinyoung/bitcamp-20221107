@@ -1,322 +1,114 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset='UTF-8'>
-<title>비트캠프 - NCP 1기</title>
-<style>
-aside {
-  border: 1px solid red;
-  box-sizing: border-box;
-  background-color: yellow; 
-  float: left;
-  width: 200px;
-}
+  <head>
+    <meta charset="UTF-8" />
+    <title>비트캠프 - NCP 1기</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <h1>학생(Thymeleaf)</h1>
 
-article {
-  border: 1px solid black;
-  box-sizing: border-box;
-  margin-left: 210px;
-}
+    <aside>
+      <div>
+        <input type="text" name="keyword" value="" />
+        <button id="btn-search" type="button">검색</button>
+      </div>
+      <table id="student-table" border="1">
+        <thead>
+          <tr>
+            <th>번호</th>
+            <th>이름</th>
+            <th>재직</th>
+            <th>전화</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </aside>
 
-#student-table > tbody > tr:hover { 
-  background-color: navy;
-  color: white;
-}
+    <article>
+      <form id="student-form" action="update" method="post">
+        <table border="1">
+          <tr class="edit">
+            <th>번호</th>
+            <td><input id="f-no" type="text" name="no" readonly /></td>
+          </tr>
+          <tr>
+            <th>이름</th>
+            <td><input id="f-name" type="text" name="name" /></td>
+          </tr>
+          <tr>
+            <th>이메일</th>
+            <td><input id="f-email" type="email" name="email" /></td>
+          </tr>
+          <tr>
+            <th>암호</th>
+            <td><input id="f-password" type="password" name="password" /></td>
+          </tr>
+          <tr>
+            <th>전화</th>
+            <td><input id="f-tel" type="tel" name="tel" /></td>
+          </tr>
+          <tr>
+            <th>우편번호</th>
+            <td><input id="f-postNo" type="text" name="postNo" /></td>
+          </tr>
+          <tr>
+            <th>기본주소</th>
+            <td>
+              <input id="f-basicAddress" type="text" name="basicAddress" />
+            </td>
+          </tr>
+          <tr>
+            <th>상세주소</th>
+            <td>
+              <input id="f-detailAddress" type="text" name="detailAddress" />
+            </td>
+          </tr>
+          <tr>
+            <th>재직여부</th>
+            <td>
+              <input
+                id="f-working"
+                type="checkbox"
+                name="working"
+                value="true"
+              />
+              재직중
+            </td>
+          </tr>
+          <tr>
+            <th>성별</th>
+            <td>
+              <input type="radio" name="gender" value="M" /> 남
+              <input type="radio" name="gender" value="W" checked /> 여
+            </td>
+          </tr>
+          <tr>
+            <th>전공</th>
+            <td>
+              <select id="f-level" name="level">
+                <option value="0">비전공자</option>
+                <option value="1">준전공자</option>
+                <option value="2">전공자</option>
+              </select>
+            </td>
+          </tr>
+          <tr class="edit">
+            <th>등록일</th>
+            <td><span id="f-createdDate"></span></td>
+          </tr>
+        </table>
 
-.invisible { 
-  display: none;
-}
+        <div>
+          <button id="btn-insert" type="button" class="input">추가</button>
+          <button id="btn-update" type="button" class="edit">변경</button>
+          <button id="btn-delete" type="button" class="edit">삭제</button>
+          <button id="btn-cancel" type="reset" class="edit">취소</button>
+        </div>
+      </form>
+    </article>
 
-</style>
-</head>
-<body>
-<h1>학생(Thymeleaf)</h1>
-
-<aside> 
-<form action='list' method='get'>
-  <input type='text' name='keyword' value="">
-  <button>검색</button>
-</form>
-<div><a href='form'>새 학생</a></div>
-<table id="student-table" border='1'>
-<thead>
-  <tr>
-    <th>번호</th> <th>이름</th> <th>재직</th>
-  </tr>
-</thead>
-<tbody></tbody>
-</table>
-</aside>
-
-<article>
-  <form id='student-form' action='update' method='post'>
-  <table border='1'>
-  <tr>
-    <th>번호</th>
-    <td><input id="f-no" type='text' name='no' readonly></td>
-  </tr>
-  <tr>
-    <th>이름</th>
-    <td><input id="f-name" type='text' name='name'></td>
-  </tr>
-  <tr>
-    <th>이메일</th>
-    <td><input id="f-email" type='email' name='email'></td>
-  </tr>
-  <tr>
-    <th>암호</th>
-    <td><input id="f-password" type='password' name='password'></td>
-  </tr>
-  <tr>
-    <th>전화</th>
-    <td><input id="f-tel" type='tel' name='tel'></td>
-  </tr>
-  <tr>
-    <th>우편번호</th>
-    <td><input id="f-postNo" type='text' name='postNo'></td>
-  </tr>
-  <tr>
-    <th>기본주소</th>
-    <td><input id="f-basicAddress" type='text' name='basicAddress'></td>
-  </tr>
-  <tr>
-    <th>상세주소</th>
-    <td><input id="f-detailAddress" type='text' name='detailAddress'></td>
-  </tr>
-  <tr>
-    <th>재직여부</th>
-    <td><input id="f-working" type='checkbox' name='working' value='true'> 재직중</td>
-  </tr>
-  <tr>
-    <th>성별</th>
-    <td><input type='radio' name='gender' value='M'> 남
-    <input type='radio' name='gender' value='W' checked> 여</td>
-  </tr>
-  <tr>
-    <th>전공</th>
-    <td><select id="f-level" name='level'>
-      <option value='0'>비전공자</option>
-      <option value='1'>준전공자</option>
-      <option value='2'>전공자</option>
-    </select></td>
-  </tr>
-  <tr>
-    <th>등록일</th>
-    <td><span id="f-createdDate"></span></td>
-  </tr>
-  </table>
-
-  <div>
-    <button id='btn-insert' type='button' class='input'>추가</button>
-    <button id="btn-update" type="button" class='edit'>변경</button>
-    <button id='btn-delete' type='button' class='edit'>삭제</button>
-    <button id='btn-cancel' type='button' class='edit'>취소</button>
-  </div>
-  </form>
-</article>
-
-<script>
-
-showInput();
-
-function showInput() {
-  let el = document.querySelectorAll('.input');
-  for (let e of el) {
-    e.classList.remove('invisible');
-  }
-  
-  el = document.querySelectorAll('.edit');
-  for (let e of el) {
-    e.classList.add('invisible');
-  }
-}
-
-function showEdit() {
-  let el = document.querySelectorAll('.input');
-  for (let e of el) {
-    e.classList.add('invisible');
-  }
-  
-  el = document.querySelectorAll('.edit');
-  for (let e of el) {
-    e.classList.remove('invisible');
-  }
-}
-
-fetch("../admin/students")
-.then(response => {
-  return response.json();
-})
-.then(result => {
-  let tbody = "";
-  result.data.forEach(student => {
-    let html = `
-      <tr data-no="${student.no}" onclick="getStudent(event)">
-         <td>${student.no}</td> 
-         <td>${student.name}</td> 
-         <td>${student.working ? '예' : '아니오'}</td> 
-      </tr>
-    `;
-    tbody += html;
-  });
-  document.querySelector("#student-table > tbody").innerHTML = tbody;
-});
-
-function getLevelTitle(level) {
-  switch (level) {
-    case 0: return "비전공자";
-    case 1: return "준전공자";
-    case 2: return "전공자";
-    default: return "기타";
-  }
-}
-
-function getStudent(e) {
-  let no = e.currentTarget.getAttribute('data-no');
-  
-  fetch('../admin/students/' + no)
-  .then(response => {
-    return response.json();
-  })
-  .then(result => {
-    if (result.status == 'failure') {
-      alert('학생을 조회할 수 없습니다.');
-      return;
-    }
-    
-    let student = result.data;
-    console.log(student);
-    document.querySelector('#f-no').value = student.no;
-    document.querySelector('#f-name').value = student.name;
-    document.querySelector('#f-email').value = student.email;
-    document.querySelector('#f-tel').value = student.tel;
-    document.querySelector('#f-postNo').value = student.postNo;
-    document.querySelector('#f-basicAddress').value = student.basicAddress;
-    document.querySelector('#f-detailAddress').value = student.detailAddress;
-    document.querySelector('#f-working').checked = student.working;
-    document.querySelector(`input[name="gender"][value="${student.gender}"]`).checked = true;
-    document.querySelector('#f-level').value = student.level;
-    document.querySelector('#f-createdDate').innerHTML = student.createdDate;
-  });
-}
-
-document.querySelector('#btn-insert').onclick = () => {
-  console.log('추가');
-};
-
-document.querySelector('#btn-update').onclick = () => {
-  const form = document.querySelector('#student-form');
-  const formData = new FormData(form);
-  
-  // FormData ==> Query String
-  // 방법1) 
-  //let qs = [...formData.entries()].map(x => `${encodeURIComponent(x[0])}=${encodeURIComponent(x[1])}`).join('&');
-  // 방법2)
-  //let qs = new URLSearchParams(formData).toString();
-  //console.log(qs);
-  
-  let json = JSON.stringify(Object.fromEntries(formData)); 
-  //console.log(json);
-  
-  fetch("../admin/students/" + document.querySelector('#f-no').value, {
-    method: "PUT",
-    headers: {
-        "Content-Type": "application/json"
-        //"Content-Type": "application/x-www-form-urlencoded"
-    },
-    //body: formData
-    body: json
-    //body: qs
-  })
-  .then(response => {
-    return response.text();
-  })
-  .then(result => {
-	  console.log(result);
-    /*
-	  if (result.status == 'success') {
-      alert("변경 했습니다.");
-      location.reload();
-    } else {
-      alert('변경 실패!');
-      console.log(result.data);
-    }
-    */
-  })
-  .catch(exception => {
-    alert('변경 중 오류 발생!');
-    console.log(exception);
-  });
-
-};
-
-document.querySelector('#btn-delete').onclick = () => {
-  fetch("../admin/students/" + document.querySelector('#f-no').value, {
-    method: "DELETE"
-  })
-  .then(response => {
-    return response.json();
-  })
-  .then(result => {
-    if (result.status == 'success') {
-      location.reload();
-    } else {
-      alert('파일 삭제 실패!');
-    }
-  })
-  .catch(exception => {
-    alert('파일 삭제 중 오류 발생!');
-    console.log(exception);
-  });
-};
-
-// entries ==> query string
-function toQueryStringFromEntries(entries) {
-  let qs = "";
-  for (let [key, value] of entries) {
-    if (qs.length > 0) {
-      qs += "&";
-    }
-    qs += encodeURIComponent(key) + "=" + encodeURIComponent(value);
-  }
-  return qs;
-}
-
-function toQueryStringFromEntries2(entries) {
-  let arr = [];
-  for (let entry of entries) {
-    arr.push(entry);
-  }
-  
-  //console.log(arr);
-  
-  let arr2 = arr.map(x => `${encodeURIComponent(x[0])}=${encodeURIComponent(x[1])}`);
-  //console.log(arr2);
-  
-  let str = arr2.join('&');
-  //console.log(str);
-  
-  return str;
-}
-
-function toQueryStringFromEntries3(entries) {
-  let arr = [...entries];
-  
-  //console.log(arr);
-  
-  let arr2 = arr.map(x => `${encodeURIComponent(x[0])}=${encodeURIComponent(x[1])}`);
-  //console.log(arr2);
-  
-  let str = arr2.join('&');
-  //console.log(str);
-  
-  return str;
-	}
-
-</script>
-
-
-</body>
+    <script src="index.js"></script>
+  </body>
 </html>
-
-
