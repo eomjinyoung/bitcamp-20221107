@@ -396,3 +396,7 @@
 - 웹 페이지에서 JSON을 받아 처리하는 방법
 - Handlebars 자바스크립트 템플릿 라이브러리 사용법
 - Bootstrap의 모달상자 사용법
+
+### 65. SpringBoot 적용하기
+
+- SpringBoot 사용법
