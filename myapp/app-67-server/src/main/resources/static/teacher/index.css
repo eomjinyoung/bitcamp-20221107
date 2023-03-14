@@ -1,0 +1,21 @@
+aside {
+  /*border: 1px solid red;*/
+  box-sizing: border-box;
+  float: left;
+  width: 450px;
+}
+
+article {
+  /*border: 1px solid black;*/
+  box-sizing: border-box;
+  margin-left: 460px;
+}
+
+#teacher-table > tbody > tr:hover {
+  background-color: navy;
+  color: white;
+}
+
+.invisible {
+  display: none;
+}

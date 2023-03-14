@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>비트캠프 - NCP 1기</title>
+    <link
+      rel="stylesheet"
+      href="../node_modules/bootstrap/dist/css/bootstrap.css"
+    />
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>강사</h1>
+
+      <aside>
+        <div>
+          <button id="btn-new" class="btn btn-primary">새 강사</button>
+        </div>
+        <table id="teacher-table" border="1">
+          <thead>
+            <tr>
+              <th>번호</th>
+              <th>이름</th>
+              <th>전화</th>
+              <th>학위</th>
+              <th>전공</th>
+              <th>시강료</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </aside>
+
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="teacherModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+      <form id="teacher-form" action="update" method="post">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">
+                강사
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              
+                <table border="1">
+                  <tr class="edit">
+                    <th>번호</th>
+                    <td><input id="f-no" type="text" name="no" readonly /></td>
+                  </tr>
+                  <tr>
+                    <th>이름</th>
+                    <td><input id="f-name" type="text" name="name" /></td>
+                  </tr>
+                  <tr>
+                    <th>이메일</th>
+                    <td><input id="f-email" type="email" name="email" /></td>
+                  </tr>
+                  <tr>
+                    <th>암호</th>
+                    <td>
+                      <input id="f-password" type="password" name="password" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>전화</th>
+                    <td><input id="f-tel" type="tel" name="tel" /></td>
+                  </tr>
+                  <tr>
+                    <th>학위</th>
+                    <td>
+                      <select id="f-degree" name="degree">
+                        <option value="1">고졸</option>
+                        <option value="2">전문학사</option>
+                        <option value="3">학사</option>
+                        <option value="4">석사</option>
+                        <option value="5">박사</option>
+                        <option value="0">기타</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>학교</th>
+                    <td><input id="f-school" type="text" name="school" /></td>
+                  </tr>
+                  <tr>
+                    <th>전공</th>
+                    <td><input id="f-major" type="text" name="major" /></td>
+                  </tr>
+                  <tr>
+                    <th>강의료(시급)</th>
+                    <td><input id="f-wage" type="number" name="wage" /></td>
+                  </tr>
+                  <tr class="edit">
+                    <th>등록일</th>
+                    <td><span id="f-createdDate"></span></td>
+                  </tr>
+                </table>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                id="btn-insert"
+                type="button"
+                class="input btn btn-primary"
+              >
+                추가
+              </button>
+              <button
+                id="btn-update"
+                type="button"
+                class="edit btn btn-primary"
+              >
+                변경
+              </button>
+              <button
+                id="btn-delete"
+                type="button"
+                class="edit btn btn-primary"
+              >
+                삭제
+              </button>
+              <button
+                id="btn-cancel"
+                type="reset"
+                class="edit btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                취소
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+      </div>
+    </div>
+
+    <script id="tr-template" type="text/x-handlebars-template">
+      {{#each this}}
+        <tr data-no="{{no}}" onclick="getTeacher(event)">
+          <td>{{no}}</td>
+          <td>{{name}}</td>
+          <td>{{tel}}</td>
+          <td>{{#degreeLabel}}{{degree}}{{/degreeLabel}}</td>
+          <td>{{major}}</td>
+          <td>{{wage}}</td>
+        </tr>
+      {{/each}}
+    </script>
+
+    <script src="../node_modules/handlebars/dist/handlebars.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>

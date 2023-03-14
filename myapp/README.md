@@ -401,6 +401,18 @@
 
 - 프로젝트에 톰캣을 삽입하여 구동하는 방법
 
-### 66. SpringBoot 적용하기
+### 66. SpringBoot(2.7.x) 적용하기
 
 - SpringBoot 사용법
+
+### 67. Lombok 적용하기
+
+- Lombok 사용법
+
+### 68. SpringBoot(3.x) 교체하기
+
+- Jakarta EE 사용법
+
+### 69. 서블릿 컨테이너 교체하기: Undertow 서블릿 컨테이너
+
+- SpringBoot의 서블릿 컨테이너를 교체하는 방법
