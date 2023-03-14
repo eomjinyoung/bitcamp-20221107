@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitcamp.myapp.dao.BoardDao">
+
+  <resultMap type="board" id="boardMap">
+    <id column="board_id" property="no"/>
+    <result column="title" property="title"/>
+    <result column="content" property="content"/>
+    <result column="pwd" property="password"/>
+    <result column="created_date" property="createdDate"/>
+    <result column="view_cnt" property="viewCount"/>
+    
+    <association property="writer" javaType="member">
+      <id column="writer" property="no"/>
+      <result column="name" property="name"/>
+    </association>
+    
+    <collection property="attachedFiles" ofType="boardfile">
+      <id column="boardfile_id" property="no"/>
+      <result column="filepath" property="filepath"/>
+      <result column="origin_filename" property="originalFilename"/>
+      <result column="mime_type" property="mimeType"/>
+      <result column="board_id" property="boardNo"/>
+    </collection>
+  </resultMap>
+
+  <insert id="insert" parameterType="board" 
+          useGeneratedKeys="true" keyColumn="board_id" keyProperty="no">
+    insert into app_board(title, content, writer) 
+    values(#{title}, #{content}, #{writer.no})
+  </insert>
+
+  <select id="findAll" resultMap="boardMap" parameterType="string">
+    select 
+      b.board_id, 
+      b.title, 
+      b.writer,
+      b.created_date, 
+      b.view_cnt,
+      m.name 
+    from 
+      app_board b
+      inner join app_member m on b.writer = m.member_id
+    <if test="keyword != '' and keyword != null">
+    where 
+      b.title like(concat('%',#{keyword},'%'))
+      or b.content like(concat('%',#{keyword},'%'))
+    </if> 
+    order by 
+      b.board_id desc
+  </select>
+
+  <select id="findByNo" parameterType="int" resultMap="boardMap">
+    select 
+      b.board_id, 
+      b.title, 
+      b.content,
+      b.writer, 
+      (select name from app_member where member_id = b.writer) name, 
+      b.created_date, 
+      b.view_cnt,
+      bf.boardfile_id,
+      bf.filepath,
+      bf.origin_filename,
+      bf.mime_type
+    from 
+      app_board b
+      left outer join app_board_file bf on b.board_id = bf.board_id
+    where 
+      b.board_id=#{no}
+  </select>
+  
+  <update id="increaseViewCount" parameterType="int">
+    update app_board set
+      view_cnt = view_cnt + 1
+    where board_id=#{maumdaerohaedodoi}
+  </update>
+  
+  <update id="update" parameterType="board">
+    update app_board set 
+      title=#{title}, 
+      content=#{content} 
+    where board_id=#{no}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    delete from app_board 
+    where board_id=#{no}
+  </delete>
+</mapper>
+
+
+
+
+
