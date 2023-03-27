@@ -8,6 +8,7 @@ public interface StudentService {
   List<Student> list(String keyword);
   Student get(int no);
   Student get(String email, String password);
+  Student get(String email);
   void update(Student student);
   void delete(int no);
 }

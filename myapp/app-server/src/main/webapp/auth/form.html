@@ -117,7 +117,7 @@ function facebookLogin(accessToken) {
   })
   .then(result => {
     if (result.status == 'success') {
-      console.log('요청 성공!');
+      location.href = "../";
     } else {
       alert('페이스북 로그인 실패!');
     }

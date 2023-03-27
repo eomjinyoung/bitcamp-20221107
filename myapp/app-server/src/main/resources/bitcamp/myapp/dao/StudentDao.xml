@@ -94,6 +94,26 @@
       and m.pwd = sha2(#{password},256)
   </select>
   
+  <select id="findByEmail" parameterType="string" resultMap="studentMap">
+    select
+      m.member_id,
+      m.name,
+      m.email,
+      m.tel,
+      m.created_date,
+      s.pst_no,
+      s.bas_addr,
+      s.det_addr,
+      s.work,
+      s.gender,
+      s.level
+    from 
+      app_student s
+      inner join app_member m on s.member_id = m.member_id
+    where 
+      m.email = #{email}
+  </select>
+  
   <update id="update" parameterType="student">
     update app_student set
       pst_no=#{postNo},
