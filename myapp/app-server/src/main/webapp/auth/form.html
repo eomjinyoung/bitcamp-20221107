@@ -33,6 +33,10 @@
 </div>
 </form>
 
+<fb:login-button 
+    scope="public_profile,email"
+    onlogin="checkLoginState()"></fb:login-button>
+
 <script>
 
 document.querySelector('input[name="email"]').value = getCookie('email');
@@ -90,6 +94,73 @@ function setCookie(cookieName, cookieValue, cookieMaxAge, cookiePath, cookieDoma
     cookieText+=(cookieSecure ? '; secure' : '');
     document.cookie=cookieText;
 }
+</script>
+
+<script>
+
+// 페이스북 로그인이 성공한 후 
+// 서버에 페이스북 로그인 처리를 요청한다.
+function facebookLogin(accessToken) {
+  const data = {
+    "accessToken": accessToken
+  };
+  
+  fetch("facebookLogin", {
+    method: "post",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => {
+    return response.json();
+  })
+  .then(result => {
+    if (result.status == 'success') {
+      console.log('요청 성공!');
+    } else {
+      alert('페이스북 로그인 실패!');
+    }
+  })
+  .catch(exception => {
+    alert("페이스북 로그인 오류!");
+    console.log(exception);
+  });
+}
+
+// 로그인이 성공했을 때 호출된다.
+function checkLoginState() {
+    // 페이스북 서버에서 로그인 상태를 가져다 달라고 요청한다.
+    FB.getLoginStatus(function(response) {  
+      if (response.status === 'connected') {
+        facebookLogin(response.authResponse.accessToken);
+    
+      } else {
+        alert("페이스북 로그인 실패!");
+      }
+    });
+}
+
+// 페이스북 자바스크립트 라이브러리 로딩을 완료했을 때 호출될 함수를 등록한다.
+window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '155080877155279', // 개발자가 등록한 앱 ID
+    cookie     : true,  
+    xfbml      : true,  
+    version    : 'v16.0' 
+  });
+  //FB.AppEvents.logPageView();
+};
+
+// 페이스북 자바스크립트 라이브러리를 가져오는 script 태그 추가
+(function(d, s, id) {
+  var js, fjs = document.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "https://connect.facebook.net/en_US/sdk.js";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
 </script>
 </body>
 </html>
