@@ -104,7 +104,7 @@ fetch("../boards/" + no)
     if (file.no == 0) return;
     let html = `
       <li id="li-${file.no}">
-        <a href="../download/boardfile?fileNo=${file.no}">${file.originalFilename}</a>
+        <a href="${file.filepath}">${file.originalFilename}</a>
         [<a href="#" onclick="deleteFile(${board.no}, ${file.no}); return false;">삭제</a>]
       </li>`;
     ul += html;
