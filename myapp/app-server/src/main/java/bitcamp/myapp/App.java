@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -13,6 +14,7 @@ import bitcamp.myapp.web.interceptor.AuthInterceptor;
 
 @EnableTransactionManagement
 @SpringBootApplication
+@PropertySource("classpath:/application-dev.properties")
 public class App implements WebMvcConfigurer {
 
   Logger log = LogManager.getLogger(getClass());
