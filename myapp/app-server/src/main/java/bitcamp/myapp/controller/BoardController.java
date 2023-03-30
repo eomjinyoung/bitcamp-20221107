@@ -37,12 +37,9 @@ public class BoardController {
 
   Logger log = LogManager.getLogger(getClass());
 
-  {
-    log.trace("BoardController 생성됨!");
-  }
-
   @Autowired private BoardService boardService;
   @Autowired private ObjectStorageService objectStorageService;
+  private String bucketName = "bitcamp-bucket28";
 
   @PostMapping
   public Object insert(
@@ -58,7 +55,7 @@ public class BoardController {
 
     List<BoardFile> boardFiles = new ArrayList<>();
     for (MultipartFile file : files) {
-      String fileUrl = objectStorageService.uploadFile(file);
+      String fileUrl = objectStorageService.uploadFile(bucketName, file);
       if (fileUrl == null) {
         continue;
       }

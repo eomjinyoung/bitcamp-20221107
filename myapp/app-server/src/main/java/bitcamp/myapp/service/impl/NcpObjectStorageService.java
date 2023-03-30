@@ -1,6 +1,5 @@
 package bitcamp.myapp.service.impl;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
@@ -24,7 +23,6 @@ public class NcpObjectStorageService implements ObjectStorageService {
   Logger log = LogManager.getLogger(getClass());
 
   final AmazonS3 s3;
-  final String bucketName = "bitcamp-bucket28";
 
   public NcpObjectStorageService(NaverConfig naverConfig) {
     s3 = AmazonS3ClientBuilder.standard()
@@ -36,24 +34,30 @@ public class NcpObjectStorageService implements ObjectStorageService {
   }
 
   @Override
-  public String uploadFile(MultipartFile file) {
+  public String uploadFile(String bucketName, MultipartFile file) {
     if (file.isEmpty()) {
       return null;
     }
 
-    String filename = UUID.randomUUID().toString();
+    try (InputStream fileIn = file.getInputStream()) {
+      String filename = UUID.randomUUID().toString();
 
-    ObjectMetadata objectMetadata = new ObjectMetadata();
-    objectMetadata.setContentType(file.getContentType());
+      ObjectMetadata objectMetadata = new ObjectMetadata();
+      objectMetadata.setContentType(file.getContentType());
 
-    try (InputStream inputStream = file.getInputStream()) {
-      s3.putObject(new PutObjectRequest(bucketName, filename, inputStream, objectMetadata)
-          .withCannedAcl(CannedAccessControlList.PublicRead));
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+      PutObjectRequest objectRequest = new PutObjectRequest(
+          bucketName,
+          filename,
+          fileIn,
+          objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead);
+
+      s3.putObject(objectRequest);
+
+      return s3.getUrl(bucketName, filename).toString();
+
+    } catch (Exception e) {
+      throw new RuntimeException("파일 업로드 오류", e);
     }
-
-    return s3.getUrl(bucketName, filename).toString();
   }
 
 }
