@@ -104,8 +104,8 @@ fetch("../boards/" + no)
     if (file.no == 0) return;
     let html = `
       <li id="li-${file.no}">
-        <a href="${file.filepath}">${file.originalFilename}</a>
-        [<a href="#" onclick="deleteFile(${board.no}, ${file.no}); return false;">삭제</a>]
+        <a href="https://kr.object.ncloudstorage.com/bitcamp-bucket28/board/${file.filepath}">${file.originalFilename}</a>
+        [<a href="#" onclick="deleteFile(${board.no}, ${file.no}); return false;">삭제</a>] 
       </li>`;
     ul += html;
   });

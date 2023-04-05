@@ -27,11 +27,11 @@
     </aside>
 
     <article>
-      <form id="student-form" action="update" method="post">
+      <form id="student-form" action="update" method="post" enctype="multipart/form-data">
         <table border="1">
           <tr class="edit">
             <th>번호</th>
-            <td><input id="f-no" type="text" name="no" readonly /></td>
+            <td><input id="f-no" type="text" name="no" value="0" readonly /></td>
           </tr>
           <tr>
             <th>이름</th>
@@ -44,6 +44,13 @@
           <tr>
             <th>암호</th>
             <td><input id="f-password" type="password" name="password" /></td>
+          </tr>
+          <tr>
+            <th>사진</th>
+            <td>
+              <a id="f-photo-origin"><img id="f-photo" class="edit"></a>
+              <input id="f-file" type="file" name="file" />
+            </td>
           </tr>
           <tr>
             <th>전화</th>
@@ -113,7 +120,7 @@
       {{#each this}}
         <tr data-no="{{no}}" onclick="getStudent(event)">
           <td>{{no}}</td>
-          <td>{{name}}</td>
+          <td><img src="http://hlzkqgzmhuhe16692468.cdn.ntruss.com/{{photo}}?type=f&w=20&h=20&faceopt=true&ttype=jpg" class="photo20x20">{{name}}</td>
           <td>{{#if working}}예{{else}}아니오{{/if}}</td>
           <td>{{tel}}</td>
         </tr>

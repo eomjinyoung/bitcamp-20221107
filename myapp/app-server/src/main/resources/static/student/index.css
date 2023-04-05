@@ -20,3 +20,13 @@ article {
 .invisible { 
   display: none;
 }
+
+.photo20x20 { 
+  width: 20px;
+  height: 20px;
+}
+
+#f-photo {
+  width: 80px;
+  height: 80px;
+}

@@ -66,6 +66,7 @@ function getLevelTitle(level) {
 }
 
 function getStudent(e) {
+
   let no = e.currentTarget.getAttribute("data-no");
 
   fetch("../students/" + no)
@@ -77,17 +78,26 @@ function getStudent(e) {
         alert("학생을 조회할 수 없습니다.");
         return;
       }
-
+    
       let student = result.data;
       console.log(student);
+      
       document.querySelector("#f-no").value = student.no;
       document.querySelector("#f-name").value = student.name;
       document.querySelector("#f-email").value = student.email;
+      if (student.photo) {
+        document.querySelector("#f-photo-origin").href = `https://kr.object.ncloudstorage.com/bitcamp-bucket28-member-photo/${student.photo}`;
+        document.querySelector("#f-photo").src = `http://hlzkqgzmhuhe16692468.cdn.ntruss.com/${student.photo}?type=f&w=80&h=80&faceopt=true&ttype=jpg`;
+      } else {
+        document.querySelector("#f-photo").src = "../images/no-body.webp";
+      }
       document.querySelector("#f-tel").value = student.tel;
       document.querySelector("#f-postNo").value = student.postNo;
       document.querySelector("#f-basicAddress").value = student.basicAddress;
       document.querySelector("#f-detailAddress").value = student.detailAddress;
+      
       document.querySelector("#f-working").checked = student.working;
+      
       document.querySelector(
         `input[name="gender"][value="${student.gender}"]`
       ).checked = true;
@@ -102,15 +112,10 @@ document.querySelector("#btn-insert").onclick = () => {
   const form = document.querySelector("#student-form");
   const formData = new FormData(form);
 
-  let json = JSON.stringify(Object.fromEntries(formData));
-
   fetch("../students", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: json,
-  })
+      method: "POST",
+      body: formData
+    })
     .then((response) => {
       return response.json();
     })
@@ -132,25 +137,10 @@ document.querySelector("#btn-update").onclick = () => {
   const form = document.querySelector("#student-form");
   const formData = new FormData(form);
 
-  // FormData ==> Query String
-  // 방법1)
-  //let qs = [...formData.entries()].map(x => `${encodeURIComponent(x[0])}=${encodeURIComponent(x[1])}`).join('&');
-  // 방법2)
-  //let qs = new URLSearchParams(formData).toString();
-  //console.log(qs);
-
-  let json = JSON.stringify(Object.fromEntries(formData));
-  //console.log(json);
 
   fetch("../students/" + document.querySelector("#f-no").value, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      //"Content-Type": "application/x-www-form-urlencoded"
-    },
-    //body: formData
-    body: json,
-    //body: qs
+    body: formData
   })
     .then((response) => {
       return response.json();
@@ -193,50 +183,3 @@ document.querySelector("#btn-delete").onclick = () => {
 document.querySelector("#btn-cancel").onclick = () => {
   showInput();
 };
-
-// entries ==> query string
-function toQueryStringFromEntries(entries) {
-  let qs = "";
-  for (let [key, value] of entries) {
-    if (qs.length > 0) {
-      qs += "&";
-    }
-    qs += encodeURIComponent(key) + "=" + encodeURIComponent(value);
-  }
-  return qs;
-}
-
-function toQueryStringFromEntries2(entries) {
-  let arr = [];
-  for (let entry of entries) {
-    arr.push(entry);
-  }
-
-  //console.log(arr);
-
-  let arr2 = arr.map(
-    (x) => `${encodeURIComponent(x[0])}=${encodeURIComponent(x[1])}`
-  );
-  //console.log(arr2);
-
-  let str = arr2.join("&");
-  //console.log(str);
-
-  return str;
-}
-
-function toQueryStringFromEntries3(entries) {
-  let arr = [...entries];
-
-  //console.log(arr);
-
-  let arr2 = arr.map(
-    (x) => `${encodeURIComponent(x[0])}=${encodeURIComponent(x[1])}`
-  );
-  //console.log(arr2);
-
-  let str = arr2.join("&");
-  //console.log(str);
-
-  return str;
-}

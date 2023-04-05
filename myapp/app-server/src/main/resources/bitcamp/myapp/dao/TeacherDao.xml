@@ -10,6 +10,7 @@
     <result column="email" property="email"/>
     <result column="tel" property="tel"/>
     <result column="created_date" property="createdDate"/>
+    <result column="photo" property="photo"/>
     <result column="degree" property="degree"/>
     <result column="school" property="school"/>
     <result column="major" property="major"/>
@@ -31,6 +32,7 @@
       m.member_id,
       m.name,
       m.tel,
+      m.photo,
       t.degree,
       t.major,
       t.wage
@@ -48,6 +50,7 @@
       m.email,
       m.tel,
       m.created_date,
+      m.photo,
       t.degree,
       t.school,
       t.major,
@@ -65,6 +68,7 @@
       m.email,
       m.tel,
       m.created_date,
+      m.photo,
       t.degree,
       t.school,
       t.major,

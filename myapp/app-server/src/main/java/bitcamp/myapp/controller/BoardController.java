@@ -1,9 +1,7 @@
 package bitcamp.myapp.controller;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,14 +53,14 @@ public class BoardController {
 
     List<BoardFile> boardFiles = new ArrayList<>();
     for (MultipartFile file : files) {
-      String fileUrl = objectStorageService.uploadFile(bucketName, file);
-      if (fileUrl == null) {
+      String filename = objectStorageService.uploadFile(bucketName, "board/", file);
+      if (filename == null) {
         continue;
       }
 
       BoardFile boardFile = new BoardFile();
       boardFile.setOriginalFilename(file.getOriginalFilename());
-      boardFile.setFilepath(fileUrl);
+      boardFile.setFilepath(filename);
       boardFile.setMimeType(file.getContentType());
       boardFiles.add(boardFile);
     }
@@ -124,12 +122,10 @@ public class BoardController {
 
     List<BoardFile> boardFiles = new ArrayList<>();
     for (MultipartFile file : files) {
-      if (file.isEmpty()) {
+      String filename = objectStorageService.uploadFile(bucketName, "board/", file);
+      if (filename == null) {
         continue;
       }
-
-      String filename = UUID.randomUUID().toString();
-      file.transferTo(new File(System.getProperty("user.home") + "/webapp-upload/" + filename));
 
       BoardFile boardFile = new BoardFile();
       boardFile.setOriginalFilename(file.getOriginalFilename());

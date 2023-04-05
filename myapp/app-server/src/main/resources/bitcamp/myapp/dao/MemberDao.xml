@@ -10,12 +10,13 @@
     <result column="email" property="email"/>
     <result column="tel" property="tel"/>
     <result column="created_date" property="createdDate"/>
+    <result column="photo" property="photo"/>
   </resultMap>
 
   <insert id="insert" parameterType="member" 
           useGeneratedKeys="true" keyProperty="no" keyColumn="member_id">
-    insert into app_member(name, email, pwd, tel)
-    values(#{name}, #{email}, sha2(#{password},256), #{tel})
+    insert into app_member(name, email, pwd, tel, photo)
+    values(#{name}, #{email}, sha2(#{password},256), #{tel}, #{photo})
   </insert>
 
   <select id="findAll" resultMap="memberMap">
@@ -23,7 +24,8 @@
       member_id, 
       name, 
       email, 
-      created_date 
+      created_date,
+      photo
     from 
       app_member
     order by 
@@ -36,7 +38,8 @@
       name, 
       email, 
       tel,
-      created_date 
+      created_date,
+      photo
     from 
       app_member
     where 
@@ -47,7 +50,10 @@
     update app_member set
       name=#{name}, 
       email=#{email}, 
-      pwd=sha2(#{password},256), 
+      pwd=sha2(#{password},256),
+      <if test="photo != null"> 
+        photo=#{photo},
+      </if>
       tel=#{tel}
     where member_id=#{no}
   </update>

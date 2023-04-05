@@ -8,9 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import bitcamp.myapp.service.ObjectStorageService;
 import bitcamp.myapp.service.StudentService;
 import bitcamp.myapp.vo.Student;
 import bitcamp.util.RestResult;
@@ -27,9 +28,16 @@ public class StudentController {
   }
 
   @Autowired private StudentService studentService;
+  @Autowired private ObjectStorageService objectStorageService;
+  private String bucketName = "bitcamp-bucket28-member-photo";
 
   @PostMapping
-  public Object insert(@RequestBody Student student) {
+  public Object insert(Student student, MultipartFile file) {
+    String filename = objectStorageService.uploadFile(bucketName, "", file);
+    if (filename != null) {
+      student.setPhoto(filename);
+    }
+
     studentService.add(student);
     return new RestResult()
         .setStatus(RestStatus.SUCCESS);
@@ -52,7 +60,13 @@ public class StudentController {
   @PutMapping("{no}")
   public Object update(
       @PathVariable int no,
-      @RequestBody Student student) {
+      Student student,
+      MultipartFile file) {
+
+    String filename = objectStorageService.uploadFile(bucketName, "", file);
+    if (filename != null) {
+      student.setPhoto(filename);
+    }
 
     log.debug(student);
 

@@ -10,6 +10,7 @@
     <result column="email" property="email"/>
     <result column="tel" property="tel"/>
     <result column="created_date" property="createdDate"/>
+    <result column="photo" property="photo"/>
     <result column="pst_no" property="postNo"/>
     <result column="bas_addr" property="basicAddress"/>
     <result column="det_addr" property="detailAddress"/>
@@ -36,6 +37,7 @@
       m.name,
       m.email,
       m.tel,
+      m.photo,
       s.work,
       s.level
     from 
@@ -60,6 +62,7 @@
       m.email,
       m.tel,
       m.created_date,
+      m.photo,
       s.pst_no,
       s.bas_addr,
       s.det_addr,
@@ -80,6 +83,7 @@
       m.email,
       m.tel,
       m.created_date,
+      m.photo,
       s.pst_no,
       s.bas_addr,
       s.det_addr,
@@ -101,6 +105,7 @@
       m.email,
       m.tel,
       m.created_date,
+      m.photo,
       s.pst_no,
       s.bas_addr,
       s.det_addr,
