@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>비트캠프 - NCP 1기</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <h1>학생</h1>
+
+    <aside>
+      <div>
+        <input type="text" name="keyword" value="" />
+        <button id="btn-search" type="button">검색</button>
+      </div>
+      <table id="student-table" border="1">
+        <thead>
+          <tr>
+            <th>번호</th>
+            <th>이름</th>
+            <th>재직</th>
+            <th>전화</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </aside>
+
+    <article>
+      <form id="student-form" action="update" method="post" enctype="multipart/form-data">
+        <table border="1">
+          <tr class="edit">
+            <th>번호</th>
+            <td><input id="f-no" type="text" name="no" value="0" readonly /></td>
+          </tr>
+          <tr>
+            <th>이름</th>
+            <td><input id="f-name" type="text" name="name" /></td>
+          </tr>
+          <tr>
+            <th>이메일</th>
+            <td><input id="f-email" type="email" name="email" /></td>
+          </tr>
+          <tr>
+            <th>암호</th>
+            <td><input id="f-password" type="password" name="password" /></td>
+          </tr>
+          <tr>
+            <th>사진</th>
+            <td>
+              <a id="f-photo-origin"><img id="f-photo" class="edit"></a>
+              <input id="f-file" type="file" name="file" />
+            </td>
+          </tr>
+          <tr>
+            <th>전화</th>
+            <td><input id="f-tel" type="tel" name="tel" /></td>
+          </tr>
+          <tr>
+            <th>우편번호</th>
+            <td><input id="f-postNo" type="text" name="postNo" /></td>
+          </tr>
+          <tr>
+            <th>기본주소</th>
+            <td>
+              <input id="f-basicAddress" type="text" name="basicAddress" />
+            </td>
+          </tr>
+          <tr>
+            <th>상세주소</th>
+            <td>
+              <input id="f-detailAddress" type="text" name="detailAddress" />
+            </td>
+          </tr>
+          <tr>
+            <th>재직여부</th>
+            <td>
+              <input
+                id="f-working"
+                type="checkbox"
+                name="working"
+                value="true"
+              />
+              재직중
+            </td>
+          </tr>
+          <tr>
+            <th>성별</th>
+            <td>
+              <input type="radio" name="gender" value="M" /> 남
+              <input type="radio" name="gender" value="W" checked /> 여
+            </td>
+          </tr>
+          <tr>
+            <th>전공</th>
+            <td>
+              <select id="f-level" name="level">
+                <option value="0">비전공자</option>
+                <option value="1">준전공자</option>
+                <option value="2">전공자</option>
+              </select>
+            </td>
+          </tr>
+          <tr class="edit">
+            <th>등록일</th>
+            <td><span id="f-createdDate"></span></td>
+          </tr>
+        </table>
+
+        <div>
+          <button id="btn-insert" type="button" class="input">추가</button>
+          <button id="btn-update" type="button" class="edit">변경</button>
+          <button id="btn-delete" type="button" class="edit">삭제</button>
+          <button id="btn-cancel" type="reset" class="edit">취소</button>
+        </div>
+      </form>
+    </article>
+
+    <script id="tr-template" type="text/x-handlebars-template">
+      {{#each this}}
+        <tr data-no="{{no}}" onclick="getStudent(event)">
+          <td>{{no}}</td>
+          <td><img src="http://hlzkqgzmhuhe16692468.cdn.ntruss.com/{{photo}}?type=f&w=20&h=20&faceopt=true&ttype=jpg" class="photo20x20">{{name}}</td>
+          <td>{{#if working}}예{{else}}아니오{{/if}}</td>
+          <td>{{tel}}</td>
+        </tr>
+      {{/each}}
+    </script>
+
+    <script src="../node_modules/handlebars/dist/handlebars.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>
