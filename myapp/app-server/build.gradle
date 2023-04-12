@@ -4,6 +4,25 @@ plugins {
   id 'java'
   id 'org.springframework.boot' version '3.0.4'
   id 'io.spring.dependency-management' version '1.1.0'
+    id "com.github.node-gradle.node" version "3.5.1" // gradle에서 npm 사용
+}
+
+node {
+  version = '17.6.0'
+  npmVersion = '8.5.1'
+  download = true
+}
+
+tasks.register("npm-install") {
+  group = "application"
+  description = "Installs dependencies from package.json"
+  tasks.appNpmInstall.exec();
+}
+
+task appNpmInstall(type: NpmTask) {
+  description = "Installs dependencies from package.json"
+  workingDir = file("${projectDir}/src/main/resources/static");
+  args = ["install"]
 }
 
 group = 'bitcamp'

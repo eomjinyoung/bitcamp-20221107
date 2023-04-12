@@ -112,8 +112,8 @@ public class AuthController {
 
       // 회원 가입을 수행한다.
       studentService.add(s);
+      user = studentService.get(email);
     }
-    user = studentService.get(email);
 
     // 세션에 로그인 사용자 정보 보관
     session.setAttribute("loginUser", user);
