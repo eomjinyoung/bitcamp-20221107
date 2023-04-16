@@ -7,18 +7,21 @@ plugins {
     id "com.github.node-gradle.node" version "3.5.1" // gradle에서 npm 사용
 }
 
+// gradle을 실행하는 호스트에 node가 없을 경우를 대비해 
+// 지정된 버전의 node를 다운로드하게 만드는 설정
+// $ gradle npmSetup 을 실행하여 node 프로그램을 설치한다.
 node {
   version = '17.6.0'
   npmVersion = '8.5.1'
   download = true
 }
-
+/*
 tasks.register("npm-install") {
   group = "application"
   description = "Installs dependencies from package.json"
   tasks.appNpmInstall.exec();
 }
-
+*/
 task appNpmInstall(type: NpmTask) {
   description = "Installs dependencies from package.json"
   workingDir = file("${projectDir}/src/main/resources/static");
