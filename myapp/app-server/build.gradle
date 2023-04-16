@@ -11,8 +11,8 @@ plugins {
 // 지정된 버전의 node를 다운로드하게 만드는 설정
 // $ gradle npmSetup 을 실행하여 node 프로그램을 설치한다.
 node {
-  version = '17.6.0'
-  npmVersion = '8.5.1'
+  //version = '17.6.0'
+  //npmVersion = '8.5.1'
   download = true
 }
 /*
@@ -77,8 +77,6 @@ dependencies {
   //implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
   implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.4'
   
-  
-
 }
 
 tasks.named('test') {
@@ -87,4 +85,52 @@ tasks.named('test') {
 
 application {
     mainClass = 'bitcamp.myapp.App'
+}
+
+// React build 설정
+def webappDir = "$projectDir/src/main/reactjs"
+
+sourceSets {
+  main {
+    resources {
+      srcDirs = ["$webappDir/build", "$projectDir/src/main/resources"]
+    }
+  }
+}
+
+processResources {
+  dependsOn "copyWebApp"
+}
+
+
+task copyWebApp(type: Copy) {
+    dependsOn "buildReact"
+    from "$webappDir/build"
+    into "$projectDir/src/main/resources/static"
+}
+
+
+task buildReact(type: Exec) {
+  dependsOn "installReact"
+  workingDir "$webappDir"
+  inputs.dir "$webappDir"
+  group = BasePlugin.BUILD_GROUP
+  if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+    commandLine "npm.cmd", "run-script", "build"
+  } else {
+    commandLine "npm", "run-script", "build"
+  }
+}
+
+task installReact(type: Exec) {
+  workingDir "$webappDir"
+  inputs.dir "$webappDir"
+  group = BasePlugin.BUILD_GROUP
+  if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+    commandLine "npm.cmd", "audit", "fix"
+    commandLine 'npm.cmd', 'install'
+  } else {
+    commandLine "npm", "audit", "fix"
+    commandLine 'npm', 'install'
+  }
 }
