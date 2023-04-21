@@ -3,6 +3,13 @@
 <head>
 <meta charset='UTF-8'>
 <title>비트캠프 - NCP 1기</title>
+
+<script src="../node_modules/jquery/dist/jquery.min.js"></script>
+<link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<link href="../node_modules/summernote/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="../node_modules/summernote/dist/summernote-lite.min.js"></script>
+
 </head>
 <body>
 <h1>게시판</h1>
@@ -16,7 +23,7 @@
   </tr>
   <tr>
     <th>내용</th>
-    <td><textarea name='content' rows='10' cols='60'></textarea></td>
+    <td><textarea id="content" name='content' rows='10' cols='60'></textarea></td>
   </tr>
   <tr>
     <th>첨부파일</th>
@@ -33,7 +40,16 @@
   </form>
 </div>
 
-
+<script>
+  $(document).ready(function() {
+    $('#content').summernote({
+        placeholder: '내용을 입력하세요',
+        tabsize: 2,
+        height: 200
+      });
+  });
+</script>
+  
 <script>
 document.querySelector('#btn-insert').onclick = function() {
   const form = document.querySelector('#board-form');
@@ -59,7 +75,6 @@ document.querySelector('#btn-insert').onclick = function() {
 	  alert("입력 오류!");
 	  console.log(exception);
   });
-  
 }
 
 document.querySelector('#btn-cancel').onclick = function() {

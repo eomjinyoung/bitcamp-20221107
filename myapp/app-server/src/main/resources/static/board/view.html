@@ -3,6 +3,11 @@
 <head>
 <meta charset='UTF-8'>
 <title>비트캠프 - NCP 1기</title>
+<script src="../node_modules/jquery/dist/jquery.min.js"></script>
+<link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<link href="../node_modules/summernote/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="../node_modules/summernote/dist/summernote-lite.min.js"></script>
 <style>
 .guest {
   /*display: none;*/
@@ -25,7 +30,10 @@
   </tr>
   <tr>
     <th>내용</th>
-    <td><textarea name='content' rows='10' cols='60'></textarea></td>
+    <td>
+      <textarea id="content" name='content' rows='10' cols='60'></textarea>
+      <!--  <div id="content"></div> -->
+    </td>
   </tr>
   <tr>
     <th>작성자</th>
@@ -56,6 +64,11 @@
   </form>
 </div>
 
+<script>
+  $(document).ready(function() {
+    $('#content').summernote();
+  });
+</script>
 
 <script>
 // http://localhost:8080/web/board/view.html?no=100
@@ -93,7 +106,9 @@ fetch("../boards/" + no)
   //console.log(board);
   document.querySelector("input[name='no']").value = board.no;
   document.querySelector("input[name='title']").value = board.title;
-  document.querySelector("textarea[name='content']").value = board.content;
+  //document.querySelector("textarea[name='content']").value = board.content;
+  //document.querySelector("#content").innerHTML = board.content;
+  $('#content').summernote('code', board.content);
   document.querySelector("#f-writer-name").innerHTML = board.writer.name;
   document.querySelector("#f-created-date").innerHTML = board.createdDate;
   document.querySelector("#f-view-count").innerHTML = board.viewCount;

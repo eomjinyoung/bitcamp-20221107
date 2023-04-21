@@ -100,7 +100,8 @@ sourceSets {
 */
 
 processResources {
-  dependsOn "copyWebApp"
+  //dependsOn "copyWebApp"
+  dependsOn "appNpmInstall"
 }
 
 

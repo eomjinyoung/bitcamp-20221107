@@ -434,3 +434,7 @@
 ### 73. 네이버 클라우드의 Image Optimizer 서비스를 이용하여 썸네일 이미지 다루기
 
 - 네이버 클라우드의 Image Optimizer 서비스를 설정하고 사용하는 방법
+
+### 74. Rich Editor 자바스클립트 라이브러리 사용하기
+
+- Summer Note 자바스크립트 사용법
