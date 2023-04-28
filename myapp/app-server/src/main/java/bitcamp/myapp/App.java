@@ -29,6 +29,7 @@ public class App implements WebMvcConfigurer {
     registry.addInterceptor(new AdminCheckInterceptor()).addPathPatterns("/teachers/**");
   }
 
+
   // Cross-Origin 관련해서 기본 값 외에 추가로 설정할 게 있다면 이 메서드를 정의한다.
   // 스프링부트가 시작되면 이 메서드를 호출하여 CrossOrigin을 설정할 것이다.
   @Override
